@@ -10,7 +10,7 @@ export default function AboutMe() {
         <h2 className="text-4xl font-bold mb-6 text-blue-400">Sobre mí</h2>
 
         <p className="mb-4 text-lg text-gray-300" data-aos="fade-up" data-aos-delay="100">
-          Soy Adolfo, ex Técnico en Emergencias Sanitarias en una unidad de Soporte Vital Avanzado de Enfermería. Durante años trabajé en situaciones de alta presión, aprendiendo a priorizar, mantener la calma y resolver con eficacia. Hoy, aplico esos mismos valores en el desarrollo de software.
+          Soy Adolfo, ex Técnico en Emergencias Santarias en una unidad de Soporte Vital Avanzado de Enfermería. Durante años trabajé en situaciones de alta presión, aprendiendo a priorizar, mantener la calma y resolver con eficacia. Hoy, aplico esos mismos valores en el desarrollo de software.
         </p>
 
         <p className="mb-4 text-lg text-gray-300" data-aos="fade-up" data-aos-delay="200">
