@@ -6,8 +6,7 @@ export default function IntroAdolfoDev() {
   return (
     <section
       id="intro"
-      className="min-h-screen flex flex-col-reverse lg:flex-row items-center justify-center px-6 lg:px-20 gap-12 bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white"
-    >
+      className="min-h-screen flex flex-col-reverse lg:flex-row items-center justify-center px-6 lg:px-20 gap-12 bg-base-light text-base-dark dark:bg-gradient-to-br dark:from-base-dark dark:via-gray-800 dark:to-gray-900 dark:text-white">
       {/* Texto */}
       <div className="lg:w-1/2 text-center lg:text-left" data-aos="fade-right">
         <h1 className="text-5xl font-bold mb-4 leading-tight">
@@ -41,10 +40,10 @@ export default function IntroAdolfoDev() {
         </div>
 
         <div className="space-y-2 mb-8">
-          <p className="text-lg text-gray-300 max-w-xl mx-auto lg:mx-0">
+          <p className="text-lg text-gray-700 dark:text-gray-300 max-w-xl mx-auto lg:mx-0">
             Transformando mi historia en código.
           </p>
-          <p className="text-lg text-gray-300 max-w-xl mx-auto lg:mx-0">
+          <p className="text-lg text-gray-700 dark:text-gray-300 max-w-xl mx-auto lg:mx-0">
             Ahora lucho con código en lugar de con botiquines.
           </p>
         </div>
