@@ -38,6 +38,8 @@ export default function Navbar() {
           <Link to="contacto" smooth duration={500} className="cursor-pointer hover:text-blue-400 transition">
             Contacto
           </Link>
+          <ThemeToggle />
+        
         </div>
       </div>
 

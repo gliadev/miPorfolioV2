@@ -3,14 +3,33 @@ import { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Navbar from './components/Navbar';
-import './index.css'; 
+
 import ThemeToggle from './components/ThemeToggle';
 import IntroAdolfoDev from './components/IntroAdolfoDev';
 import AboutMe from './components/AboutMe';
 
 function App() {
   useEffect(() => {
+    // Inicializa AOS
     AOS.init({ once: true, duration: 700, easing: 'ease-out-cubic' });
+
+    // Aplica el tema según la cookie
+    function getCookie(name) {
+      const nameEQ = name + '=';
+      const ca = document.cookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+      }
+      return null;
+    }
+    const savedTheme = getCookie('theme');
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else if (savedTheme === 'light') {
+      document.documentElement.classList.remove('dark');
+    }
   }, []);
 
   return (
@@ -32,6 +51,29 @@ function App() {
       <div className="p-8 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
         ¡Modo claro/oscuro de Tailwind v4 funcionando!
       </div>
+
+      <div className="bg-red-500 text-white p-4 rounded-lg">
+        ¡Tailwind funciona perfectamente!
+      </div>
+
+      <div className="bg-glia text-white p-4">
+       Color personalizado funcionando 🎨
+      </div>
+
+      <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+          <h1 className="text-2xl font-bold">Hola</h1>
+          <p className="text-gray-700 dark:text-gray-300">Texto que cambia de color</p>
+      </div>
+
+      <h1 class="text-3xl font-bold underline">
+    Hello world!
+  </h1>
+
+      
+
+      
+      
+
 
 
 
