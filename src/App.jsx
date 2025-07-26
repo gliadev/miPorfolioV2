@@ -1,5 +1,6 @@
 // src/App.jsx
 import { useEffect, useState } from 'react';
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Navbar from './components/Navbar';
@@ -98,6 +99,9 @@ function App() {
       <footer className="py-6 text-center text-sm">
         © {new Date().getFullYear()} Adolfo. Todos los derechos reservados.
       </footer>
+     {import.meta.env.VITE_ENABLE_INSIGHTS === 'true' && <SpeedInsights />}
+
+
     </div>
   );
 }
