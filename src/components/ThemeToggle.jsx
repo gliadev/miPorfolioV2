@@ -30,25 +30,32 @@ export default function ThemeToggle() {
 
   return (
     <button
-      onClick={toggleTheme}
-      className="p-2 rounded-full border border-transparent hover:border-blue-500 bg-white dark:bg-gray-800 hover:shadow-md transition"
-      aria-label="Cambiar tema"
+  onClick={toggleTheme}
+  className="
+    p-2 rounded-full 
+    border border-gray-300 dark:border-gray-700 
+    bg-white dark:bg-gray-800 
+    hover:bg-zinc-200 dark:hover:bg-gray-700 
+    transition-colors duration-200
+  "
+  aria-label={theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+>
+  <AnimatePresence mode="wait">
+    <motion.div
+      key={theme}
+      initial={{ opacity: 0, rotate: -90 }}
+      animate={{ opacity: 1, rotate: 0 }}
+      exit={{ opacity: 0, rotate: 90 }}
+      transition={{ duration: 0.3 }}
     >
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={theme}
-          initial={{ opacity: 0, rotate: -90 }}
-          animate={{ opacity: 1, rotate: 0 }}
-          exit={{ opacity: 0, rotate: 90 }}
-          transition={{ duration: 0.3 }}
-        >
-          {theme === 'dark' ? (
-            <IoSunny size={22} className="text-yellow-400" />
-          ) : (
-            <IoMoon size={22} className="text-blue-500" />
-          )}
-        </motion.div>
-      </AnimatePresence>
-    </button>
+      {theme === 'dark' ? (
+        <IoSunny size={22} className="text-yellow-400" />
+      ) : (
+        <IoMoon size={22} className="text-blue-600" />
+      )}
+    </motion.div>
+  </AnimatePresence>
+</button>
+
   )
 }
