@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from "react";
 
 export default function IntroSplash({ onFinish }) {
+  const [countdown, setCountdown] = useState(15); // 15 segundos iniciales
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      onFinish(); // Llama a la función cuando se termina el tiempo
-    }, 15000); // 15 segundos
+      onFinish();
+    }, 15000);
 
-    return () => clearTimeout(timer);
+    const interval = setInterval(() => {
+      setCountdown((prev) => prev - 1);
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
   }, [onFinish]);
 
   return (
@@ -15,8 +24,18 @@ export default function IntroSplash({ onFinish }) {
         🚧 Portafolio en Construcción 🚧
       </h1>
       <p className="mb-4 max-w-xl">
-        Estoy trabajando en una nueva versión. Mientras tanto, puedes visitar la versión anterior o ver mi perfil de LinkedIn.
+        Estoy trabajando en esta nueva versión. En nada accederás a ella.
       </p>
+      <p className="mb-4 max-w-xl">
+        También puedes visitar la versión anterior o ver mi perfil de LinkedIn.
+      </p>
+
+      {/* Cuenta atrás visible */}
+      <p className="text-lg font-semibold mb-6">
+        Accederas al miPorfolio en <span className="text-yellow-400">{countdown}</span> segundos...
+      </p>
+      <p className="text-lg font-semibold mb-6"> Gracias por la espera</p>
+
       <div className="flex gap-4">
         <a
           href="https://gliadev.github.io/miPorfolio/"
