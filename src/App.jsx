@@ -7,15 +7,14 @@ import Navbar from './components/Navbar';
 import ThemeToggle from './components/ThemeToggle';
 import IntroAdolfoDev from './components/IntroAdolfoDev';
 import AboutMe from './components/AboutMe';
-import IntroSplash from './components/IntroSplash'; // 👈 nuevo componente
-
+import IntroSplash from './components/IntroSplash'; 
 function App() {
-  const [showSplash, setShowSplash] = useState(true); // 👈 estado para mostrar intro
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     AOS.init({ once: true, duration: 700, easing: 'ease-out-cubic' });
 
-    // Gestión del tema desde cookies
+    
     function getCookie(name) {
       const nameEQ = name + '=';
       const ca = document.cookie.split(';');
@@ -44,6 +43,7 @@ function App() {
       <Navbar />
       <IntroAdolfoDev />
       <AboutMe />
+      <SpeedInsights />
 
       <header id="sobre-mi" className="pt-24 flex items-center justify-center h-screen" data-aos="fade-up">
         <div className="text-center px-4">
@@ -99,7 +99,7 @@ function App() {
       <footer className="py-6 text-center text-sm">
         © {new Date().getFullYear()} Adolfo. Todos los derechos reservados.
       </footer>
-     {import.meta.env.VITE_ENABLE_INSIGHTS === 'true' && <SpeedInsights />}
+     
 
 
     </div>
