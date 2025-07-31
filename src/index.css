@@ -5,3 +5,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+/* index.css o en un archivo .css global */
+@keyframes starTwinkle {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.starfield {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: starTwinkle 3s infinite ease-in-out;
+}

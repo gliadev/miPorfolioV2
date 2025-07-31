@@ -1,40 +1,72 @@
 // src/components/Skills.jsx
+import { useState } from "react";
+import Galaxy from "./Galaxy";
+
+import swift from "../assets/icons/swiftLogo.png";
+import swiftui from "../assets/icons/swiftUI.png";
+import swiftData from "../assets/icons/swiftData.png";
+import Xcode from "../assets/icons/Xcode.png";
+import XCTest from "../assets/icons/XCTest.png";
+import react from "../assets/icons/react.png";
+import HTML from "../assets/icons/html.png";
+import CSS from "../assets/icons/css.png";
+import jupyterNotebook from "../assets/icons/jupyterNotebook.png";
+import Python from "../assets/icons/python.png";
+import javaScript from "../assets/icons/javascript.png";
+
+const skillsData = {
+  "Galaxia iOS 📲": [
+    { name: "Swift", icon: swift },
+    { name: "SwiftUI", icon: swiftui },
+    { name: "SwiftData", icon: swiftData },
+    { name: "XCTest", icon: XCTest },
+    { name: "Xcode", icon: Xcode },
+  ],
+  "Galaxia Web 🌐": [
+    { name: "HTML", icon: HTML },
+    { name: "CSS", icon: CSS },
+    { name: "React", icon: react },
+    { name: "JavaScript", icon: javaScript },
+    { name: "Python", icon: Python },
+  ],
+  "Galaxia IA 🤖": [
+    { name: "Jupyter Notebook", icon: jupyterNotebook },
+    { name: "Python", icon: Python }
+  ],
+};
+
 export default function Skills() {
+  const [showLabels, setShowLabels] = useState(true);
+
   return (
     <section className="w-full px-4 py-8">
-      <h2 className="text-3xl font-bold text-center mb-8">Galaxia de Habilidades</h2>
+      <h2 className="text-3xl font-bold text-center mb-6 dark:text-blue-300 text-blue-700">
+        Universo del Desarrollo
+      </h2>
 
-      <div className="flex flex-col md:flex-row gap-6 justify-center items-stretch">
-        {/* Galaxia iOS */}
-        <div className="flex-1 bg-gradient-to-br from-[#1e1e5a] to-[#0c0c2e] rounded-2xl p-4 shadow-md min-h-[200px]">
-          <h3 className="text-lg font-semibold mb-2">Galaxia iOS 🚀</h3>
-          <ul className="flex flex-wrap gap-3">
-            <li className="text-sm bg-black/30 px-2 py-1 rounded">Swift</li>
-            <li className="text-sm bg-black/30 px-2 py-1 rounded">SwiftUI</li>
-            <li className="text-sm bg-black/30 px-2 py-1 rounded">SwiftData</li>
-            <li className="text-sm bg-black/30 px-2 py-1 rounded">Sockets</li>
-          </ul>
-        </div>
+      <div className="mb-6 text-center">
+        <label className="inline-flex items-center gap-2 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={showLabels}
+            onChange={() => setShowLabels(!showLabels)}
+            className="form-checkbox"
+          />
+          <span className="text-zinc-800 dark:text-gray-200">
+            Mostrar etiquetas
+          </span>
+        </label>
+      </div>
 
-        {/* Galaxia Web */}
-        <div className="flex-1 bg-gradient-to-br from-[#1e1e5a] to-[#0c0c2e] rounded-2xl p-4 shadow-md min-h-[200px]">
-          <h3 className="text-lg font-semibold mb-2">Galaxia Web 🌐</h3>
-          <ul className="flex flex-wrap gap-3">
-            <li className="text-sm bg-black/30 px-2 py-1 rounded">React</li>
-            <li className="text-sm bg-black/30 px-2 py-1 rounded">TailwindCSS</li>
-            <li className="text-sm bg-black/30 px-2 py-1 rounded">Vite</li>
-          </ul>
-        </div>
-
-        {/* Galaxia IA */}
-        <div className="flex-1 bg-gradient-to-br from-[#1e1e5a] to-[#0c0c2e] rounded-2xl p-4 shadow-md min-h-[200px]">
-          <h3 className="text-lg font-semibold mb-2">Galaxia IA 🤖</h3>
-          <ul className="flex flex-wrap gap-3">
-            <li className="text-sm bg-black/30 px-2 py-1 rounded">Jupyter</li>
-            <li className="text-sm bg-black/30 px-2 py-1 rounded">Python</li>
-            <li className="text-sm bg-black/30 px-2 py-1 rounded">ChatGPT</li>
-          </ul>
-        </div>
+      <div className="flex flex-col lg:flex-row gap-10 items-stretch justify-center">
+        {Object.entries(skillsData).map(([galaxyName, skills]) => (
+          <Galaxy
+            key={galaxyName}
+            title={galaxyName}
+            skills={skills}
+            showLabels={showLabels}
+          />
+        ))}
       </div>
     </section>
   );

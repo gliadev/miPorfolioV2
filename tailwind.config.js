@@ -1,3 +1,5 @@
+import { a } from 'framer-motion/client';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -6,7 +8,10 @@ export default {
   ],
   darkMode: 'class',
   theme: {
-    extend: {},
+    extend: {
+      animate: {
+        'spin-slow': 'spin 60s linear infinite',
+    },
   },
   plugins: [],
 }

@@ -45,36 +45,15 @@ function App() {
       <AboutMe />
       <SpeedInsights />
 
-      <header id="sobre-mi" className="pt-24 flex items-center justify-center h-screen" data-aos="fade-up">
-        <div className="text-center px-4">
-          <h1 className="text-4xl sm:text-6xl font-bold mb-4">Hola, soy Adolfo</h1>
-          <p className="text-xl">Desarrollador iOS Junior – Swift · SwiftUI · UIKit</p>
-        </div>
-      </header>
+      
 
-      <div className="p-8 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-        ¡Tailwind + modo claro/oscuro funcionan!
-      </div>
-      <div className="p-8 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-        ¡Modo claro/oscuro de Tailwind v4 funcionando!
-      </div>
+      
+      <div className="p-8 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"> </div>
 
-      <div className="bg-red-500 text-white p-4 rounded-lg">
-        ¡Tailwind funciona perfectamente!
-      </div>
 
-      <div className="bg-glia text-white p-4">
-        Color personalizado funcionando 🎨
-      </div>
+      
 
-      <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-        <h1 className="text-2xl font-bold">Hola</h1>
-        <p className="text-gray-700 dark:text-gray-300">Texto que cambia de color</p>
-      </div>
-
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
+      
 
       <section id="proyectos" className="py-20 px-4" data-aos="fade-up">
         <h2 className="text-3xl font-semibold text-center mb-8">Proyectos Destacados</h2>
