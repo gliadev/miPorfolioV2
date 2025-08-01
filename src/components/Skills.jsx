@@ -8,8 +8,8 @@ import swiftData from "../assets/icons/swiftData.png";
 import Xcode from "../assets/icons/Xcode.png";
 import XCTest from "../assets/icons/XCTest.png";
 import react from "../assets/icons/react.png";
-import HTML from "../assets/icons/html.png";
-import CSS from "../assets/icons/css.png";
+import html from "../assets/icons/html.png";
+import css from "../assets/icons/css.png";
 import jupyterNotebook from "../assets/icons/jupyterNotebook.png";
 import Python from "../assets/icons/python.png";
 import javaScript from "../assets/icons/javascript.png";
@@ -23,8 +23,8 @@ const skillsData = {
     { name: "Xcode", icon: Xcode },
   ],
   "Galaxia Web 🌐": [
-    { name: "HTML", icon: HTML },
-    { name: "CSS", icon: CSS },
+    { name: "HTML", icon: html },
+    { name: "CSS", icon: css },
     { name: "React", icon: react },
     { name: "JavaScript", icon: javaScript },
     { name: "Python", icon: Python },
