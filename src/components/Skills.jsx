@@ -8,7 +8,7 @@ import swiftData from "../assets/icons/swiftData.png";
 import Xcode from "../assets/icons/Xcode.png";
 import XCTest from "../assets/icons/XCTest.png";
 import react from "../assets/icons/react.png";
-import HTML from "../assets/icons/HTML.png";
+import HTML from "../assets/icons/html.png";
 import CSS from "../assets/icons/css.png";
 import jupyterNotebook from "../assets/icons/jupyterNotebook.png";
 import Python from "../assets/icons/python.png";
