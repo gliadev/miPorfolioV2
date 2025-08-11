@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Galaxy from "./Galaxy";
 
+// Tus imports de iconos (ajusta rutas si usas /public/icons)
 import swift from "../assets/icons/swiftLogo.png";
 import swiftui from "../assets/icons/swiftUI.png";
 import swiftData from "../assets/icons/swiftData.png";
@@ -14,24 +15,39 @@ import jupyterNotebook from "../assets/icons/jupyterNotebook.png";
 import python from "../assets/icons/python.png";
 import javaScript from "../assets/icons/javascript.png";
 
+// --- Constelaciones (viewBox 0 0 300 450) ---
+const PATHS = {
+  // iOS vertical (centrada)
+  // viewBox 0..300x450
+"Galaxia iOS 📲": "M155 390 L155 335 L125 300 L195 250 L145 205 L205 150 L165 110",
+
+  // Web lemniscata (∞)
+  "Galaxia Web 🌐":
+    "M200 140 C310 140, 310 260, 200 260 C90 260, 90 380, 200 380 C310 380, 310 260, 200 260 C90 260, 90 140, 200 140",
+
+  // IA polígono neural
+  "Galaxia IA 🤖": "M80 160 L230 110 L275 185 L235 270 L135 240 L100 310 L70 240 Z",
+};
+
+// --- Skills + offsets opcionales (para caer en puntos clave) ---
 const skillsData = {
   "Galaxia iOS 📲": [
-    { name: "Swift", icon: swift },
-    { name: "SwiftUI", icon: swiftui },
-    { name: "SwiftData", icon: swiftData },
-    { name: "XCTest", icon: xctest },
-    { name: "Xcode", icon: xcode },
-  ],
+  { name: "Swift",     icon: swift,     offset: 5,  speed: 24, reverse: false, size: 44 },
+  { name: "SwiftUI",   icon: swiftui,   offset: 28, speed: 24, reverse: false, size: 44 },
+  { name: "SwiftData", icon: swiftData, offset: 52, speed: 24, reverse: false, size: 44 },
+  { name: "XCTest",    icon: xctest,    offset: 72, speed: 24, reverse: false, size: 44 },
+  { name: "Xcode",     icon: xcode,     offset: 92, speed: 24, reverse: false, size: 44 },
+],
   "Galaxia Web 🌐": [
-    { name: "HTML", icon: html },
-    { name: "CSS", icon: css },
-    { name: "React", icon: react },
-    { name: "JavaScript", icon: javaScript },
-    { name: "Python", icon: python },
+    { name: "HTML",       icon: html,        offset: 5,  speed: 21 },
+    { name: "CSS",        icon: css,         offset: 18, speed: 23 },
+    { name: "React",      icon: react,       offset: 43, speed: 25, reverse: true },
+    { name: "JavaScript", icon: javaScript,  offset: 62, speed: 22 },
+    { name: "Python",     icon: python,      offset: 86, speed: 24, reverse: true },
   ],
   "Galaxia IA 🤖": [
-    { name: "Jupyter Notebook", icon: jupyterNotebook },
-    { name: "Python", icon: python }
+    { name: "Python",           icon: python,           offset: 12, speed: 22 },
+    { name: "Jupyter Notebook", icon: jupyterNotebook,  offset: 62, speed: 24, reverse: true },
   ],
 };
 
@@ -52,9 +68,7 @@ export default function Skills() {
             onChange={() => setShowLabels(!showLabels)}
             className="form-checkbox"
           />
-          <span className="text-zinc-800 dark:text-gray-200">
-            Mostrar etiquetas
-          </span>
+          <span className="text-zinc-800 dark:text-gray-200">Mostrar etiquetas</span>
         </label>
       </div>
 
@@ -65,6 +79,7 @@ export default function Skills() {
             title={galaxyName}
             skills={skills}
             showLabels={showLabels}
+            pathD={PATHS[galaxyName]}
           />
         ))}
       </div>

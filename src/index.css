@@ -35,3 +35,29 @@
   opacity: 0.5;
   animation: starTwinkle 3s infinite ease-in-out;
 }
+
+/* === Galaxy motion path === */
+.icon-on-path {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  overflow: hidden;
+  animation-name: travel;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: offset-distance, transform;
+  -webkit-animation-name: travel;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-transform: translateZ(0);
+}
+.icon-on-path:hover { animation-play-state: paused; -webkit-animation-play-state: paused; }
+
+@keyframes travel { 0% { offset-distance: 0%; } 100% { offset-distance: 100%; } }
+@-webkit-keyframes travel { 0% { -webkit-offset-distance: 0%; } 100% { -webkit-offset-distance: 100%; } }
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  .icon-on-path { animation: none !important; -webkit-animation: none !important; }
+}
