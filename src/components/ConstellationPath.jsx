@@ -1,4 +1,3 @@
-// src/components/ConstellationPath.jsx
 export default function ConstellationPath({ pathD }) {
   return (
     <svg

@@ -6,7 +6,7 @@ export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false)
   const [theme, setTheme] = useState('light')
 
-  // Inicializa el tema al montar
+  
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme')
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -17,7 +17,7 @@ export default function ThemeToggle() {
     setMounted(true)
   }, [])
 
-  // Cambia el tema manualmente
+  
   const toggleTheme = () => {
     const nextTheme = theme === 'dark' ? 'light' : 'dark'
     setTheme(nextTheme)
@@ -25,7 +25,7 @@ export default function ThemeToggle() {
     document.documentElement.classList.toggle('dark', nextTheme === 'dark')
   }
 
-  // Evita parpadeos de render hasta que esté montado
+  
   if (!mounted) return null
 
   return (

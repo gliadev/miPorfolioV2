@@ -1,4 +1,3 @@
-// src/components/SkillIcon.jsx
 import { motion } from "framer-motion";
 import { useState } from "react";
 
@@ -27,7 +26,7 @@ const SkillIcon = ({ icon, name, showLabel, x, y }) => {
           className="w-12 h-12 drop-shadow-lg brightness-110 dark:brightness-125"
         />
 
-        {/* Tooltip flotante */}
+        {}
         {isHovered && (
           <motion.div
             className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-white dark:bg-gray-800 text-sm text-black dark:text-white px-3 py-2 rounded-lg shadow-lg z-50 whitespace-nowrap"
@@ -43,7 +42,7 @@ const SkillIcon = ({ icon, name, showLabel, x, y }) => {
         )}
       </div>
 
-      {/* Etiqueta inferior opcional */}
+      {}
       {showLabel && (
         <span className="mt-1 text-xs font-medium text-white drop-shadow-[0_0_2px_black] dark:text-gray-200">
           {name}

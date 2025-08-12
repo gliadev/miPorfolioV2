@@ -1,11 +1,10 @@
-// src/components/Starfield.jsx
 const Starfield = ({ count = 40 }) => {
   const stars = Array.from({ length: count });
 
   return (
     <div className="starfield">
       {stars.map((_, i) => {
-        const size = Math.random() * 2 + 1; // Tamaño entre 1 y 3 px
+        const size = Math.random() * 2 + 1; 
         const left = Math.random() * 100;
         const top = Math.random() * 100;
         const duration = 2 + Math.random() * 3;

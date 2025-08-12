@@ -1,72 +1,121 @@
-// src/components/Galaxy.jsx
 import { useEffect, useRef, useState } from "react";
 import Starfield from "./Starfield";
 import ConstellationPath from "./ConstellationPath";
 import IconOnPath from "./IconOnPath";
 
-// Tamaño base del viewBox que usas en ConstellationPath
-const BASE_W = 300;
-const BASE_H = 450;
+const BASE_W = 300; 
+const BASE_H = 450; 
 
-/**
- * Escala un path SVG (SOLO comandos en mayúscula M, L, C, S, Q, T, H, V, Z).
- * No uses 'A' (arcos) aquí. Si tienes A, dímelo y te paso versión extendida.
- */
 function scalePathD(d, sx, sy) {
-  const tokens = d.match(/[MLCSQTHVZ]|-?\d*\.?\d+/g);
+  const tokens = d.match(/[MLCSQTHVAZ]|-?\d*\.?\d+(?:e[-+]?\d+)?/gi);
   if (!tokens) return d;
 
   let out = [];
-  let cmd = null;
-  let isX = true; // alterna x/y para comandos que van por pares
+  let i = 0;
+  let cmd = "";
 
-  for (const t of tokens) {
-    if (/^[MLCSQTHVZ]$/.test(t)) {
-      cmd = t;
+  const readNumber = () => parseFloat(tokens[i++]);
+
+  while (i < tokens.length) {
+    const t = tokens[i++];
+    if (/^[MLCSQTHVAZ]$/i.test(t)) {
+      cmd = t.toUpperCase();
       out.push(cmd);
-      // H => solo x; V => solo y; el resto alterna x/y desde x
-      isX = true;
-      continue;
+      if (cmd === "Z") continue;
+    } else {
+      
+      i--; 
     }
-
-    // número
-    let n = parseFloat(t);
 
     switch (cmd) {
-      case "H":
-        n = n * sx;
+      case "M":
+      case "L":
+      case "T": {
+        
+        while (i < tokens.length && !/^[MLCSQTHVAZ]$/i.test(tokens[i])) {
+          const x = readNumber() * sx;
+          const y = readNumber() * sy;
+          out.push(num(x), num(y));
+        }
         break;
-      case "V":
-        n = n * sy;
+      }
+      case "H": {
+        while (i < tokens.length && !/^[MLCSQTHVAZ]$/i.test(tokens[i])) {
+          const x = readNumber() * sx;
+          out.push(num(x));
+        }
         break;
-      // M L C S Q T (pares x,y)
+      }
+      case "V": {
+        while (i < tokens.length && !/^[MLCSQTHVAZ]$/i.test(tokens[i])) {
+          const y = readNumber() * sy;
+          out.push(num(y));
+        }
+        break;
+      }
+      case "C": {
+        // grupos de 6 números: (x1 y1 x2 y2 x y)
+        while (i < tokens.length && !/^[MLCSQTHVAZ]$/i.test(tokens[i])) {
+          const x1 = readNumber() * sx;
+          const y1 = readNumber() * sy;
+          const x2 = readNumber() * sx;
+          const y2 = readNumber() * sy;
+          const x = readNumber() * sx;
+          const y = readNumber() * sy;
+          out.push(num(x1), num(y1), num(x2), num(y2), num(x), num(y));
+        }
+        break;
+      }
+      case "S":
+      case "Q": {
+        // grupos de 4 números: (x1 y1 x y)  |  (x1 y1 x y)
+        while (i < tokens.length && !/^[MLCSQTHVAZ]$/i.test(tokens[i])) {
+          const x1 = readNumber() * sx;
+          const y1 = readNumber() * sy;
+          const x = readNumber() * sx;
+          const y = readNumber() * sy;
+          out.push(num(x1), num(y1), num(x), num(y));
+        }
+        break;
+      }
+      case "A": {
+        // grupos de 7: rx ry rot largeArc sweep x y
+        while (i < tokens.length && !/^[MLCSQTHVAZ]$/i.test(tokens[i])) {
+          const rx = readNumber() * sx;
+          const ry = readNumber() * sy;
+          const rot = readNumber();                   // no se escala
+          const large = readNumber();                 // flag
+          const sweep = readNumber();                 // flag
+          const x = readNumber() * sx;
+          const y = readNumber() * sy;
+          out.push(num(rx), num(ry), num(rot), num(large), num(sweep), num(x), num(y));
+        }
+        break;
+      }
       default:
-        if (isX) n = n * sx;
-        else n = n * sy;
-        isX = !isX;
+        // Z ya se añadió; nada que hacer
         break;
     }
-
-    // formato compacto sin perder precisión
-    out.push(Number.isInteger(n) ? String(n) : n.toFixed(2));
   }
 
   return out.join(" ");
+
+  function num(n) {
+    return Number.isInteger(n) ? String(n) : n.toFixed(2);
+  }
 }
 
 const Galaxy = ({ title, skills, showLabels, pathD }) => {
   const boxRef = useRef(null);
-  const [scaledPath, setScaledPath] = useState(pathD); // para offset-path
+  const [scaledPath, setScaledPath] = useState(pathD);
 
-  // Recalcula el path escalado cuando cambia el tamaño
   useEffect(() => {
     if (!boxRef.current) return;
 
-    const ro = new ResizeObserver(([entry]) => {
-      const { inlineSize: w, blockSize: h } = entry.contentBoxSize
-        ? entry.contentBoxSize[0]
-        : { inlineSize: entry.contentRect.width, blockSize: entry.contentRect.height };
-
+    const ro = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      const w = entry.contentRect?.width ?? boxRef.current.clientWidth;
+      const h = entry.contentRect?.height ?? boxRef.current.clientHeight;
       const sx = w / BASE_W;
       const sy = h / BASE_H;
       setScaledPath(scalePathD(pathD, sx, sy));
@@ -76,10 +125,9 @@ const Galaxy = ({ title, skills, showLabels, pathD }) => {
     return () => ro.disconnect();
   }, [pathD]);
 
-  // Respeta offset/speed si vienen desde Skills; si no, genera por defecto
   const items = skills.map((s, i) => ({
     ...s,
-    speed:  s.speed  ?? (18 + (i % 3) * 4),
+    speed: s.speed ?? (18 + (i % 3) * 4),
     offset: s.offset ?? Math.round((i * 100) / skills.length),
     reverse: s.reverse ?? (i % 2 === 1),
   }));
@@ -94,6 +142,31 @@ const Galaxy = ({ title, skills, showLabels, pathD }) => {
         {title}
       </h3>
 
-      {/* Lienzo; Starfield y Path se adaptan por viewBox */}
       <div className="relative w-full h-full overflow-hidden">
-        <Starfield coun
+        {/* << ESTA línea estaba cortada en tu archivo >> */}
+        <Starfield count={50} />
+
+        {/* Dibujo (usa el path original con viewBox) */}
+        <ConstellationPath pathD={pathD} />
+
+        {/* Movimiento (usa el path escalado) */}
+        {items.map((it, idx) => (
+          <IconOnPath
+            key={`${it.name}-${idx}`}
+            pathD={scaledPath}
+            icon={it.icon}
+            name={it.name}
+            showLabel={showLabels}
+            speed={it.speed}
+            offset={it.offset}
+            reverse={it.reverse}
+            href={it.href}
+            size={it.size}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Galaxy;

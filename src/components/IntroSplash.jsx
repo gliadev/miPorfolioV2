@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 export default function IntroSplash({ onFinish }) {
-  const [countdown, setCountdown] = useState(15); // 15 segundos iniciales
+  const [countdown, setCountdown] = useState(15);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -30,7 +30,7 @@ export default function IntroSplash({ onFinish }) {
         También puedes visitar la versión anterior o ver mi perfil de LinkedIn.
       </p>
 
-      {/* Cuenta atrás visible */}
+      {}
       <p className="text-lg font-semibold mb-6">
         Accederas al miPorfolio en <span className="text-yellow-400">{countdown}</span> segundos...
       </p>

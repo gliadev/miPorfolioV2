@@ -1,13 +1,12 @@
-// src/components/IconOnPath.jsx
 export default function IconOnPath({
-  pathD,           // path SVG (string)
-  icon,            // ruta o import del icono
+  pathD,           
+  icon,            
   name,
   showLabel = true,
-  speed = 22,      // segundos
-  offset = 0,      // 0..100
-  reverse = false, // alternate o alternate-reverse
-  href,            // opcional
+  speed = 22,      
+  offset = 0,      
+  reverse = false, 
+  href,            
 }) {
   const style = {
     offsetPath: `path('${pathD}')`,

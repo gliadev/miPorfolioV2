@@ -8,7 +8,7 @@ export default function HeroAboutSplit() {
       id="intro-about"
       className="min-h-screen grid grid-cols-1 lg:grid-cols-2 items-center gap-10 px-6 lg:px-20 py-16 bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300"
     >
-      {/* IZQUIERDA: Logo + presentación */}
+      {}
       <div
         className="space-y-6 text-center lg:text-left flex flex-col justify-start min-h-[70vh] translate-y-[-1.5rem] pl-6 lg:pl-20"
         data-aos="fade-right"
@@ -85,7 +85,7 @@ export default function HeroAboutSplit() {
         </div>
       </div>
 
-      {/* DERECHA: Sobre mí */}
+      {}
       <div
         className="text-base lg:text-lg space-y-4 max-w-2xl mx-auto"
         data-aos="fade-left"

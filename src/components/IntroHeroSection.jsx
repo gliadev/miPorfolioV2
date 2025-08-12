@@ -21,7 +21,7 @@ export default function IntroHeroSection() {
         transition-colors duration-300
       "
     >
-      {/* Columna izquierda: presentación */}
+      {}
       <div className="text-center lg:text-left space-y-6" data-aos="fade-right">
         <h1 id="intro-heading" className="text-4xl sm:text-5xl font-bold leading-tight">
           Hola, soy <span className="text-blue-500 dark:text-blue-400">Adolfo</span>
@@ -31,7 +31,7 @@ export default function IntroHeroSection() {
           Desarrollador Junior – Swift · SwiftUI · UIKit
         </h2>
 
-        {/* Typewriter */}
+        {}
         <div className="h-[3.5rem] flex items-center justify-center lg:justify-start">
           <span
             className="text-2xl md:text-3xl font-semibold inline-block min-w-[30ch]"
@@ -61,7 +61,7 @@ export default function IntroHeroSection() {
           </span>
         </div>
 
-        {/* Descripción */}
+        {}
         <div className="space-y-2">
           <p className="text-base sm:text-lg text-gray-700 dark:text-gray-300 max-w-xl mx-auto lg:mx-0">
             Transformando mi historia en código.
@@ -71,7 +71,7 @@ export default function IntroHeroSection() {
           </p>
         </div>
 
-        {/* Redes */}
+        {}
         <div className="flex items-center justify-center lg:justify-start gap-6 text-2xl pt-2">
           <a
             href="https://github.com/gliadev"
@@ -94,7 +94,7 @@ export default function IntroHeroSection() {
         </div>
       </div>
 
-      {/* Columna derecha: Logo gliaDev */}
+      {}
       <div className="flex justify-center lg:justify-end" data-aos="fade-left">
         <div className="text-center space-y-4">
           <img

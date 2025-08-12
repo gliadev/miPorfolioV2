@@ -1,4 +1,3 @@
-// src/components/ConstellationLines.jsx
 const ConstellationLines = ({ points }) => {
   if (points.length < 2) return null;
 

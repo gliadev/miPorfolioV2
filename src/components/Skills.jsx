@@ -1,8 +1,5 @@
-// src/components/Skills.jsx
 import { useState } from "react";
 import Galaxy from "./Galaxy";
-
-// Tus imports de iconos (ajusta rutas si usas /public/icons)
 import swift from "../assets/icons/swiftLogo.png";
 import swiftui from "../assets/icons/swiftUI.png";
 import swiftData from "../assets/icons/swiftData.png";
@@ -15,21 +12,20 @@ import jupyterNotebook from "../assets/icons/jupyterNotebook.png";
 import python from "../assets/icons/python.png";
 import javaScript from "../assets/icons/javascript.png";
 
-// --- Constelaciones (viewBox 0 0 300 450) ---
+
 const PATHS = {
-  // iOS vertical (centrada)
-  // viewBox 0..300x450
+ 
 "Galaxia iOS 📲": "M155 390 L155 335 L125 300 L195 250 L145 205 L205 150 L165 110",
 
-  // Web lemniscata (∞)
+  
   "Galaxia Web 🌐":
     "M200 140 C310 140, 310 260, 200 260 C90 260, 90 380, 200 380 C310 380, 310 260, 200 260 C90 260, 90 140, 200 140",
 
-  // IA polígono neural
+ 
   "Galaxia IA 🤖": "M80 160 L230 110 L275 185 L235 270 L135 240 L100 310 L70 240 Z",
 };
 
-// --- Skills + offsets opcionales (para caer en puntos clave) ---
+
 const skillsData = {
   "Galaxia iOS 📲": [
   { name: "Swift",     icon: swift,     offset: 5,  speed: 24, reverse: false, size: 44 },
