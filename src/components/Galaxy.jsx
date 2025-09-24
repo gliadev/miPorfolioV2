@@ -1,155 +1,139 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import Starfield from "./Starfield";
 import ConstellationPath from "./ConstellationPath";
 import IconOnPath from "./IconOnPath";
 
-const BASE_W = 300; 
-const BASE_H = 450; 
+const BASE_W = 300;
+const BASE_H = 450;
 
+// --- escalar path ---
 function scalePathD(d, sx, sy) {
   const tokens = d.match(/[MLCSQTHVAZ]|-?\d*\.?\d+(?:e[-+]?\d+)?/gi);
   if (!tokens) return d;
-
-  let out = [];
-  let i = 0;
-  let cmd = "";
-
-  const readNumber = () => parseFloat(tokens[i++]);
+  let out = [], i = 0, cmd = "";
+  const read = () => parseFloat(tokens[i++]);
 
   while (i < tokens.length) {
     const t = tokens[i++];
-    if (/^[MLCSQTHVAZ]$/i.test(t)) {
-      cmd = t.toUpperCase();
-      out.push(cmd);
-      if (cmd === "Z") continue;
-    } else {
-      
-      i--; 
-    }
+    if (/^[MLCSQTHVAZ]$/i.test(t)) { cmd = t.toUpperCase(); out.push(cmd); if (cmd === "Z") continue; }
+    else { i--; }
 
     switch (cmd) {
-      case "M":
-      case "L":
-      case "T": {
-        
-        while (i < tokens.length && !/^[MLCSQTHVAZ]$/i.test(tokens[i])) {
-          const x = readNumber() * sx;
-          const y = readNumber() * sy;
-          out.push(num(x), num(y));
-        }
+      case "M": case "L": case "T":
+        while (i < tokens.length && !/^[MLCSQTHVAZ]$/i.test(tokens[i])) out.push(num(read()*sx), num(read()*sy));
         break;
-      }
-      case "H": {
-        while (i < tokens.length && !/^[MLCSQTHVAZ]$/i.test(tokens[i])) {
-          const x = readNumber() * sx;
-          out.push(num(x));
-        }
+      case "H":
+        while (i < tokens.length && !/^[MLCSQTHVAZ]$/i.test(tokens[i])) out.push(num(read()*sx));
         break;
-      }
-      case "V": {
-        while (i < tokens.length && !/^[MLCSQTHVAZ]$/i.test(tokens[i])) {
-          const y = readNumber() * sy;
-          out.push(num(y));
-        }
+      case "V":
+        while (i < tokens.length && !/^[MLCSQTHVAZ]$/i.test(tokens[i])) out.push(num(read()*sy));
         break;
-      }
-      case "C": {
-        // grupos de 6 números: (x1 y1 x2 y2 x y)
+      case "C":
         while (i < tokens.length && !/^[MLCSQTHVAZ]$/i.test(tokens[i])) {
-          const x1 = readNumber() * sx;
-          const y1 = readNumber() * sy;
-          const x2 = readNumber() * sx;
-          const y2 = readNumber() * sy;
-          const x = readNumber() * sx;
-          const y = readNumber() * sy;
+          const x1 = read()*sx, y1 = read()*sy, x2 = read()*sx, y2 = read()*sy, x = read()*sx, y = read()*sy;
           out.push(num(x1), num(y1), num(x2), num(y2), num(x), num(y));
-        }
-        break;
-      }
-      case "S":
-      case "Q": {
-        // grupos de 4 números: (x1 y1 x y)  |  (x1 y1 x y)
+        } break;
+      case "S": case "Q":
         while (i < tokens.length && !/^[MLCSQTHVAZ]$/i.test(tokens[i])) {
-          const x1 = readNumber() * sx;
-          const y1 = readNumber() * sy;
-          const x = readNumber() * sx;
-          const y = readNumber() * sy;
+          const x1 = read()*sx, y1 = read()*sy, x = read()*sx, y = read()*sy;
           out.push(num(x1), num(y1), num(x), num(y));
-        }
-        break;
-      }
-      case "A": {
-        // grupos de 7: rx ry rot largeArc sweep x y
+        } break;
+      case "A":
         while (i < tokens.length && !/^[MLCSQTHVAZ]$/i.test(tokens[i])) {
-          const rx = readNumber() * sx;
-          const ry = readNumber() * sy;
-          const rot = readNumber();                   // no se escala
-          const large = readNumber();                 // flag
-          const sweep = readNumber();                 // flag
-          const x = readNumber() * sx;
-          const y = readNumber() * sy;
+          const rx = read()*sx, ry = read()*sy, rot = read(), large = read(), sweep = read(), x = read()*sx, y = read()*sy;
           out.push(num(rx), num(ry), num(rot), num(large), num(sweep), num(x), num(y));
-        }
-        break;
-      }
-      default:
-        // Z ya se añadió; nada que hacer
-        break;
+        } break;
+      default: break;
     }
   }
-
   return out.join(" ");
-
-  function num(n) {
-    return Number.isInteger(n) ? String(n) : n.toFixed(2);
-  }
+  function num(n) { return Number.isInteger(n) ? String(n) : n.toFixed(2); }
 }
 
-const Galaxy = ({ title, skills, showLabels, pathD }) => {
+const Galaxy = ({
+  title, skills, showLabels, pathD, className = "",
+  starDensity = 1/6000, minStars = 28, maxStars = 80,
+  lockSpacing = true,   // evita solapes
+  orbitSpeed = 20,      // misma velocidad
+  rotateWithPath = false,
+  freeze = false,
+  pauseOnHidden = true,
+}) => {
   const boxRef = useRef(null);
   const [scaledPath, setScaledPath] = useState(pathD);
+  const [starCount, setStarCount] = useState(50);
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
     if (!boxRef.current) return;
+    let rafId = 0;
+    const el = boxRef.current;
 
-    const ro = new ResizeObserver((entries) => {
-      const entry = entries[0];
-      const w = entry.contentRect?.width ?? boxRef.current.clientWidth;
-      const h = entry.contentRect?.height ?? boxRef.current.clientHeight;
-      const sx = w / BASE_W;
-      const sy = h / BASE_H;
+    const measure = (w, h) => {
+      const sx = w / BASE_W, sy = h / BASE_H;
       setScaledPath(scalePathD(pathD, sx, sy));
+      const est = Math.round(w * h * starDensity);
+      setStarCount(Math.max(minStars, Math.min(maxStars, est)));
+    };
+
+    const ro = new ResizeObserver(([entry]) => {
+      const w = entry.contentRect?.width ?? el.clientWidth ?? BASE_W;
+      const h = entry.contentRect?.height ?? el.clientHeight ?? BASE_H;
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => measure(w, h));
     });
 
-    ro.observe(boxRef.current);
-    return () => ro.disconnect();
-  }, [pathD]);
+    ro.observe(el);
+    measure(el.clientWidth || BASE_W, el.clientHeight || BASE_H);
+    return () => { cancelAnimationFrame(rafId); ro.disconnect(); };
+  }, [pathD, starDensity, minStars, maxStars]);
 
-  const items = skills.map((s, i) => ({
-    ...s,
-    speed: s.speed ?? (18 + (i % 3) * 4),
-    offset: s.offset ?? Math.round((i * 100) / skills.length),
-    reverse: s.reverse ?? (i % 2 === 1),
-  }));
+  useEffect(() => {
+    if (!pauseOnHidden) return;
+    const onVis = () => setHidden(document.hidden);
+    onVis();
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, [pauseOnHidden]);
+
+  const items = useMemo(() => {
+    const n = Math.max(1, skills.length);
+    if (!lockSpacing) {
+      return skills.map((s, i) => ({
+        ...s,
+        speed: s.speed ?? (18 + (i % 3) * 4),
+        offset: s.offset ?? Math.round((i * 100) / n),
+        rotateWithPath,
+      }));
+    }
+    const spacing = 100 / n;
+    return skills.map((s, i) => ({
+      ...s,
+      speed: orbitSpeed,
+      offset: Math.round(i * spacing),
+      rotateWithPath,
+    }));
+  }, [skills, lockSpacing, orbitSpeed, rotateWithPath]);
+
+  const paused = freeze || hidden;
 
   return (
     <div
-      className="relative w-full max-w-[360px] aspect-[2/3] rounded-xl shadow-xl border border-indigo-600
-                 overflow-hidden mx-auto bg-gradient-to-br from-indigo-100 to-slate-200 dark:from-slate-800 dark:to-slate-950"
       ref={boxRef}
+      className={
+        "relative w-full max-w-[360px] aspect-[2/3] rounded-xl shadow-xl border border-indigo-600 " +
+        "overflow-hidden mx-auto bg-gradient-to-br from-indigo-100 to-slate-200 " +
+        "dark:from-slate-800 dark:to-slate-950 " + className
+      }
+      aria-label={title}
     >
       <h3 className="absolute top-3 left-4 text-slate-800 dark:text-white font-semibold text-lg z-10">
         {title}
       </h3>
 
       <div className="relative w-full h-full overflow-hidden">
-        {/* << ESTA línea estaba cortada en tu archivo >> */}
-        <Starfield count={50} />
-
-        {/* Dibujo (usa el path original con viewBox) */}
+        <Starfield count={starCount} />
         <ConstellationPath pathD={pathD} />
-
-        {/* Movimiento (usa el path escalado) */}
         {items.map((it, idx) => (
           <IconOnPath
             key={`${it.name}-${idx}`}
@@ -159,7 +143,8 @@ const Galaxy = ({ title, skills, showLabels, pathD }) => {
             showLabel={showLabels}
             speed={it.speed}
             offset={it.offset}
-            reverse={it.reverse}
+            rotateWithPath={it.rotateWithPath}
+            paused={paused}
             href={it.href}
             size={it.size}
           />
