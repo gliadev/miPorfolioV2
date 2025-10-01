@@ -58,7 +58,6 @@ export default function Skills() {
             onChange={() => setShowLabels(!showLabels)}
             className="form-checkbox"
           />
-          <span className="text-zinc-800 dark:text-gray-200">Mostrar etiquetas</span>
         </label>
       </div>
 
