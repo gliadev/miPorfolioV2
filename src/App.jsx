@@ -1,13 +1,17 @@
-// src/App.jsx
 import { useEffect, useState } from 'react';
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Navbar from './components/Navbar';
-import ThemeToggle from './components/ThemeToggle';
+import Footer from './components/Footer';
 import IntroAdolfoDev from './components/IntroAdolfoDev';
 import AboutMe from './components/AboutMe';
 import IntroSplash from './components/IntroSplash'; 
+import Projects from './components/Projects'
+
+
+
+
 function App() {
   const [showSplash, setShowSplash] = useState(true);
 
@@ -44,43 +48,8 @@ function App() {
       <IntroAdolfoDev />
       <AboutMe />
       <SpeedInsights />
-
-      
-
-      
-      <div className="p-8 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"> </div>
-
-
-      
-
-      
-
-      <section id="proyectos" className="py-20 px-4" data-aos="fade-up">
-        <h2 className="text-3xl font-semibold text-center mb-8">Proyectos Destacados</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg p-6" data-aos="zoom-in">
-            <h3 className="text-2xl font-bold mb-2">Mi App iOS</h3>
-            <p>Descripción breve del proyecto, tecnologías usadas y resultado.</p>
-            <a href="#" className="inline-block mt-4 text-blue-500 hover:underline">
-              Ver en GitHub
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section id="contacto" className="py-20 px-4" data-aos="fade-up">
-        <h2 className="text-3xl font-semibold text-center mb-8">Contacto</h2>
-        <p className="text-center">
-          ¿Quieres conectar? Escríbeme a <a href="mailto:tuemail@dominio.com" className="text-blue-500 hover:underline">tuemail@dominio.com</a>
-        </p>
-      </section>
-
-      <footer className="py-6 text-center text-sm">
-        © {new Date().getFullYear()} Adolfo. Todos los derechos reservados.
-      </footer>
-     
-
-
+      <Projects initial="all" title="Proyectos" />
+      <Footer />
     </div>
   );
 }

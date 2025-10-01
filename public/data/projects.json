@@ -1,0 +1,61 @@
+[
+    {
+    "id": "employees",
+    "title": "Employees",
+    "category": "ios",
+    "description": "Listado y búsqueda con API, manejo de estados y errores.",
+    "tech": ["Swift", "SwiftUI", "MVVM", "API"],
+    "image": "../../src/assets/proyectsPhotos/Employees.png",
+    "links": { "github": "https://github.com/gliadev/EmployeesAPP", "store": "", "demo": "" }
+    },
+
+    {
+    "id": "tmdb",
+    "title": "TheMovieDB Proyect",
+    "category": "ios",
+    "description": "Top 10, detalle, reparto y enlace a tráiler en YouTube con la API de TMDB.",
+    "tech": ["Swift", "SwiftUI", "TMDB API"],
+    "image": "../../src/assets/proyectsPhotos/TheMangaKeeper.png",
+    "links": { "github": "https://github.com/gliadev/TheMovieBDProject", "store": "", "demo": "" }
+    },
+
+    {
+    "id": "nutriapp",
+    "title": "NutriApp",
+    "category": "web",
+    "description": "App de consulta y gestión de clientes, citas y progreso.",
+    "tech": ["HTML", "CSS", "MongoDB", "React"],
+    "image": "",
+    "links": { "github": "https://github.com/gliadev", "demo": "", "store": "" }
+    },
+
+    {
+    "id": "nutriglesias",
+    "title": "Nutr iglesias Web",
+    "category": "web",
+    "description": "Sitio para mostrar actividad de consulta de nutrición.",
+    "tech": ["HTML", "CSS", "Bootstrap", "JavaScript"],
+    "image": "",
+    "links": { "github": "https://github.com/gliadev", "demo": "", "store": "" }
+    },
+
+    {
+    "id": "portfolio-old",
+    "title": "Mi Portfolio (v1)",
+    "category": "web",
+    "description": "Portfolio personal con proyectos y avances. Deploy en GitHub Pages.",
+    "tech": ["HTML", "CSS", "Bootstrap", "JavaScript"],
+    "image": "",
+    "links": { "github": "https://github.com/gliadev", "demo": "", "store": "" }
+    },
+    
+    {
+    "id": "checkzea",
+    "title": "CheckZea",
+    "category": "ios",
+    "description": "App de recordatorios para competiciones. Próximo: recomendaciones y checklist inteligente.",
+    "tech": ["Swift", "SwiftUI", "SwiftData", "LLM"],
+    "image": "",
+    "links": { "github": "https://github.com/gliadev", "demo": "", "store": "" }
+    }
+]
