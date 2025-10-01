@@ -50,16 +50,6 @@ export default function Skills() {
         Universo del Desarrollo
       </h2>
 
-      <div className="mb-6 text-center">
-        <label className="inline-flex items-center gap-2 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={showLabels}
-            onChange={() => setShowLabels(!showLabels)}
-            className="form-checkbox"
-          />
-        </label>
-      </div>
 
       <div className="flex flex-col lg:flex-row gap-10 items-stretch justify-center">
         {Object.entries(skillsData).map(([galaxyName, skills]) => (
