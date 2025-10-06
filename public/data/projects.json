@@ -1,61 +1,121 @@
 [
-    {
+  {
+    "id": "SwiftSnake",
+    "title": "SwiftSnake",
+    "category": "ios",
+    "description": "SwiftSnake es una versión moderna del clásico juego Snake, desarrollada con SwiftUI y SwiftData, pero con una historia personal detrás",
+    "tech": ["Swift", "SwiftUI", "SwiftData", "MVVM", "Testing"],
+    "image": "../proyectsPhotos/swiftSnake.png",
+    "links": {
+      "github": "https://github.com/gliadev/swiftSnake",
+      "store": "",
+      "website": "",
+      "demos": [
+        "https://private-user-images.githubusercontent.com/78279221/447364414-2dc6cc2e-4fea-4be7-bdad-01c818e5ffe2.gif?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTk3NDkxODIsIm5iZiI6MTc1OTc0ODg4MiwicGF0aCI6Ii83ODI3OTIyMS80NDczNjQ0MTQtMmRjNmNjMmUtNGZlYS00YmU3LWJkYWQtMDFjODE4ZTVmZmUyLmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTEwMDYlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUxMDA2VDExMDgwMlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWY5NWE2ZWZjMDRjNTI1ZTJmNWNmZTI3MWU2ODQwNGFlM2RmMTFiNTZhZmFlODU3YTQyZmM5OTJjY2ZmNjVjMGImWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.r1affPXmx87iTcIh16gLkALhXJe14V9VtHcm9xqIVbI"
+      ]
+    }
+  },
+  
+  {
+    "id": "TheMangaKeeper",
+    "title": "The MangaKeeper",
+    "category": "ios",
+    "description": "Proyecto Final del Swift Developer Program 2023 de, Aplicación iOS para gestionar colecciones de mangas. Permite consultar un catálogo, añadir mangas a tu colección, registrar progreso de lectura y filtrar por géneros, temas o demografías. Optimizada para iPhone y iPad con un diseño adaptado y navegación avanzada.",
+    "tech": ["Swift", "SwiftUI", "MVVM", "REST API"],
+    "image": "../../src/assets/proyectsPhotos/TheMangaKeeper.png",
+    "links": {
+      "github": "https://github.com/tu-repo/TheMangaKeeper",
+      "store": "",
+      "website": "",
+      "demos": [
+        "https://raw.githubusercontent.com/gliadev/TheMangaKeeper/main/gifs/Simulator%20Screen%20Recording%20-%20iPhone%2016%20-%202024-11-05%20at%2010.41.42.gif",
+        
+        "https://raw.githubusercontent.com/gliadev/TheMangaKeeper/main/gifs/Simulator%20Screen%20Recording%20-%20iPad%20(10th%20generation)%20-%202024-11-05%20at%2010.29.35.gif"
+      ]
+    }
+  },
+  {
     "id": "employees",
     "title": "Employees",
     "category": "ios",
     "description": "Listado y búsqueda con API, manejo de estados y errores.",
     "tech": ["Swift", "SwiftUI", "MVVM", "API"],
     "image": "../../src/assets/proyectsPhotos/Employees.png",
-    "links": { "github": "https://github.com/gliadev/EmployeesAPP", "store": "", "demo": "" }
-    },
-
-    {
+    "links": {
+      "github": "https://github.com/gliadev/EmployeesAPP",
+      "store": "",
+      "website": "",
+      "demos": []
+    }
+  },
+  {
     "id": "tmdb",
     "title": "TheMovieDB Proyect",
     "category": "ios",
     "description": "Top 10, detalle, reparto y enlace a tráiler en YouTube con la API de TMDB.",
     "tech": ["Swift", "SwiftUI", "TMDB API"],
-    "image": "../../src/assets/proyectsPhotos/TheMangaKeeper.png",
-    "links": { "github": "https://github.com/gliadev/TheMovieBDProject", "store": "", "demo": "" }
-    },
-
-    {
+    "image": "../../src/assets/proyectsPhotos/TheMovieDBProyect.png",
+    "links": {
+      "github": "https://github.com/gliadev/TheMovieBDProject",
+      "store": "",
+      "website": "",
+      "demos": []
+    }
+  },
+  {
     "id": "nutriapp",
     "title": "NutriApp",
     "category": "web",
     "description": "App de consulta y gestión de clientes, citas y progreso.",
-    "tech": ["HTML", "CSS", "MongoDB", "React"],
-    "image": "",
-    "links": { "github": "https://github.com/gliadev", "demo": "", "store": "" }
-    },
-
-    {
+    "tech": ["HTML", "CSS", "API", "MongoDB", "React"],
+    "image": "../../src/assets/proyectsPhotos/nutriAPP.png",
+    "links": {
+      "github": "https://github.com/gliadev/nutriapp",
+      "store": "",
+      "website": "",
+      "demos": []
+    }
+  },
+  {
     "id": "nutriglesias",
-    "title": "Nutr iglesias Web",
+    "title": "Nutriglesias Web",
     "category": "web",
-    "description": "Sitio para mostrar actividad de consulta de nutrición.",
+    "description": "Sitio Web para mostrar actividad de consulta de nutrición.",
     "tech": ["HTML", "CSS", "Bootstrap", "JavaScript"],
-    "image": "",
-    "links": { "github": "https://github.com/gliadev", "demo": "", "store": "" }
-    },
-
-    {
+    "image": "../../src/assets/proyectsPhotos/webNutriglesias.png",
+    "links": {
+      "github": "",
+      "store": "",
+      "website": "https://www.nutriglesias.com/",
+      "demos": []
+    }
+  },
+  {
     "id": "portfolio-old",
     "title": "Mi Portfolio (v1)",
     "category": "web",
     "description": "Portfolio personal con proyectos y avances. Deploy en GitHub Pages.",
     "tech": ["HTML", "CSS", "Bootstrap", "JavaScript"],
     "image": "",
-    "links": { "github": "https://github.com/gliadev", "demo": "", "store": "" }
-    },
-    
-    {
+    "links": {
+      "github": "https://github.com/gliadev",
+      "store": "",
+      "website": "",
+      "demos": []
+    }
+  },
+  {
     "id": "checkzea",
     "title": "CheckZea",
     "category": "ios",
     "description": "App de recordatorios para competiciones. Próximo: recomendaciones y checklist inteligente.",
     "tech": ["Swift", "SwiftUI", "SwiftData", "LLM"],
     "image": "",
-    "links": { "github": "https://github.com/gliadev", "demo": "", "store": "" }
+    "links": {
+      "github": "https://github.com/gliadev",
+      "store": "",
+      "website": "",
+      "demos": []
     }
+  }
 ]
