@@ -11,7 +11,7 @@
       "store": "",
       "website": "",
       "demos": [
-        "https://private-user-images.githubusercontent.com/78279221/447364414-2dc6cc2e-4fea-4be7-bdad-01c818e5ffe2.gif?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTk3NDkxODIsIm5iZiI6MTc1OTc0ODg4MiwicGF0aCI6Ii83ODI3OTIyMS80NDczNjQ0MTQtMmRjNmNjMmUtNGZlYS00YmU3LWJkYWQtMDFjODE4ZTVmZmUyLmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTEwMDYlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUxMDA2VDExMDgwMlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWY5NWE2ZWZjMDRjNTI1ZTJmNWNmZTI3MWU2ODQwNGFlM2RmMTFiNTZhZmFlODU3YTQyZmM5OTJjY2ZmNjVjMGImWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.r1affPXmx87iTcIh16gLkALhXJe14V9VtHcm9xqIVbI"
+        "https://private-user-images.githubusercontent.com/78279221/447364414-2dc6cc2e-4fea-4be7-bdad-01c818e5ffe2.gif?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTk3NDkxODIsIm5iZiI6MTc1OTc0ODg4MiwicGF0aCI6Ii83ODI3OTIyMS80NDczNjQ0MTQtMmRjNmNjMmUtNGZlYS00YmU3LWJkYWQtMDFjODE4ZTVmZmUyLmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTEwMDYlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUxMDA2VDExMDgwMlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWY5NWE2ZWZjMDRjNTI1ZTJmNWNmZTI3MWU2ODQwNGFlM2RmMTFiNTZhZmFlODU3YTQyZmM5OTJjY2ZmNjVjMGImWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.r1affPXmx87iTcIh16gLkALhXJe14V9VtHcm9xqIVbI", ""
       ]
     }
   },
@@ -22,7 +22,7 @@
     "category": "ios",
     "description": "Proyecto Final del Swift Developer Program 2023 de, Aplicación iOS para gestionar colecciones de mangas. Permite consultar un catálogo, añadir mangas a tu colección, registrar progreso de lectura y filtrar por géneros, temas o demografías. Optimizada para iPhone y iPad con un diseño adaptado y navegación avanzada.",
     "tech": ["Swift", "SwiftUI", "MVVM", "REST API"],
-    "image": "../../src/assets/proyectsPhotos/TheMangaKeeper.png",
+    "image": "../proyectsPhotos/TheMangaKeeper.png",
     "links": {
       "github": "https://github.com/tu-repo/TheMangaKeeper",
       "store": "",
