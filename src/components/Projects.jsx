@@ -358,7 +358,8 @@ function ProjectCard({ project, onOpenDemos }) {
   const links = getProjectLinks(project);
   const isTouch = useIsTouch();
 
-  const videoBtnLabel = demos.length <= 1 ? "Vídeo" : `Vídeos (${demos.length})`;
+  // Etiqueta fija del botón
+  const videoBtnLabel = "Vídeo";
 
   return (
     <motion.article
@@ -397,12 +398,12 @@ function ProjectCard({ project, onOpenDemos }) {
             </ExternalLink>
           ))}
 
-          {/* Único botón de vídeo(s) */}
+          {/* Botón de vídeo (único), solo si hay demos */}
           {demos.length > 0 && (
             <button
               onClick={() => onOpenDemos(demos, 0)}
               className="inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold transition hover:shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-400 dark:border-zinc-800"
-              aria-label={`Abrir ${videoBtnLabel.toLowerCase()} de ${project.title}`}
+              aria-label={`Abrir vídeo de ${project.title}`}
             >
               <PlayCircle className="h-4 w-4" /> {videoBtnLabel}
             </button>

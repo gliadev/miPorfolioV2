@@ -3,21 +3,21 @@
     "id": "SwiftSnake",
     "title": "SwiftSnake",
     "category": "ios",
-    "description": "SwiftSnake es una versión moderna del clásico juego Snake, desarrollada con SwiftUI y SwiftData, pero con una historia personal detrás",
+    "description": "SwiftSnake es una versión moderna del clásico juego Snake, desarrollada íntegramente con SwiftUI y SwiftData. Implementa una arquitectura MVVM para separar la lógica del juego de la vista y del almacenamiento de datos. Incluye ranking persistente con SwiftData, detección de colisiones, control de movimiento fluido y un HUD dinámico con puntuación en tiempo real. El juego está optimizado para iPhone y iPad",
     "tech": ["Swift", "SwiftUI", "SwiftData", "MVVM", "Testing"],
-    "image": "../proyectsPhotos/swiftSnake.png",
+    "image": "/proyectsPhotos/swiftSnake.png",
     "links": {
       "github": "https://github.com/gliadev/swiftSnake",
       "store": "",
       "website": "",
       "demos": [
-        "https://private-user-images.githubusercontent.com/78279221/447364414-2dc6cc2e-4fea-4be7-bdad-01c818e5ffe2.gif?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTk3NDkxODIsIm5iZiI6MTc1OTc0ODg4MiwicGF0aCI6Ii83ODI3OTIyMS80NDczNjQ0MTQtMmRjNmNjMmUtNGZlYS00YmU3LWJkYWQtMDFjODE4ZTVmZmUyLmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTEwMDYlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUxMDA2VDExMDgwMlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWY5NWE2ZWZjMDRjNTI1ZTJmNWNmZTI3MWU2ODQwNGFlM2RmMTFiNTZhZmFlODU3YTQyZmM5OTJjY2ZmNjVjMGImWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.r1affPXmx87iTcIh16gLkALhXJe14V9VtHcm9xqIVbI", ""
+        "/proyectsDemos/demoSwiftSnake.gif", ""
       ]
     }
   },
   
   {
-    "id": "TheMangaKeeper",
+    "id": "TheMangaKeeper",  
     "title": "The MangaKeeper",
     "category": "ios",
     "description": "Proyecto Final del Swift Developer Program 2023 de, Aplicación iOS para gestionar colecciones de mangas. Permite consultar un catálogo, añadir mangas a tu colección, registrar progreso de lectura y filtrar por géneros, temas o demografías. Optimizada para iPhone y iPad con un diseño adaptado y navegación avanzada.",
@@ -38,37 +38,38 @@
     "id": "employees",
     "title": "Employees",
     "category": "ios",
-    "description": "Listado y búsqueda con API, manejo de estados y errores.",
-    "tech": ["Swift", "SwiftUI", "MVVM", "API"],
-    "image": "../../src/assets/proyectsPhotos/Employees.png",
+    "description": "Employees es una aplicación iOS desarrollada con SwiftUI que consume una API REST para mostrar un listado de empleados de una empresa ficticia. Implementa arquitectura MVVM con un patrón Interactor para gestionar las peticiones de red de forma asíncrona usando async/await. Permite buscar empleados por nombre en tiempo real, visualizar sus detalles y manejar errores de red y decodificación de forma controlada. Incluye separación entre capas DTO y dominio, y un formateo automático de nombres mediante PersonNameComponentsFormatter."
+,
+    "tech": ["Swift", "SwiftUI", "MVVM", "API", "Async/Await"],
+    "image": "/proyectsPhotos/Employees.png",
     "links": {
       "github": "https://github.com/gliadev/EmployeesAPP",
       "store": "",
       "website": "",
-      "demos": []
+      "demos": ["",""]
     }
   },
   {
     "id": "tmdb",
     "title": "TheMovieDB Proyect",
     "category": "ios",
-    "description": "Top 10, detalle, reparto y enlace a tráiler en YouTube con la API de TMDB.",
-    "tech": ["Swift", "SwiftUI", "TMDB API"],
-    "image": "../../src/assets/proyectsPhotos/TheMovieDBProyect.png",
+    "description": "Aplicación iOS que consume la API de The Movie Database (TMDB) para mostrar el Top 10 de películas. Incluye vista de detalle, reparto con enlaces a Wikipedia y tráilers de YouTube. Implementada en SwiftUI bajo arquitectura MVVM, con autenticación mediante Bearer Token y peticiones asíncronas async/await",
+    "tech": ["Swift", "SwiftUI", "MVVM", "TMDB API", "Async/Await", "Token"],
+    "image": "/proyectsPhotos/TheMovieDBProyect.png",
     "links": {
       "github": "https://github.com/gliadev/TheMovieBDProject",
       "store": "",
       "website": "",
-      "demos": []
+      "demos": ["proyectsDemos/demoTheMovieDB.gif"]
     }
   },
   {
     "id": "nutriapp",
     "title": "NutriApp",
     "category": "web",
-    "description": "App de consulta y gestión de clientes, citas y progreso.",
-    "tech": ["HTML", "CSS", "API", "MongoDB", "React"],
-    "image": "../../src/assets/proyectsPhotos/nutriAPP.png",
+    "description": "Aplicación web full-stack para consulta nutricional. Gestiona clientes, citas y progreso con React en el frontend y Node/Express + MongoDB en el backend. Autenticación JWT, CRUD completo y despliegue con entorno de producción (Mongo Atlas)",
+    "tech": ["React", "Node.js", "Express", "MongoDB", "JWT", "REST API"],
+    "image": "/proyectsPhotos/nutriAPP.png",
     "links": {
       "github": "https://github.com/gliadev/nutriapp",
       "store": "",
@@ -80,9 +81,9 @@
     "id": "nutriglesias",
     "title": "Nutriglesias Web",
     "category": "web",
-    "description": "Sitio Web para mostrar actividad de consulta de nutrición.",
-    "tech": ["HTML", "CSS", "Bootstrap", "JavaScript"],
-    "image": "../../src/assets/proyectsPhotos/webNutriglesias.png",
+    "description": "Sitio web profesional de nutrición que ofrece servicios personalizados para deportistas y personas con objetivos específicos. Incluye secciones de servicios, blog de contenido nutricional, presentación del equipo y formulario de contacto. Está optimizado para visibilidad en diseño responsivo en móvil o escritorio y SEO local.",
+    "tech": ["HTML", "CSS", "Bootstrap", "JavaScript", "Responsive Design", "SEO On-Page"],
+    "image": "/proyectsPhotos/webNutriglesias.png",
     "links": {
       "github": "",
       "store": "",
@@ -94,13 +95,27 @@
     "id": "portfolio-old",
     "title": "Mi Portfolio (v1)",
     "category": "web",
-    "description": "Portfolio personal con proyectos y avances. Deploy en GitHub Pages.",
-    "tech": ["HTML", "CSS", "Bootstrap", "JavaScript"],
-    "image": "",
+    "description": "Primer portfolio personal desarrollado con HTML, CSS y JavaScript, donde presento mis proyectos, habilidades y trayectoria profesional. Incluye animaciones, una galería de proyectos y una línea temporal de formación. Publicado en GitHub Pages como punto de partida en mi camino aldesarrollo. ",
+    "tech": ["HTML", "CSS", "JavaScript", "Bootstrap", "Animate.css", "WOW.js"],
+    "image": "/proyectsPhotos/porfolio.png",
     "links": {
-      "github": "https://github.com/gliadev",
+      "github": "https://github.com/gliadev/miPorfolio",
       "store": "",
-      "website": "",
+      "website": "https://gliadev.github.io/miPorfolio/",
+      "demos": []
+    }
+  },
+  {
+    "id": "portfolio-old",
+    "title": "Mi Portfolio (v2)",
+    "category": "web",
+    "description": "Segunda versión de mi portafolio personal, completamente rediseñada con un stack moderno basado en React + TailwindCSS y Framer Motion para animaciones fluidas. Incluye modo oscuro/claro, un sistema dinámico de proyectos, y una interfaz mucho más visual e interactiva. Responsive y optimizado para móviles, mejora la experiencia en pantallas táctiles y añade efectos suaves, transiciones animadas y componentes reutilizables. Desplegado en Vercel, este portfolio refleja mi evolución como desarrollador y mi enfoque en diseño, rendimiento y accesibilidad.",
+    "tech": ["React", "TailwindCSS", "Framer Motion", "JavaScript", "Responsive Design", "Dark Mode"],
+    "image": "/proyectsPhotos/miPorfolioV2.png",
+    "links": {
+      "github": "https://github.com/gliadev/miPorfolioV2",
+      "store": "",
+      "website": "https://gliadev.vercel.app/",
       "demos": []
     }
   },
@@ -108,7 +123,7 @@
     "id": "checkzea",
     "title": "CheckZea",
     "category": "ios",
-    "description": "App de recordatorios para competiciones. Próximo: recomendaciones y checklist inteligente.",
+    "description": "",
     "tech": ["Swift", "SwiftUI", "SwiftData", "LLM"],
     "image": "",
     "links": {
