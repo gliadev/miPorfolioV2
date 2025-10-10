@@ -35,21 +35,6 @@
     }
   },
   {
-    "id": "employees",
-    "title": "Employees",
-    "category": "ios",
-    "description": "Employees es una aplicación iOS desarrollada con SwiftUI que consume una API REST para mostrar un listado de empleados de una empresa ficticia. Implementa arquitectura MVVM con un patrón Interactor para gestionar las peticiones de red de forma asíncrona usando async/await. Permite buscar empleados por nombre en tiempo real, visualizar sus detalles y manejar errores de red y decodificación de forma controlada. Incluye separación entre capas DTO y dominio, y un formateo automático de nombres mediante PersonNameComponentsFormatter."
-,
-    "tech": ["Swift", "SwiftUI", "MVVM", "API", "Async/Await"],
-    "image": "/proyectsPhotos/Employees.png",
-    "links": {
-      "github": "https://github.com/gliadev/EmployeesAPP",
-      "store": "",
-      "website": "",
-      "demos": ["",""]
-    }
-  },
-  {
     "id": "tmdb",
     "title": "TheMovieDB Proyect",
     "category": "ios",
@@ -61,6 +46,34 @@
       "store": "",
       "website": "",
       "demos": ["proyectsDemos/demoTheMovieDB.gif"]
+    }
+  },
+  {
+    "id": "employees",
+    "title": "Employees",
+    "category": "ios",
+    "description": "Employees es una aplicación iOS desarrollada con SwiftUI que consume una API REST para mostrar un listado de empleados de una empresa ficticia. Implementa arquitectura MVVM con un patrón Interactor para gestionar las peticiones de red de forma asíncrona usando async/await. Permite buscar empleados por nombre en tiempo real, visualizar sus detalles y manejar errores de red y decodificación de forma controlada. Incluye separación entre capas DTO y dominio, y un formateo automático de nombres mediante PersonNameComponentsFormatter.",
+    "tech": ["Swift", "SwiftUI", "MVVM", "API", "Async/Await"],
+    "image": "/proyectsPhotos/Employees.png",
+    "links": {
+      "github": "https://github.com/gliadev/EmployeesAPP",
+      "store": "",
+      "website": "",
+      "demos": ["",""]
+    }
+  },
+  {
+    "id": "notasapp",
+    "title": "Notas App — Testing en SwiftUI",
+    "category": "ios",
+    "description": "Aplicación de notas desarrollada en SwiftUI como práctica de un curso de testing en Swift. Incluye tests unitarios, de integración, snapshot y de interfaz (UITests) para garantizar el correcto funcionamiento y la estabilidad de la app. Los datos se almacenan localmente y el proyecto refuerza conceptos como mocks e inyección de dependencias.",
+    "tech": ["Swift", "SwiftUI", "Xcode", "SwiftData", "Unit Tests", "Integration Tests", "Snapshot Tests", "UITests"],
+    "image": "/proyectsPhotos/notas&test.png",
+    "links": {
+      "github": "https://github.com/gliadev/NotasApp",
+      "store": "",
+      "website": "",
+      "demos": ["/proyectsDemos/demoNotesAPP.gif"]
     }
   },
   {
