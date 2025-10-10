@@ -109,7 +109,7 @@
     "id": "portfolio-old",
     "title": "Mi Portfolio (v2)",
     "category": "web",
-    "description": "Segunda versión de mi portafolio personal, completamente rediseñada con un stack moderno basado en React + TailwindCSS y Framer Motion para animaciones fluidas. Incluye modo oscuro/claro, un sistema dinámico de proyectos, y una interfaz mucho más visual e interactiva. Responsive y optimizado para móviles, mejora la experiencia en pantallas táctiles y añade efectos suaves, transiciones animadas y componentes reutilizables. Desplegado en Vercel, este portfolio refleja mi evolución como desarrollador y mi enfoque en diseño, rendimiento y accesibilidad.",
+    "description": "Segunda versión de mi portafolio personal, completamente rediseñada con un stack moderno basado en React + TailwindCSS y Framer Motion para animaciones fluidas. Incluye modo oscuro/claro, un sistema dinámico de proyectos que consume datos desde un archivo JSON (evitando la repetición de código y facilitando la escalabilidad), y una interfaz mucho más visual e interactiva. Totalmente responsive y optimizado para móviles, mejora la experiencia en pantallas táctiles con transiciones suaves, efectos animados y componentes reutilizables.Desplegado en Vercel, este portfolio refleja mi evolución como desarrollador y mi enfoque en diseño, rendimiento y accesibilidad.",
     "tech": ["React", "TailwindCSS", "Framer Motion", "JavaScript", "Responsive Design", "Dark Mode"],
     "image": "/proyectsPhotos/miPorfolioV2.png",
     "links": {
