@@ -1,5 +1,6 @@
 // src/components/Projects.jsx
 import { useEffect, useMemo, useState, useRef } from "react";
+import { Element } from "react-scroll";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Github,
@@ -456,39 +457,41 @@ export default function Projects({
   };
 
   return (
-    <section className="mx-auto max-w-7xl px-4 pt-16 pb-12 lg:pt-20">
-      <header className="mb-4 text-center">
-        <h2 className="text-3xl font-bold text-center mb-6 dark:text-blue-300 text-blue-700">
-          {title}
-        </h2>
-      </header>
+    <Element name="proyectos">
+      <section className="mx-auto max-w-7xl px-4 pt-16 pb-28 lg:pt-20 lg:pb-32">
+        <header className="mb-4 text-center">
+          <h2 className="text-3xl font-bold text-center mb-6 dark:text-blue-300 text-blue-700">
+            {title}
+          </h2>
+        </header>
 
-      <div className="mb-8 flex w-full flex-wrap items-center justify-center gap-3">
-        {CATEGORIES.map((c) => (
-          <button
-            key={c.key}
-            onClick={() => setActive(c.key)}
-            className={clsx(
-              "rounded-3xl px-5 py-2.5 text-base font-semibold transition focus:outline-none focus:ring-2 focus:ring-yellow-500",
-              active === c.key
-                ? "bg-yellow-400 text-black shadow-md dark:bg-yellow-300"
-                : "border dark:border-zinc-800 hover:bg-white/5 dark:hover:bg-white/5"
-            )}
-            aria-pressed={active === c.key}
-          >
-            {c.label}
-          </button>
-        ))}
-      </div>
+        <div className="mb-8 flex w-full flex-wrap items-center justify-center gap-3">
+          {CATEGORIES.map((c) => (
+            <button
+              key={c.key}
+              onClick={() => setActive(c.key)}
+              className={clsx(
+                "rounded-3xl px-5 py-2.5 text-base font-semibold transition focus:outline-none focus:ring-2 focus:ring-yellow-500",
+                active === c.key
+                  ? "bg-yellow-400 text-black shadow-md dark:bg-yellow-300"
+                  : "border dark:border-zinc-800 hover:bg-white/5 dark:hover:bg-white/5"
+              )}
+              aria-pressed={active === c.key}
+            >
+              {c.label}
+            </button>
+          ))}
+        </div>
 
-      <ProjectsGrid items={filtered} onOpenDemos={openDemos} />
+        <ProjectsGrid items={filtered} onOpenDemos={openDemos} />
 
-      <DemoModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        demos={modalDemos}
-        startIndex={modalIndex}
-      />
-    </section>
+        <DemoModal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          demos={modalDemos}
+          startIndex={modalIndex}
+        />
+      </section>
+    </Element>
   );
 }

@@ -1,0 +1,52 @@
+[
+  {
+    "id": "uax-dam",
+    "title": "Grado Superior Desarrollo de Aplicaciones Multiplataforma",
+    "org": "UAX (Madrid)",
+    "icon": "degree",
+    "period": { "start": "2023", "end": "2025" },
+    "description": "Desarrollar, implantar, documentar y mantener aplicaciones informáticas multiplataforma, utilizando tecnologías y entornos de desarrollo específicos, garantizando el acceso a los datos de forma segura y cumpliendo los criterios de usabilidad y calidad exigidas en los estándares establecidos.",
+    "tags": ["Microsoft", "Eclipse", "Android Studio", "MySQL", "Oracle", "PyCharm", "Unity", "MacOS", "IntelliJ", "Linux", "Odoo"],
+    "links": [
+      { "label": "Web oficial", "url": "https://www.uax.com/titulaciones/grado-superior-en-desarrollo-de-aplicaciones-multiplataforma-online" },
+      { "label": "", "url": "" }
+    ],
+    "media": {
+      "type": "",
+      "url": "",
+      "alt": ""
+    }
+  },
+  {
+    "id": "sdp",
+    "title": "Accesibility Developer Program",
+    "org": "Apple Coding Academy",
+    "icon": "course",
+    "period": { "end": "2025" },
+    "description": "Programa intensivo de 24 horas centrado en la accesibilidad real en apps con Swift, UIKit y SwiftUI. Prepara a los developers para cumplir con la Directiva Europea de Accesibilidad (EAA) y las futuras Accessibility Nutrition Labels del App Store.",
+    "tags": ["Swift","UIKit", "SwiftUI", "UIKit", "Accesibilidad", "VoiceOver", "EAA"],
+    "links": [
+      { "label": "https://acoding.academy/formaciones/swift-accessibility-program/", "url": "" },
+      { }
+    ],
+    "media": {}
+  },
+  {
+    "id": "100-days",
+    "title": "100 Days of SwiftUI",
+    "org": "Hacking with Swift (Paul Hudson)",
+    "icon": "bootcamp",
+    "period": { "start": "2024", "end": "2024" },
+    "description": "Práctica diaria con proyectos y retos.",
+    "tags": ["SwiftUI", "Testing"],
+    "links": [
+      { "label": "Web oficial", "url": "https://www.hackingwithswift.com/" },
+      { "label": "Repos del reto", "url": "https://github.com/gliadev" }
+    ],
+    "media": {
+      "type": "image",
+      "url": "/images/timeline/100-days.jpg",
+      "alt": "Banner de 100 Days of SwiftUI"
+    }
+  }
+]

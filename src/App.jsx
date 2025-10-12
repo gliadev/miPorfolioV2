@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
-import { SpeedInsights } from "@vercel/speed-insights/react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { Element } from 'react-scroll';
+
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import IntroAdolfoDev from './components/IntroAdolfoDev';
 import AboutMe from './components/AboutMe';
-import IntroSplash from './components/IntroSplash'; 
-import Projects from './components/Projects'
-
+import IntroSplash from './components/IntroSplash';
+import Projects from './components/Projects';
+import { SpeedInsights } from '@vercel/speed-insights/react';
+import Timeline from './components/Timeline';
 
 
 
@@ -45,10 +47,11 @@ function App() {
   return (
     <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen transition-colors duration-300">
       <Navbar />
-      <IntroAdolfoDev />
+      <IntroAdolfoDev /> 
       <AboutMe />
       <SpeedInsights />
       <Projects initial="all" title="Proyectos" />
+      <Timeline title="Trayectoria" className="py-12" />
       <Footer />
     </div>
   );
