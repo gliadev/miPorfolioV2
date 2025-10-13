@@ -1,12 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Element } from "react-scroll";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import {
-  Calendar, GraduationCap, School, Code2, Cpu, Sparkles, Smartphone,
-  Globe, Brain, Trophy, Mic2, ExternalLink, Image as ImageIcon, Play, Search
+  Calendar, GraduationCap, School, Code2,
+  Brain, Smartphone, Globe, Trophy, Mic2,
+  ExternalLink, Image as ImageIcon, Play
 } from "lucide-react";
 
-/* -------------------------- CONFIG -------------------------- */
+/* ───────────────────────── Iconos / colores ───────────────────────── */
+
 const ICONS = {
   ios: Smartphone,
   ai: Brain,
@@ -20,151 +22,83 @@ const ICONS = {
   default: Calendar,
 };
 
-const FILTERS = [
-  { key: "all", label: "Todos" },
-  { key: "ios", label: "iOS" },
-  { key: "ai", label: "IA" },
-  { key: "web", label: "Web" },
-  { key: "edu", label: "Formación" }, // degree/course/bootcamp/cert
-];
+// Paleta (puedes ajustarla a tu gusto):
+// iOS → naranja, IA → morado, Web → verde, Educación (degree/course/bootcamp/cert) con sus propios matices.
+const ACCENTS = {
+  ios: "#F59E0B",        // naranja (iOS)
+  ai: "#A78BFA",         // morado (IA)
+  web: "#10B981",        // verde (Web)
 
-const cn = (...xs) => xs.filter(Boolean).join(" ");
-const normalize = (s = "") => s.toLowerCase();
+  degree: "#F59E0B",     // amber para reglada
+  course: "#60A5FA",     // azul
+  bootcamp: "#34D399",   // verde agua
+  cert: "#A78BFA",       // violeta
+  other: "#71717A"
+};
 
-/* -------------------------- HELPERS ------------------------- */
-function formatPeriod({ start, end } = {}) {
-  if (!start && !end) return "";
-  if (start && !end) return `${start} – Presente`;
-  if (!start && end) return `${end}`;
-  return `${start} – ${end}`;
-}
+const norm = (s = "") => s.toLowerCase();
+const isEducation = k => ["degree", "course", "bootcamp", "cert"].includes(k);
 
 function inferArea(item = {}) {
-  // prioriza 'area' si viene en el JSON, si no infiere por icon/tags
-  if (item.area) return item.area;
+  if (item.area) return item.area;              // iOS / ai / web
   const icon = item.icon ?? "";
-  const tags = (item.tags ?? []).map(normalize);
-  if (icon === "ios" || tags.some(t => ["swift", "swiftui", "uikit", "xcode", "ios"].includes(t))) return "ios";
-  if (icon === "ai" || tags.some(t => ["ia", "ai", "ml", "machine learning", "genai"].includes(t))) return "ai";
-  if (icon === "web" || tags.some(t => ["react", "tailwind", "vercel", "html", "css", "js", "typescript"].includes(t))) return "web";
-  if (["degree", "course", "bootcamp", "cert"].includes(icon)) return "edu";
+  const tags = (item.tags ?? []).map(norm);
+  if (icon === "ios" || tags.some(t => ["swift","swiftui","uikit","xcode","ios"].includes(t))) return "ios";
+  if (icon === "ai"  || tags.some(t => ["ai","ia","ml","machine learning","genai"].includes(t))) return "ai";
+  if (icon === "web" || tags.some(t => ["react","tailwind","vercel","html","css","js","typescript"].includes(t))) return "web";
+  if (isEducation(icon)) return icon;          // usa el matiz educativo
   return "other";
 }
-
-function matchesFilter(item, active) {
-  if (active === "all") return true;
-  if (active === "edu") return ["degree", "course", "bootcamp", "cert"].includes(item.icon);
-  return inferArea(item) === active;
+function accentColor(item) {
+  const key = inferArea(item);
+  return ACCENTS[key] ?? ACCENTS.other;
 }
 
-function matchesQuery(item, q) {
-  if (!q) return true;
-  const hay = [
-    item.title, item.org, item.description,
-    ...(item.tags || []),
-    item?.period?.start, item?.period?.end
-  ].filter(Boolean).join(" ").toLowerCase();
-  return hay.includes(q.toLowerCase());
-}
+/* ───────────────────────── Hook datos ───────────────────────── */
 
-/* ---------------------------- DATA -------------------------- */
 function useTimeline(initialItems) {
   const [items, setItems] = useState(initialItems ?? []);
   const [loading, setLoading] = useState(!initialItems?.length);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let live = true;
+    let active = true;
+    if (initialItems?.length) { setLoading(false); return; }
     (async () => {
-      if (initialItems?.length) return;
       try {
         const res = await fetch("/data/timeline.json", { cache: "no-cache" });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = await res.json();
-        if (live) setItems(Array.isArray(json) ? json : []);
-      } catch (e) {
-        if (live) setError(e);
+        const data = await res.json();
+        if (active) setItems(Array.isArray(data) ? data : []);
+      } catch (err) {
+        if (active) setError(err);
       } finally {
-        if (live) setLoading(false);
+        if (active) setLoading(false);
       }
     })();
-    return () => { live = false; };
+    return () => { active = false; };
   }, [initialItems]);
 
   return { items, loading, error };
 }
 
-/* ------------------------ SUBCOMPONENTES -------------------- */
-function Toolbar({ active, onFilter, query, onQuery, compact, onCompact }) {
-  return (
-    <div className="sticky top-14 z-20 -mx-2 mb-6 flex flex-col gap-3 rounded-xl bg-white/60 p-3 backdrop-blur dark:bg-zinc-950/60 sm:flex-row sm:items-center sm:justify-between sm:px-4 sm:py-3 border border-zinc-200/50 dark:border-zinc-800/60">
-      <div className="flex flex-wrap gap-2">
-        {FILTERS.map(f => (
-          <button
-            key={f.key}
-            onClick={() => onFilter(f.key)}
-            className={cn(
-              "rounded-full px-3 py-1.5 text-sm font-semibold transition border",
-              active === f.key
-                ? "bg-blue-600 text-white border-blue-600 shadow"
-                : "bg-zinc-100/60 text-zinc-700 border-zinc-200 hover:bg-zinc-100 dark:bg-zinc-800/70 dark:text-zinc-200 dark:border-zinc-700 dark:hover:bg-zinc-800"
-            )}
-          >
-            {f.label}
-          </button>
-        ))}
-      </div>
-
-      <div className="flex items-center gap-2">
-        <label className="relative flex items-center">
-          <Search className="absolute left-3 h-4 w-4 text-zinc-400" />
-          <input
-            value={query}
-            onChange={(e) => onQuery(e.target.value)}
-            placeholder="Buscar (título, tags, org)…"
-            className="w-64 rounded-lg border border-zinc-200 bg-white/70 py-2 pl-9 pr-3 text-sm outline-none ring-blue-500/40 placeholder:text-zinc-400 focus:ring-2 dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-zinc-100"
-          />
-        </label>
-        <button
-          onClick={() => onCompact(!compact)}
-          className={cn(
-            "rounded-lg border px-3 py-2 text-sm font-semibold transition",
-            compact
-              ? "bg-blue-600 text-white border-blue-600"
-              : "bg-zinc-100/60 text-zinc-700 border-zinc-200 hover:bg-zinc-100 dark:bg-zinc-800/70 dark:text-zinc-200 dark:border-zinc-700"
-          )}
-          aria-pressed={compact}
-        >
-          {compact ? "Vista amplia" : "Vista compacta"}
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function YearChip({ year }) {
-  return (
-    <div className="sticky top-28 z-10 mx-auto mb-6 w-max rounded-full bg-blue-600/15 px-3 py-1 text-sm font-semibold text-blue-700 backdrop-blur dark:text-blue-300">
-      {year}
-    </div>
-  );
-}
+/* ───────────────────────── Subcomponentes ───────────────────────── */
 
 function Links({ links }) {
   if (!Array.isArray(links) || !links.length) return null;
-  const clean = links.filter(l => l?.url);
-  if (!clean.length) return null;
+  const valid = links.filter(l => l && l.url);
+  if (!valid.length) return null;
   return (
     <div className="mt-3 flex flex-wrap gap-2">
-      {clean.map((l, i) => (
+      {valid.map((link, i) => (
         <a
-          key={`${l.url}-${i}`}
-          href={l.url}
+          key={`${link.url}-${i}`}
+          href={link.url}
           target="_blank"
           rel="noreferrer"
           className="inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 border-zinc-200/60 dark:border-zinc-800"
         >
-          {l.label || "Enlace"} <ExternalLink className="h-3.5 w-3.5" />
+          {link.label || "Enlace"} <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
         </a>
       ))}
     </div>
@@ -185,223 +119,213 @@ function Media({ media }) {
       )}
       {!media.type && (
         <span className="pointer-events-none absolute right-2 top-2 inline-flex items-center gap-1 rounded-md bg-zinc-900/70 px-2 py-1 text-[10px] font-medium text-white ring-1 ring-white/10 backdrop-blur dark:bg-zinc-100/10">
-          <ImageIcon className="h-3 w-3" /> media
+          <ImageIcon className="h-3 w-3" aria-hidden="true" /> media
         </span>
       )}
     </div>
   );
 }
 
-function Dot({ active }) {
-  return (
-    <span
-      className={cn(
-        "relative z-10 inline-flex h-4 w-4 items-center justify-center rounded-full shadow ring-4 ring-blue-600/25 transition",
-        active ? "bg-blue-600" : "bg-zinc-400 dark:bg-zinc-600"
-      )}
-      aria-hidden="true"
-    />
-  );
+function Period({ period = {} }) {
+  const { start, end } = period;
+  if (!start && !end) return null;
+  if (start && !end) return <p className="text-sm text-zinc-600 dark:text-zinc-400">{start} – Presente</p>;
+  if (!start && end) return <p className="text-sm text-zinc-600 dark:text-zinc-400">{end}</p>;
+  return <p className="text-sm text-zinc-600 dark:text-zinc-400">{start} – {end}</p>;
 }
 
-function Card({ item, side = "left", compact }) {
-  const { title, org, period, description, tags, links, icon, media } = item;
-  const Icon = ICONS[icon] || ICONS.default;
+function Card({ item, side, onAccentEnter, onAccentLeave }) {
+  const color = accentColor(item);
+  const Icon = ICONS[item.icon] || ICONS.default;
+  const { title, org, period, description, tags, links, url } = item;
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 16, scale: 0.98 }}
+      initial={{ opacity: 0, y: 28, scale: 0.98 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.28 }}
+      transition={{ duration: 0.45 }}
+      className={`group relative max-w-xl rounded-2xl border p-4 shadow-sm backdrop-blur 
+        bg-white/80 border-zinc-200/60 dark:bg-zinc-900/70 dark:border-zinc-800/60 
+        ${side === "left" ? "ml-auto" : "mr-auto"}`}
+      style={{ boxShadow: `0 18px 40px -18px ${color}2a` }}
+      onMouseEnter={() => onAccentEnter?.(color)}
+      onMouseLeave={() => onAccentLeave?.()}
+      onMouseMove={(e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        e.currentTarget.style.setProperty("--mx", `${((e.clientX - r.left) / r.width) * 100}%`);
+        e.currentTarget.style.setProperty("--my", `${((e.clientY - r.top) / r.height) * 100}%`);
+      }}
       tabIndex={0}
       role="article"
-      className={cn(
-        "group relative rounded-2xl border bg-white/70 p-4 shadow-sm backdrop-blur-sm transition will-change-transform",
-        "dark:border-zinc-800 dark:bg-zinc-900/70",
-        "hover:-translate-y-0.5 hover:shadow-md",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/70"
-      )}
-      style={{ transformStyle: "preserve-3d" }}
     >
-      <div className={cn("flex items-start gap-4", side === "right" && "sm:flex-row-reverse")}>
+      {/* barra superior de acento */}
+      <span className="absolute inset-x-0 top-0 h-[3px]" style={{ background: `linear-gradient(90deg, ${color}55, ${color})` }} />
+      {/* conector hacia la línea central */}
+      <span className={`absolute top-6 hidden h-[2px] w-8 sm:block ${side === "left" ? "-right-8" : "-left-8"}`} style={{ background: color }} />
+
+      <div className={`flex items-start gap-4 ${side === "right" ? "sm:flex-row-reverse" : ""}`}>
         <span className="mt-0.5 rounded-xl border border-zinc-200/60 bg-zinc-50 p-2 text-zinc-800 dark:border-zinc-800/60 dark:bg-zinc-800 dark:text-zinc-200">
           <Icon className="h-5 w-5" aria-hidden="true" />
         </span>
 
         <div className="flex-1">
           <div className="flex flex-wrap items-start justify-between gap-2">
-            <h3 className="text-base font-bold leading-6 text-zinc-900 dark:text-zinc-100">{title}</h3>
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">{formatPeriod(period)}</p>
+            <h3 className="text-base font-bold leading-6 text-zinc-900 dark:text-zinc-100">
+              {url ? (
+                <a href={url} target="_blank" rel="noopener noreferrer" className="text-inherit font-bold hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                  {title}
+                </a>
+              ) : title}
+            </h3>
+            <Period period={period} />
           </div>
           {org && <p className="mt-0.5 text-sm text-zinc-600 dark:text-zinc-400">{org}</p>}
 
-          <div className={cn(
-            "mt-3 flex gap-3 sm:items-start",
-            compact ? "flex-col" : "flex-col-reverse sm:flex-row",
-            side === "right" && !compact ? "sm:flex-row-reverse" : ""
-          )}>
+          <div className={`mt-3 flex gap-3 sm:items-start ${side === "right" ? "sm:flex-row-reverse" : "sm:flex-row"} flex-col-reverse`}>
             <div className="sm:flex-1">
-              {description && (
-                <p className={cn("text-sm leading-6 text-zinc-700 dark:text-zinc-300", compact && "line-clamp-3")}>
-                  {description}
-                </p>
-              )}
-
-              {!!(tags?.length) && (
+              {description && <p className="text-sm leading-6 text-zinc-700 dark:text-zinc-300">{description}</p>}
+              {Array.isArray(tags) && !!tags.length && (
                 <div className="mt-3 flex flex-wrap gap-2">
                   {tags.map((t, i) => (
-                    <span
-                      key={`${t}-${i}`}
-                      className="rounded-full border border-zinc-200/60 bg-zinc-50/70 px-2.5 py-1 text-xs text-zinc-700 dark:border-zinc-800/60 dark:bg-zinc-800/60 dark:text-zinc-300"
-                    >
+                    <span key={`${t}-${i}`} className="rounded-full border border-zinc-200/60 bg-zinc-50/70 px-2.5 py-1 text-xs text-zinc-700 dark:border-zinc-800/60 dark:bg-zinc-800/60 dark:text-zinc-300">
                       {t}
                     </span>
                   ))}
                 </div>
               )}
-
               <Links links={links} />
             </div>
-
-            {!compact && <Media media={media} />}
+            <Media media={item.media} />
           </div>
         </div>
       </div>
 
-      {/* efecto “tilt” sutil */}
-      <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition group-hover:opacity-100"
-           style={{ background: "radial-gradient(600px circle at var(--mx,50%) var(--my,50%), rgba(59,130,246,0.12), transparent 40%)" }} />
+      {/* halo radial en hover */}
+      <div
+        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition group-hover:opacity-100"
+        style={{ background: `radial-gradient(500px circle at var(--mx, 50%) var(--my, 50%), ${color}24, transparent 45%)` }}
+      />
     </motion.article>
   );
 }
 
-/* ------------------------- PRINCIPAL ------------------------ */
-export default function Timeline({ items: itemsProp = [], className = "", title = "Trayectoria" }) {
-  const { items, loading, error } = useTimeline(itemsProp);
-  const [filter, setFilter] = useState("all");
-  const [query, setQuery] = useState("");
-  const [compact, setCompact] = useState(false);
+/* ───────────────────────── Principal ───────────────────────── */
 
-  // ordenar + agrupar por año
+export default function Timeline({ items: initialItems = [], title = "Trayectoria", className = "" }) {
+  const { items, loading, error } = useTimeline(initialItems);
+
+  // Color activo del subtítulo (cambia con el hover de cada tarjeta)
+  const [legendColor, setLegendColor] = useState(null);
+
+  // Agrupar por año (desc)
   const groups = useMemo(() => {
-    const filtered = items
-      .filter(it => matchesFilter(it, filter))
-      .filter(it => matchesQuery(it, query));
-
-    const sorted = [...filtered].sort((a, b) => {
-      const sa = a?.period?.start ?? a?.period?.end ?? "";
-      const sb = b?.period?.start ?? b?.period?.end ?? "";
-      return String(sb).localeCompare(String(sa));
+    const sorted = [...items].sort((a, b) => {
+      const aYear = a?.period?.start ?? a?.period?.end ?? "";
+      const bYear = b?.period?.start ?? b?.period?.end ?? "";
+      return String(bYear).localeCompare(String(aYear));
     });
-
-    const map = new Map();
+    const yearMap = new Map();
     for (const it of sorted) {
       const year = String(it?.period?.start ?? it?.period?.end ?? "Otros").slice(0, 4);
-      if (!map.has(year)) map.set(year, []);
-      map.get(year).push(it);
+      if (!yearMap.has(year)) yearMap.set(year, []);
+      yearMap.get(year).push(it);
     }
-    return Array.from(map.entries());
-  }, [items, filter, query]);
+    return Array.from(yearMap.entries());
+  }, [items]);
 
-  // scroll progress para la línea central
-  const wrapRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: wrapRef, offset: ["start 10%", "end 80%"] });
-  const progress = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-
-  // mouse pos para efecto glow en cards
-  useEffect(() => {
-    const el = wrapRef.current;
-    if (!el) return;
-    const handler = (e) => {
-      const r = el.getBoundingClientRect();
-      const x = ((e.clientX - r.left) / r.width) * 100;
-      const y = ((e.clientY - r.top) / r.height) * 100;
-      el.style.setProperty("--mx", `${x}%`);
-      el.style.setProperty("--my", `${y}%`);
-    };
-    el.addEventListener("mousemove", handler);
-    return () => el.removeEventListener("mousemove", handler);
-  }, []);
+  const lineRef = useRef(null);
 
   return (
     <Element name="trayectoria">
       <section
-        className={cn("mx-auto max-w-7xl px-4 pt-16 pb-28 lg:pt-20 lg:pb-32", className)}
-        aria-label="Línea temporal de proyectos, iOS/IA y formación"
+        className={`mx-auto max-w-7xl px-4 pt-16 pb-28 lg:pt-20 lg:pb-32 ${className}
+        bg-zinc-100 text-zinc-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300`}
+        aria-label="Línea temporal de proyectos y formación"
       >
-        {/* header */}
+        {/* Encabezado */}
         <header className="mb-6 text-center">
           <h2 className="text-3xl font-bold text-blue-700 dark:text-blue-300">{title}</h2>
-          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">iOS · IA · Web · Formación</p>
+          <p
+            className="mt-2 text-sm text-zinc-600 dark:text-zinc-400 transition-colors duration-200"
+            style={legendColor ? { color: legendColor } : undefined}
+          >
+            iOS · IA · Web · Formación
+          </p>
         </header>
 
-        {/* toolbar */}
-        <Toolbar
-          active={filter}
-          onFilter={setFilter}
-          query={query}
-          onQuery={setQuery}
-          compact={compact}
-          onCompact={setCompact}
-        />
-
-        {/* línea central + progreso */}
-        <div ref={wrapRef} className="relative">
-          <div className="pointer-events-none absolute left-1/2 top-0 hidden -ml-[1px] h-full w-0.5 bg-gradient-to-b from-blue-500/40 via-zinc-500/30 to-transparent dark:from-blue-400/40 dark:via-zinc-400/30 sm:block" />
-          <motion.div
-            className="pointer-events-none absolute left-1/2 top-0 hidden -ml-[1px] w-0.5 bg-blue-600 sm:block"
-            style={{ height: progress }}
+        {/* Línea vertical central base (muy sutil, continua) */}
+        <div ref={lineRef} className="relative">
+          <div
+            className="pointer-events-none absolute left-1/2 top-0 hidden -ml-[1px] h-full w-0.5 opacity-30
+                       bg-gradient-to-b from-zinc-400/40 via-zinc-400/20 to-transparent
+                       dark:from-zinc-300/30 dark:via-zinc-500/15 sm:block"
           />
         </div>
 
-        {/* estados */}
+        {/* Loading / Empty */}
         {loading && (
-          <div className="space-y-4 mt-6">
+          <div className="mt-6 space-y-4">
             {[...Array(3)].map((_, i) => (
               <div key={i} className="h-28 animate-pulse rounded-2xl bg-zinc-200/60 dark:bg-zinc-800/60" />
             ))}
           </div>
         )}
-
         {!loading && groups.length === 0 && !error && (
-          <p className="mt-6 text-center text-sm text-zinc-600 dark:text-zinc-400">
-            No hay elementos para los filtros actuales.
-          </p>
+          <p className="mt-6 text-center text-sm text-zinc-600 dark:text-zinc-400">No hay elementos.</p>
         )}
 
-        {/* contenido */}
+        {/* Grupos por año */}
         {!!groups.length && (
-          <div className="space-y-14">
-            {groups.map(([year, arr]) => (
-              <div key={year} className="relative">
-                <YearChip year={year} />
+          <div className="mt-6 space-y-14 sm:space-y-16">
+            {groups.map(([year, itemsForYear]) => (
+              <section key={year} className="relative">
+                {/* Segmento por año (desde el chip hacia abajo) */}
+                <div
+                  className="pointer-events-none absolute left-1/2 top-8 bottom-0 hidden -ml-[1px] w-0.5 sm:block
+                             bg-gradient-to-b from-blue-400/60 via-blue-400/25 to-transparent
+                             dark:from-blue-300/60 dark:via-blue-300/20"
+                />
 
-                <ol className={cn("relative grid grid-cols-1 gap-6 sm:grid-cols-2", compact && "gap-4")}>
-                  {arr.map((it, idx) => {
-                    const side = idx % 2 === 0 ? "left" : "right";
+                {/* Chip del año (sticky) */}
+                <div
+                  className="sticky top-20 z-10 mx-auto mb-6 w-max rounded-full px-3 py-1 text-sm font-semibold shadow"
+                  style={{ background: "#60A5FAcc", color: "#FFFFFF" }}
+                >
+                  {year}
+                </div>
+
+                {/* Items del año: alterno IZQ/DER por índice local */}
+                <ol className="relative grid grid-cols-1 gap-8 sm:grid-cols-2">
+                  {itemsForYear.map((item, idx) => {
+                    const side = (idx % 2 === 0) ? "left" : "right";
                     return (
                       <li
-                        key={it.id ?? `${year}-${idx}`}
-                        className={cn("relative sm:col-span-1", side === "left" ? "sm:pr-8" : "sm:pl-8")}
+                        key={item.id ?? `${year}-${idx}`}
+                        className={`relative sm:col-span-1 ${side === "left" ? "sm:pr-10" : "sm:pl-10"}`}
                       >
-                        {/* punto activo sobre la línea */}
+                        {/* Pin en la línea central */}
                         <div className="absolute left-1/2 top-6 hidden -translate-x-1/2 sm:block" aria-hidden="true">
-                          <Dot active={idx === 0} />
+                          <span className="relative z-10 inline-flex h-4 w-4 items-center justify-center rounded-full bg-blue-600 shadow ring-4 ring-blue-600/25 dark:bg-blue-500" />
                         </div>
-                        <Card item={it} side={side} compact={compact} />
+                        <Card
+                          item={item}
+                          side={side}
+                          onAccentEnter={(c) => setLegendColor(c)}
+                          onAccentLeave={() => setLegendColor(null)}
+                        />
                       </li>
                     );
                   })}
                 </ol>
-              </div>
+              </section>
             ))}
           </div>
         )}
 
         {error && (
           <p className="mt-6 text-center text-sm text-amber-600 dark:text-amber-400">
-            No se pudo cargar <code>/data/timeline.json</code>. Revisa que exista en <code>/public/data</code>.
+            No se pudo cargar <code>/data/timeline.json</code>.
           </p>
         )}
       </section>

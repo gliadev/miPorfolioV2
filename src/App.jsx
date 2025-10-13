@@ -14,6 +14,7 @@ import Timeline from './components/Timeline';
 
 
 
+
 function App() {
   const [showSplash, setShowSplash] = useState(true);
 
@@ -51,7 +52,7 @@ function App() {
       <AboutMe />
       <SpeedInsights />
       <Projects initial="all" title="Proyectos" />
-      <Timeline title="Trayectoria" className="py-12" />
+      <Timeline title="Trayectoria" />
       <Footer />
     </div>
   );

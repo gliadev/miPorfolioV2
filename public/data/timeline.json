@@ -1,52 +1,116 @@
 [
   {
-    "id": "uax-dam",
-    "title": "Grado Superior Desarrollo de Aplicaciones Multiplataforma",
-    "org": "UAX (Madrid)",
-    "icon": "degree",
-    "period": { "start": "2023", "end": "2025" },
-    "description": "Desarrollar, implantar, documentar y mantener aplicaciones informáticas multiplataforma, utilizando tecnologías y entornos de desarrollo específicos, garantizando el acceso a los datos de forma segura y cumpliendo los criterios de usabilidad y calidad exigidas en los estándares establecidos.",
-    "tags": ["Microsoft", "Eclipse", "Android Studio", "MySQL", "Oracle", "PyCharm", "Unity", "MacOS", "IntelliJ", "Linux", "Odoo"],
-    "links": [
-      { "label": "Web oficial", "url": "https://www.uax.com/titulaciones/grado-superior-en-desarrollo-de-aplicaciones-multiplataforma-online" },
-      { "label": "", "url": "" }
-    ],
-    "media": {
-      "type": "",
-      "url": "",
-      "alt": ""
+  "id": "uax-dam",
+  "title": "Grado Superior en Desarrollo de Aplicaciones Multiplataforma (DAM)",
+  "org": "Universidad Alfonso X el Sabio (UAX)",
+  "icon": "degree",
+  "period": { "start": "2022", "end": "2025" },
+  "description": "Desarrollar, implantar, documentar y mantener aplicaciones informáticas multiplataforma, utilizando tecnologías y entornos de desarrollo específicos, garantizando el acceso a los datos de forma segura y cumpliendo los criterios de usabilidad y calidad exigidos en los estándares establecidos.",
+  "technologies": [],
+  "tags": ["Microsoft", "Eclipse","Android Studio","MySQL","PyCharm","Unity","macOS","IntelliJ IDEA","Linux","Odoo","Java","SQL/MySQL","Python","Swift","Kotlin","Android","iOS","Git"],
+  "stack": {
+    "languages": [],
+    "tools": [],
+    "platforms": []
+  },
+  "links": [
+    {
+      "label": "Plan de estudios (UAX)",
+      "url": "https://www.uax.com/titulaciones/grado-superior-en-desarrollo-de-aplicaciones-multiplataforma-online"
     }
+  ],
+  "media": {}
   },
   {
-    "id": "sdp",
-    "title": "Accesibility Developer Program",
+    "id": "aca-accessibility-2025",
+    "title": "Swift Accessibility Program",
     "org": "Apple Coding Academy",
     "icon": "course",
-    "period": { "end": "2025" },
-    "description": "Programa intensivo de 24 horas centrado en la accesibilidad real en apps con Swift, UIKit y SwiftUI. Prepara a los developers para cumplir con la Directiva Europea de Accesibilidad (EAA) y las futuras Accessibility Nutrition Labels del App Store.",
-    "tags": ["Swift","UIKit", "SwiftUI", "UIKit", "Accesibilidad", "VoiceOver", "EAA"],
-    "links": [
-      { "label": "https://acoding.academy/formaciones/swift-accessibility-program/", "url": "" },
-      { }
-    ],
+    "area": "ios",
+    "period": { "start": "2025-07", "end": "2025-07" },
+    "description": "Programa práctico para implementar accesibilidad en iOS, SwiftUI y UIKit: VoiceOver y Switch Control, Dynamic Type, alto contraste, reducción de movimiento, labels/hints/traits, orden de foco, acciones personalizadas y auditoría. Preparación para el cumplimiento EAA (28/06/2025) y las futuras Accessibility Nutrition Labels del App Store.",
+    "tags": ["Accesibilidad", "Swift", "UIKit", "SwiftUI", "VoiceOver", "Switch Control", "Dynamic Type", "labels/hints/trait", "EAA", "Xcode"],
+    "links": [{ "label": "Programa", "url": "https://acoding.academy/formaciones/swift-accessibility-program/" },
+              {"label": "Diploma (LinkedIn)", "url": "https://www.linkedin.com/in/gliadev/overlay/education/1105697813/multiple-media-viewer/?profileId=ACoAAAonTekB10fnrX7xnsiWLYUOfIJn6c9xBJw&treasuryMediaId=1755885590666" }  
+              ],
     "media": {}
   },
   {
-    "id": "100-days",
-    "title": "100 Days of SwiftUI",
-    "org": "Hacking with Swift (Paul Hudson)",
+    "id": "aca-sdp-2023",
+    "title": "Swift Developer Program 2023 (Swift + SwiftUI)",
+    "org": "Apple Coding Academy",
+    "icon": "course",
+    "area": "ios",
+    "period": { "start": "2023-10", "end": "2024-02" },
+    "description": "Fundamentos de programación y planificación, Git en Xcode, documentación con DooC, Swift 5.9 y SwiftUI (Widgets y Live Activities), concurrencia con async/await, arquitectura MVVM, SwiftData y visión general de visionOS (Apple Vision Pro).",
+    "tags": ["Swift", "SwiftUI", "UIKit", "MVVM", "SwiftData", "Async/Await", "Widgets", "Live Activities", "Xcode", "Git", "visionOS", "DocC"],
+    "links": [{ "label": "Programa", "url": "https://acoding.academy/formaciones/swift-developer-program/" }],
+    "media": {}
+  },
+  {
+    "id": "fundae-n3-2025",
+    "title": "Fundae · Nivel 3 · Desarrollo de Apps Móviles",
+    "org": "Fundación Estatal para la Formación en el Empleo",
+    "icon": "course",
+    "period": { "start": "2025-02", "end": "2025-02" },
+    "description": "Android Studio & Xcode, dependencias (Gradle/CocoaPods/SPM), Git/GitHub, fundamentos de Java y Swift, principios de UI/UX.",
+    "tags": ["Android Studio", "Xcode", "Git", "Swift", "Java", "SPM", "CocoaPods", "Gradle"],
+    "links": [{ "label": "Fundae", "url": "https://www.fundae.es/" }],
+    "media": {}
+  },
+  {
+    "id": "fundae-n4-2025",
+    "title": "Fundae · Nivel 4 · Desarrollo de Apps Móviles",
+    "org": "Fundación Estatal para la Formación en el Empleo",
+    "icon": "course",
+    "period": { "start": "2025-02", "end": "2025-02" },
+    "description": "Vistas y navegación, persistencia (SQLite/Core Data, UserDefaults), consumo de APIs, auth, publicación en stores y versionado.",
+    "tags": ["iOS", "Android", "Core Data", "SQLite", "REST", "Auth", "Publicación"],
+    "links": [{ "label": "Fundae", "url": "https://www.fundae.es/" }],
+    "media": {}
+  },
+  {
+    "id": "code4jobs-2022",
+    "title": "Full Stack JavaScript (ME(R/N)N)",
+    "org": "Code4jobs",
     "icon": "bootcamp",
-    "period": { "start": "2024", "end": "2024" },
-    "description": "Práctica diaria con proyectos y retos.",
-    "tags": ["SwiftUI", "Testing"],
-    "links": [
-      { "label": "Web oficial", "url": "https://www.hackingwithswift.com/" },
-      { "label": "Repos del reto", "url": "https://github.com/gliadev" }
-    ],
-    "media": {
-      "type": "image",
-      "url": "/images/timeline/100-days.jpg",
-      "alt": "Banner de 100 Days of SwiftUI"
+    "area": "web",
+    "period": { "start": "2022-01", "end": "2022-04" },
+    "description": "JS, Node.js, Express, MongoDB, HTML/CSS y frameworks SPA (React/Angular). Proyecto final MERN/MEAN.",
+    "tags": ["JavaScript", "Node", "Express", "MongoDB", "React", "Angular", "Scrum"],
+    "links": [],
+    "media": {}
+  },
+  {
+    "id": "openbootcamp-2022",
+    "title": "OpenBootcamp · FullStack Developer",
+    "org": "OpenBootcamp",
+    "icon": "bootcamp",
+    "area": "web",
+    "period": { "start": "2022-05", "end": "2022-05" },
+    "description": "HTML/CSS, JS, Git, Java (básico/avanzado), Spring, Testing con JUnit, React, Angular, NextJS y APIs .NET.",
+    "tags": ["Git", "Java", "Spring", "React", "Angular", "NextJS", ".NET", "JUnit"],
+    "links": [],
+    "media": {}
+  },
+  {
+  "id": "google-ai-essentials-2025",
+  "title": "Google AI Essentials",
+  "org": "Google (Coursera)",
+  "icon": "cert",
+  "area": "ai",
+  "period": { "start": "2025-08", "end": "2025-08" },
+  "description": "Formación de Google orientada a llevar la IA al trabajo real. Aprendí a redactar prompts eficaces, evaluar cuándo una herramienta de IA aporta valor y aplicarla con criterios de seguridad y ética, mediante actividades y evaluaciones prácticas.",
+  "tags": [
+    "IA generativa","Prompt Engineering","Ética de datos","Interacción humano-computadora","Análisis de datos","Responsabilidad en IA"
+  ],
+  "url": "https://www.credly.com/badges/9603e1ce-7c5c-4345-9ec7-f3befd13126f/linked_in_profile",
+  "links": [
+    {
+      "label": "Badge en Credly",
+      "url": "https://www.credly.com/badges/9603e1ce-7c5c-4345-9ec7-f3befd13126f/linked_in_profile"
     }
-  }
+  ],
+  "media": {}
+}
 ]
