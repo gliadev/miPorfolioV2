@@ -1,58 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Element } from "react-scroll";
 import { motion } from "framer-motion";
-import {
-  Calendar, GraduationCap, School, Code2,
-  Brain, Smartphone, Globe, Trophy, Mic2,
-  ExternalLink, Image as ImageIcon, Play
-} from "lucide-react";
+import { ExternalLink, Image as ImageIcon, Play } from "lucide-react";
 
-/* ───────────────────────── Iconos / colores ───────────────────────── */
-
-const ICONS = {
-  ios: Smartphone,
-  ai: Brain,
-  web: Globe,
-  project: Code2,
-  degree: GraduationCap,
-  course: School,
-  bootcamp: Code2,
-  cert: Trophy,
-  talk: Mic2,
-  default: Calendar,
-};
-
-// Paleta (puedes ajustarla a tu gusto):
-// iOS → naranja, IA → morado, Web → verde, Educación (degree/course/bootcamp/cert) con sus propios matices.
-const ACCENTS = {
-  ios: "#F59E0B",        // naranja (iOS)
-  ai: "#A78BFA",         // morado (IA)
-  web: "#10B981",        // verde (Web)
-
-  degree: "#F59E0B",     // amber para reglada
-  course: "#60A5FA",     // azul
-  bootcamp: "#34D399",   // verde agua
-  cert: "#A78BFA",       // violeta
-  other: "#71717A"
-};
-
-const norm = (s = "") => s.toLowerCase();
-const isEducation = k => ["degree", "course", "bootcamp", "cert"].includes(k);
-
-function inferArea(item = {}) {
-  if (item.area) return item.area;              // iOS / ai / web
-  const icon = item.icon ?? "";
-  const tags = (item.tags ?? []).map(norm);
-  if (icon === "ios" || tags.some(t => ["swift","swiftui","uikit","xcode","ios"].includes(t))) return "ios";
-  if (icon === "ai"  || tags.some(t => ["ai","ia","ml","machine learning","genai"].includes(t))) return "ai";
-  if (icon === "web" || tags.some(t => ["react","tailwind","vercel","html","css","js","typescript"].includes(t))) return "web";
-  if (isEducation(icon)) return icon;          // usa el matiz educativo
-  return "other";
-}
-function accentColor(item) {
-  const key = inferArea(item);
-  return ACCENTS[key] ?? ACCENTS.other;
-}
+// 👇 Ajusta esta ruta según tu estructura:
+import { ICONS, accentColor, legendTargetForItem } from "../helpers/timeline";
 
 /* ───────────────────────── Hook datos ───────────────────────── */
 
@@ -82,7 +34,7 @@ function useTimeline(initialItems) {
   return { items, loading, error };
 }
 
-/* ───────────────────────── Subcomponentes ───────────────────────── */
+/* ───────────────────────── UI auxiliares ───────────────────────── */
 
 function Links({ links }) {
   if (!Array.isArray(links) || !links.length) return null;
@@ -90,7 +42,7 @@ function Links({ links }) {
   if (!valid.length) return null;
   return (
     <div className="mt-3 flex flex-wrap gap-2">
-      {valid.map((link, i) => (
+      {valid.map((link, i) => ( 
         <a
           key={`${link.url}-${i}`}
           href={link.url}
@@ -134,10 +86,35 @@ function Period({ period = {} }) {
   return <p className="text-sm text-zinc-600 dark:text-zinc-400">{start} – {end}</p>;
 }
 
-function Card({ item, side, onAccentEnter, onAccentLeave }) {
+/** Palabra de la leyenda con subrayado animado */
+function LegendWord({ children, active, color }) {
+  return (
+    <span className="relative inline-block px-0.5">
+      <span
+        className="transition-colors"
+        style={active ? { color, fontWeight: 700 } : undefined}
+      >
+        {children}
+      </span>
+      <span
+        aria-hidden="true"
+        className="absolute left-0 -bottom-1 h-[2px] w-full origin-left scale-x-0 rounded-full transition-transform duration-200"
+        style={{
+          backgroundColor: color || "transparent",
+          transform: active ? "scaleX(1)" : "scaleX(0)",
+        }}
+      />
+    </span>
+  );
+}
+
+/* ───────────────────────── Tarjeta ───────────────────────── */
+
+function Card({ item, side, onLegendEnter, onLegendLeave }) {
   const color = accentColor(item);
   const Icon = ICONS[item.icon] || ICONS.default;
   const { title, org, period, description, tags, links, url } = item;
+  const legendInfo = legendTargetForItem(item);
 
   return (
     <motion.article
@@ -149,8 +126,10 @@ function Card({ item, side, onAccentEnter, onAccentLeave }) {
         bg-white/80 border-zinc-200/60 dark:bg-zinc-900/70 dark:border-zinc-800/60 
         ${side === "left" ? "ml-auto" : "mr-auto"}`}
       style={{ boxShadow: `0 18px 40px -18px ${color}2a` }}
-      onMouseEnter={() => onAccentEnter?.(color)}
-      onMouseLeave={() => onAccentLeave?.()}
+      onMouseEnter={() => onLegendEnter?.(legendInfo)}
+      onMouseLeave={() => onLegendLeave?.()}
+      onFocus={() => onLegendEnter?.(legendInfo)}
+      onBlur={() => onLegendLeave?.()}
       onMouseMove={(e) => {
         const r = e.currentTarget.getBoundingClientRect();
         e.currentTarget.style.setProperty("--mx", `${((e.clientX - r.left) / r.width) * 100}%`);
@@ -215,8 +194,8 @@ function Card({ item, side, onAccentEnter, onAccentLeave }) {
 export default function Timeline({ items: initialItems = [], title = "Trayectoria", className = "" }) {
   const { items, loading, error } = useTimeline(initialItems);
 
-  // Color activo del subtítulo (cambia con el hover de cada tarjeta)
-  const [legendColor, setLegendColor] = useState(null);
+  // Leyenda activa: { key: 'ios'|'ai'|'web'|'edu'|null, color }
+  const [legend, setLegend] = useState({ key: null, color: null });
 
   // Agrupar por año (desc)
   const groups = useMemo(() => {
@@ -246,15 +225,19 @@ export default function Timeline({ items: initialItems = [], title = "Trayectori
         {/* Encabezado */}
         <header className="mb-6 text-center">
           <h2 className="text-3xl font-bold text-blue-700 dark:text-blue-300">{title}</h2>
-          <p
-            className="mt-2 text-sm text-zinc-600 dark:text-zinc-400 transition-colors duration-200"
-            style={legendColor ? { color: legendColor } : undefined}
-          >
-            iOS · IA · Web · Formación
+          {/* Leyenda con subrayado animado y color por palabra */}
+          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400 transition-colors duration-200">
+            <LegendWord active={legend.key === "ios"} color={legend.color}>iOS</LegendWord>
+            {" · "}
+            <LegendWord active={legend.key === "ai"} color={legend.color}>IA</LegendWord>
+            {" · "}
+            <LegendWord active={legend.key === "web"} color={legend.color}>Web</LegendWord>
+            {" · "}
+            <LegendWord active={legend.key === "edu"} color={legend.color}>Formación</LegendWord>
           </p>
         </header>
 
-        {/* Línea vertical central base (muy sutil, continua) */}
+        {/* Línea vertical central base */}
         <div ref={lineRef} className="relative">
           <div
             className="pointer-events-none absolute left-1/2 top-0 hidden -ml-[1px] h-full w-0.5 opacity-30
@@ -280,14 +263,14 @@ export default function Timeline({ items: initialItems = [], title = "Trayectori
           <div className="mt-6 space-y-14 sm:space-y-16">
             {groups.map(([year, itemsForYear]) => (
               <section key={year} className="relative">
-                {/* Segmento por año (desde el chip hacia abajo) */}
+                {/* Segmento por año */}
                 <div
                   className="pointer-events-none absolute left-1/2 top-8 bottom-0 hidden -ml-[1px] w-0.5 sm:block
                              bg-gradient-to-b from-blue-400/60 via-blue-400/25 to-transparent
                              dark:from-blue-300/60 dark:via-blue-300/20"
                 />
 
-                {/* Chip del año (sticky) */}
+                {/* Chip año */}
                 <div
                   className="sticky top-20 z-10 mx-auto mb-6 w-max rounded-full px-3 py-1 text-sm font-semibold shadow"
                   style={{ background: "#60A5FAcc", color: "#FFFFFF" }}
@@ -295,7 +278,7 @@ export default function Timeline({ items: initialItems = [], title = "Trayectori
                   {year}
                 </div>
 
-                {/* Items del año: alterno IZQ/DER por índice local */}
+                {/* Items por año: alterno izquierda/derecha */}
                 <ol className="relative grid grid-cols-1 gap-8 sm:grid-cols-2">
                   {itemsForYear.map((item, idx) => {
                     const side = (idx % 2 === 0) ? "left" : "right";
@@ -311,8 +294,8 @@ export default function Timeline({ items: initialItems = [], title = "Trayectori
                         <Card
                           item={item}
                           side={side}
-                          onAccentEnter={(c) => setLegendColor(c)}
-                          onAccentLeave={() => setLegendColor(null)}
+                          onLegendEnter={(info) => setLegend(info)}
+                          onLegendLeave={() => setLegend({ key: null, color: null })}
                         />
                       </li>
                     );

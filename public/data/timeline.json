@@ -8,6 +8,7 @@
   "description": "Desarrollar, implantar, documentar y mantener aplicaciones informáticas multiplataforma, utilizando tecnologías y entornos de desarrollo específicos, garantizando el acceso a los datos de forma segura y cumpliendo los criterios de usabilidad y calidad exigidos en los estándares establecidos.",
   "technologies": [],
   "tags": ["Microsoft", "Eclipse","Android Studio","MySQL","PyCharm","Unity","macOS","IntelliJ IDEA","Linux","Odoo","Java","SQL/MySQL","Python","Swift","Kotlin","Android","iOS","Git"],
+  "area": "edu",
   "stack": {
     "languages": [],
     "tools": [],
@@ -70,29 +71,77 @@
     "media": {}
   },
   {
-    "id": "code4jobs-2022",
-    "title": "Full Stack JavaScript (ME(R/N)N)",
-    "org": "Code4jobs",
-    "icon": "bootcamp",
-    "area": "web",
-    "period": { "start": "2022-01", "end": "2022-04" },
-    "description": "JS, Node.js, Express, MongoDB, HTML/CSS y frameworks SPA (React/Angular). Proyecto final MERN/MEAN.",
-    "tags": ["JavaScript", "Node", "Express", "MongoDB", "React", "Angular", "Scrum"],
-    "links": [],
-    "media": {}
-  },
+  "id": "code4jobs-fullstack-js-2022",
+  "title": "Full Stack JavaScript Bootcamp (ME(R/N)N)",
+  "org": "Code4Jobs",
+  "icon": "bootcamp",
+  "area": "web",
+  "period": { "start": "2022-01", "end": "2022-04" },
+  "description": "Formación práctica en desarrollo web full-stack: fundamentos de programación, GIT/GitHub, HTML5/CSS3/JS, Node.js y Express, MongoDB/Atlas con Mongoose, React (componentes, hooks, custom hooks, react-router), JWT auth, navegación por roles, API REST y despliegues. Proyecto final MERN.",
+  "tags": [
+    "JavaScript",
+    "Node.js",
+    "Express.js",
+    "MongoDB",
+    "Mongoose",
+    "Mongo Atlas",
+    "React",
+    "React Router",
+    "Custom Hooks",
+    "API REST",
+    "JWT",
+    "DDD (intro)",
+    "Scrum",
+    "Netlify",
+    "Northflank",
+    "MERN",
+    "Clean Code"
+  ],
+  "links": [
+    { "label": "Proyecto final (NutriApp)", "url": "https://github.com/gliadev/nutriapp" }
+  ],
+  "media": {}
+},
+
   {
-    "id": "openbootcamp-2022",
-    "title": "OpenBootcamp · FullStack Developer",
-    "org": "OpenBootcamp",
-    "icon": "bootcamp",
-    "area": "web",
-    "period": { "start": "2022-05", "end": "2022-05" },
-    "description": "HTML/CSS, JS, Git, Java (básico/avanzado), Spring, Testing con JUnit, React, Angular, NextJS y APIs .NET.",
-    "tags": ["Git", "Java", "Spring", "React", "Angular", "NextJS", ".NET", "JUnit"],
-    "links": [],
-    "media": {}
-  },
+  "id": "openbootcamp-web-fundamentals-2022",
+  "title": "OpenBootcamp: Web Fundamentals (Angular · TypeScript · Git · .NET)",
+  "org": "OpenBootcamp",
+  "icon": "cert",
+  "area": "web",
+  "period": { "end": "2022-05" },
+  "description": "Certificados base del stack web: Angular, TypeScript, Git y .NET. Refuerzo de SPA, tipado estático, control de versiones y desarrollo de APIs.",
+  "tags": [
+    "Web",
+    "Angular",
+    "TypeScript",
+    "Git",
+    ".NET",
+    "ASP.NET",
+    "JavaScript",
+    "SPA",
+    "Buenas prácticas"
+  ],
+  "links": [
+    {
+      "label": "Certificado Angular (LinkedIn)",
+      "url": "https://www.linkedin.com/in/gliadev/details/education/802861837/multiple-media-viewer/?profileId=ACoAAAonTekB10fnrX7xnsiWLYUOfIJn6c9xBJw&treasuryMediaId=1635519205169"
+    },
+    {
+      "label": "Certificado TypeScript (LinkedIn)",
+      "url": "https://www.linkedin.com/in/gliadev/details/education/802861837/multiple-media-viewer/?profileId=ACoAAAonTekB10fnrX7xnsiWLYUOfIJn6c9xBJw&treasuryMediaId=1635510305445"
+    },
+    {
+      "label": "Certificado Git (LinkedIn)",
+      "url": "https://www.linkedin.com/in/gliadev/details/education/802861837/multiple-media-viewer/?profileId=ACoAAAonTekB10fnrX7xnsiWLYUOfIJn6c9xBJw&treasuryMediaId=1635510386418"
+    },
+    {
+      "label": "Certificado .NET (LinkedIn)",
+      "url": "https://www.linkedin.com/in/gliadev/details/education/802861837/multiple-media-viewer/?profileId=ACoAAAonTekB10fnrX7xnsiWLYUOfIJn6c9xBJw&treasuryMediaId=1635510014205"
+    }
+  ],
+  "media": {}
+},
   {
   "id": "google-ai-essentials-2025",
   "title": "Google AI Essentials",
@@ -112,5 +161,123 @@
     }
   ],
   "media": {}
+},
+{
+  "id": "udemy-ia-aplicada-langchain-claude-adk-2025",
+  "title": "IA Aplicada: LangChain, Claude Code y Google ADK",
+  "org": "Udemy",
+  "icon": "course",
+  "area": "ai",
+  "period": { "end": "2025-10" },
+  "description": "Itinerario práctico de IA aplicada para developers: LangChain (LLMs, chains, RAG y tools), Claude Code (flujo de trabajo con claude.md y comandos clave) y Google ADK (agentes y sistemas multiagente con memoria, guardrails y buenas prácticas).",
+  "tags": [
+    "Inteligencia artificial",
+    "IA generativa",
+    "AI Engineering",
+    "LangChain",
+    "Anthropic Claude",
+    "Claude Code",
+    "Google ADK",
+    "LLMs",
+    "Prompt Engineering",
+    "RAG"
+  ],
+  "links": [
+    {
+      "label": "Certificado Google ADK",
+      "url": "https://www.udemy.com/certificate/UC-f4e27aae-d924-4e46-9019-be973bc81a7a/"
+    },
+    {
+      "label": "Certificado Claude Code",
+      "url": "https://www.udemy.com/certificate/UC-b4327a4f-eada-43b9-9e4b-ca7dfdd17787/"
+    },
+    {
+      "label": "Certificado LangChain",
+      "url": "https://www.udemy.com/certificate/UC-e4d5bd15-13e1-4a8c-912a-7c9263476be7/"
+    }
+  ],
+  "media": {}
+},
+{
+  "id": "ibm-generative-ai-prompt-engineering-2025",
+  "title": "Generative AI: Prompt Engineering Basics",
+  "org": "IBM (Coursera)",
+  "icon": "cert",
+  "area": "ai",
+  "period": { "end": "2025-08" },
+  "description": "Fundamentos de prompt engineering para IA generativa: mejores prácticas, patrones de prompts, herramientas habituales y evaluación de indicaciones para LLM.",
+  "tags": [
+    "IA generativa",
+    "Prompt Engineering",
+    "LLMs",
+    "Prompt Patterns",
+    "Herramientas de prompt",
+    "Evaluación de prompts",
+    "AI Engineering"
+  ],
+  "links": [
+    {
+      "label": "Ver credencial (Credly)",
+      "url": "https://www.credly.com/badges/e1570492-9764-43d9-99dd-ed91b53e3de6/public_url"
+    }
+  ],
+  "media": {}
+},
+{
+  "id": "google-prompting-essentials-2025",
+  "title": "Google Prompting Essentials",
+  "org": "Google (Coursera)",
+  "icon": "cert",
+  "area": "ai",
+  "period": { "end": "2025-08" },
+  "description": "Fundamentos prácticos de prompting para IA generativa en 5 pasos: redactar instrucciones claras y específicas, encadenar prompts, diseñar prompts multimodales, evaluar e iterar resultados y aplicar principios de IA responsable. Incluye ejercicios reales para ahorrar tiempo, descubrir insights con datos y afrontar proyectos complejos con bibliotecas de prompts reutilizables.",
+  "tags": [
+    "IA generativa",
+    "Prompt Engineering",
+    "Prompt Design",
+    "Prompt chaining",
+    "Evaluación e iteración de prompts",
+    "Multimodal prompting",
+    "IA responsable",
+    "AI agent design"
+  ],
+  "links": [
+    {
+      "label": "Ver credencial (Credly)",
+      "url": "https://www.credly.com/badges/014414d9-5a71-40c0-bad2-2bff128385ed/linked_in_profile"
+    }
+  ],
+  "media": {}
+},
+{
+  "id": "ibm-ai-fundamentals-capstone-2025",
+  "title": "Artificial Intelligence Fundamentals + Capstone Project",
+  "org": "IBM SkillsBuild",
+  "icon": "cert",
+  "area": "ai",
+  "period": { "start": "2025-04", "end": "2025-05" },
+  "description": "Fundamentos de IA con proyecto final aplicado: NLP, visión por computador, machine/deep learning, chatbots, redes neuronales y ética. Incluye prácticas de prompt engineering y habilidades clave para aplicar IA en entornos laborales.",
+  "tags": [
+    "IA generativa",
+    "NLP",
+    "Computer Vision",
+    "Machine Learning",
+    "Deep Learning",
+    "Chatbots",
+    "Redes Neuronales",
+    "Ética de IA",
+    "Prompt Engineering"
+  ],
+  "links": [
+    {
+      "label": "Ver credencial (Credly)",
+      "url": "https://www.credly.com/badges/4d06a3ae-e7f0-4f54-a1c8-ec1bb365f413/linked_in_profile"
+    }
+  ],
+  "media": {}
 }
+
+
+
+
 ]
