@@ -18,16 +18,10 @@ export default function ConstellationPath({
   useLayoutEffect(() => {
     const p = pathRef.current;
     if (!p) return;
-    // Longitud real del path (evita cortes por redondeos)
     const len = p.getTotalLength();
     p.style.strokeDasharray = `${len}`;
     p.style.strokeDashoffset = animate ? `${len}` : "0";
-    // dispara la animación por CSS (keyframes 'draw')
-    if (animate) {
-      p.style.animation = `draw ${durationMs}ms ease-out forwards`;
-    } else {
-      p.style.animation = "none";
-    }
+    p.style.animation = animate ? `draw ${durationMs}ms ease-out forwards` : "none";
   }, [pathD, animate, durationMs]);
 
   return (
@@ -44,13 +38,9 @@ export default function ConstellationPath({
           <stop offset="0%" stopColor="currentColor" stopOpacity={gradientOpacityStart} />
           <stop offset="100%" stopColor="currentColor" stopOpacity={gradientOpacityEnd} />
         </linearGradient>
-
         <filter id={glowId} x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur stdDeviation={blur} result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
       </defs>
 

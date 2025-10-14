@@ -1,60 +1,26 @@
-/* ================================
-   Motion Path (Safari / Chrome / Edge / Firefox)
-   ================================ */
-
-/* Elemento que viaja por el path */
-.icon-on-path {
-  position: absolute;        /* ancla estable al contenedor */
-  top: 0;
-  left: 0;
-
-  /* Punto (0,0) del offset-path dentro del contenedor */
-  offset-position: 0 0;
-  -webkit-offset-position: 0 0;
-
-  /* Animación continua (el nombre se lo damos aquí) */
-  animation-name: travel;
-  -webkit-animation-name: travel;
-  animation-timing-function: linear;
-  -webkit-animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  -webkit-animation-iteration-count: infinite;
-
-  /* Rendimiento y estabilidad visual en iOS */
+/* Motion Path base */
+.icon-on-path{
+  position:absolute; top:0; left:0;
+  offset-position: 0 0; -webkit-offset-position: 0 0;
+  animation-name: travel; -webkit-animation-name: travel;
+  animation-timing-function: linear; -webkit-animation-timing-function: linear;
+  animation-iteration-count: infinite; -webkit-animation-iteration-count: infinite;
   will-change: transform, offset-distance, -webkit-offset-distance;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  contain: layout paint style;
+  transform: translateZ(0); backface-visibility: hidden; contain: layout paint style;
 }
 
-/* Safari necesita también -webkit-offset-distance en el keyframe */
 @keyframes travel {
-  to {
-    offset-distance: 100%;
-    -webkit-offset-distance: 100%;
-  }
+  to { offset-distance:100%; -webkit-offset-distance:100%; }
 }
 
-/* Respeta la preferencia del usuario (se puede forzar desde React con
-   respectReducedMotion={false} en <IconOnPath/>) */
+/* Respeta reduce-motion si NO lo has forzado desde React */
 @media (prefers-reduced-motion: reduce) {
   .icon-on-path {
-    animation-play-state: paused !important;
-    -webkit-animation-play-state: paused !important;
+    animation-play-state: paused;
+    -webkit-animation-play-state: paused;
   }
 }
 
-/* ================================
-   Dibujo del trazo sin SMIL (Safari-safe)
-   ================================ */
-
-/* OJO: quitamos stroke-dasharray/offset fijos para no “cortar” la línea.
-   La longitud real y el offset los pone el componente ConstellationPath
-   vía JS (getTotalLength + animation). */
-.draw-path {
-  animation: draw var(--dur, 1100ms) ease-out forwards;
-}
-
-@keyframes draw {
-  to { stroke-dashoffset: 0; }
-}
+/* Dibujo del trazo (Safari-safe) */
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.draw-path { animation: draw var(--dur,1100ms) ease-out forwards; }
