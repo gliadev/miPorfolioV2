@@ -53,11 +53,12 @@ function scalePathD(d, sx, sy) {
 const Galaxy = ({
   title, skills, showLabels, pathD, className = "",
   starDensity = 1/6000, minStars = 28, maxStars = 80,
-  lockSpacing = true,   // evita solapes
-  orbitSpeed = 20,      // misma velocidad
+  lockSpacing = true,
+  orbitSpeed = 20,
   rotateWithPath = false,
   freeze = false,
   pauseOnHidden = true,
+  showOrbit = false,               // 👈 nueva prop (por defecto oculto)
 }) => {
   const boxRef = useRef(null);
   const [scaledPath, setScaledPath] = useState(pathD);
@@ -98,8 +99,7 @@ const Galaxy = ({
 
   const items = useMemo(() => {
     const n = Math.max(1, skills.length);
-    // Evita poner offset exactamente en 100%, que es la "costura" del path.
-    const eps = 0.001; // <- micro-desfase para que nunca caiga en el 100% exacto
+    const eps = 0.001;
     if (!lockSpacing) {
       return skills.map((s, i) => ({
         ...s,
@@ -112,7 +112,7 @@ const Galaxy = ({
     return skills.map((s, i) => ({
       ...s,
       speed: orbitSpeed,
-      offset: Number((((i * spacing) % 100) + eps).toFixed(3)), // <- aquí el ajuste
+      offset: Number((((i * spacing) % 100) + eps).toFixed(3)),
       rotateWithPath,
     }));
   }, [skills, lockSpacing, orbitSpeed, rotateWithPath]);
@@ -133,14 +133,12 @@ const Galaxy = ({
         {title}
       </h3>
 
-      {/* Contenedor de capa: debe ser relative para anclar offset-path (0,0) */}
       <div className="relative w-full h-full overflow-hidden">
         <Starfield count={starCount} />
 
-        {/* El trazo usa EXACTAMENTE el mismo path escalado que los iconos */}
-        <ConstellationPath pathD={scaledPath} />
+        {/* órbita oculta por defecto */}
+        {showOrbit && <ConstellationPath pathD={scaledPath} animate={false} />}
 
-        {/* Iconos orbitando en el MISMO path y con override de Reduced Motion */}
         {items.map((it, idx) => (
           <IconOnPath
             key={`${it.name}-${idx}`}
@@ -154,7 +152,7 @@ const Galaxy = ({
             paused={paused}
             href={it.href}
             size={it.size}
-            respectReducedMotion={false}   // fuerza animación en iOS aunque el sistema tenga “Reducir movimiento”
+            respectReducedMotion={false}
           />
         ))}
       </div>
