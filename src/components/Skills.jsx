@@ -55,13 +55,13 @@ export default function Skills() {
         {Object.entries(skillsData).map(([galaxyName, skills]) => (
           <Galaxy
             key={galaxyName}
-            title={galaxyName}
-            skills={skills}
-            showLabels={showLabels}
-            pathD={PATHS[galaxyName]}
-            lockSpacing       // <- evita solapes
-            orbitSpeed={20}   // <- misma velocidad
-            rotateWithPath={false}
+    title={galaxyName}
+    skills={skills}
+    showLabels={showLabels}
+    pathD={PATHS[galaxyName]}
+    lockSpacing
+    orbitSpeed={20}
+    rotateWithPath={false}
           />
         ))}
       </div>

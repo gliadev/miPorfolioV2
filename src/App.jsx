@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import './styles/motion-path.css'
 import { Element } from 'react-scroll';
 
 import Navbar from './components/Navbar';

@@ -5,6 +5,10 @@ export default function ConstellationPath({
   className = "text-indigo-500 dark:text-indigo-300",
   strokeWidth = 2,
   animate = true,
+  durationMs = 1100,              // duración de la animación por CSS
+  gradientOpacityStart = 0.95,    // opacidad del gradiente (inicio)
+  gradientOpacityEnd = 0.55,      // opacidad del gradiente (fin)
+  blur = 2,                       // intensidad del glow
 }) {
   const uid = useId();
   const gradId = `orb-${uid}`;
@@ -20,15 +24,13 @@ export default function ConstellationPath({
       style={{ pointerEvents: "none" }}
     >
       <defs>
-        {}
         <linearGradient id={gradId} x1="0" x2="1">
-          <stop offset="0%" stopColor="currentColor" stopOpacity="0.95" />
-          <stop offset="100%" stopColor="currentColor" stopOpacity="0.55" />
+          <stop offset="0%" stopColor="currentColor" stopOpacity={gradientOpacityStart} />
+          <stop offset="100%" stopColor="currentColor" stopOpacity={gradientOpacityEnd} />
         </linearGradient>
 
-        {}
         <filter id={glowId} x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="2" result="blur" />
+          <feGaussianBlur stdDeviation={blur} result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
             <feMergeNode in="SourceGraphic" />
@@ -46,20 +48,10 @@ export default function ConstellationPath({
         filter={`url(#${glowId})`}
         vectorEffect="non-scaling-stroke"
         shapeRendering="geometricPrecision"
-        pathLength="1" 
-      >
-        {}
-        {animate && (
-          <animate
-            attributeName="stroke-dasharray"
-            from="0,1"
-            to="1,0"
-            dur="1.1s"
-            fill="freeze"
-            begin="0.1s"
-          />
-        )}
-      </path>
+        pathLength="1"
+        className={animate ? "draw-path" : undefined}  // <-- animación CSS
+        style={{ "--dur": `${durationMs}ms` }}          // usa la var CSS para la duración
+      />
     </svg>
   );
 }
