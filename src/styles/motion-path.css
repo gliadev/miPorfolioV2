@@ -1,14 +1,33 @@
-/* ---- Motion path para Safari/Chrome/Firefox ---- */
-.icon-on-path{
-  position: absolute;                /* ancla estable */
+/* ================================
+   Motion Path (Safari / Chrome / Edge / Firefox)
+   ================================ */
+
+/* Elemento que viaja por el path */
+.icon-on-path {
+  position: absolute;        /* ancla estable al contenedor */
+  top: 0;
+  left: 0;
+
+  /* Punto (0,0) del offset-path dentro del contenedor */
+  offset-position: 0 0;
+  -webkit-offset-position: 0 0;
+
+  /* Animación continua (el nombre se lo damos aquí) */
   animation-name: travel;
+  -webkit-animation-name: travel;
   animation-timing-function: linear;
+  -webkit-animation-timing-function: linear;
   animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+
+  /* Rendimiento y estabilidad visual en iOS */
   will-change: transform, offset-distance, -webkit-offset-distance;
-  transform: translateZ(0);          /* acelera en Safari/iOS */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  contain: layout paint style;
 }
 
-/* Safari necesita -webkit-offset-distance en el keyframe */
+/* Safari necesita también -webkit-offset-distance en el keyframe */
 @keyframes travel {
   to {
     offset-distance: 100%;
@@ -16,11 +35,24 @@
   }
 }
 
-/* ---- Dibujo de la constelación sin SMIL ---- */
+/* Respeta la preferencia del usuario (se puede forzar desde React con
+   respectReducedMotion={false} en <IconOnPath/>) */
+@media (prefers-reduced-motion: reduce) {
+  .icon-on-path {
+    animation-play-state: paused !important;
+    -webkit-animation-play-state: paused !important;
+  }
+}
+
+/* ================================
+   Dibujo del trazo sin SMIL (Safari-safe)
+   ================================ */
+
+/* OJO: quitamos stroke-dasharray/offset fijos para no “cortar” la línea.
+   La longitud real y el offset los pone el componente ConstellationPath
+   vía JS (getTotalLength + animation). */
 .draw-path {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: draw var(--dur, 1.1s) ease-out forwards;
+  animation: draw var(--dur, 1100ms) ease-out forwards;
 }
 
 @keyframes draw {

@@ -10,9 +10,9 @@ export default function IconOnPath({
   href,
   size = 48,
   iconClassName = "",
-  paused = false,        // pausa externa
+  paused = false,
   rotateWithPath = false,
-  respectReducedMotion = true, // <-- NUEVO: permite ignorar "reducir movimiento"
+  respectReducedMotion = true,      // <- puedes forzar desde Galaxy
 }) {
   const [reducedMotion, setReducedMotion] = useState(false);
 
@@ -28,18 +28,22 @@ export default function IconOnPath({
   const style = useMemo(() => {
     const delay = -((offset / 100) * speed);
     return {
-      /* IMPORTANTE: comillas dobles dentro de path() para Safari */
+      // Safari: path() con COMILLAS
       offsetPath: `path("${pathD}")`,
       WebkitOffsetPath: `path("${pathD}")`,
 
-      /* La animación la declara el CSS (.icon-on-path) pero seteamos timing aquí */
+      // punto de referencia y anclaje al (0,0) del contenedor
+      offsetPosition: "0 0",
+      WebkitOffsetPosition: "0 0",
+
+      // animación
       animationName: "travel",
       animationDuration: `${speed}s`,
       WebkitAnimationDuration: `${speed}s`,
       animationDelay: `${delay}s`,
       WebkitAnimationDelay: `${delay}s`,
-      animationDirection: "normal",
-      WebkitAnimationDirection: "normal",
+      animationTimingFunction: "linear",
+      animationIterationCount: "infinite",
       animationPlayState: (paused || reducedMotion) ? "paused" : "running",
       WebkitAnimationPlayState: (paused || reducedMotion) ? "paused" : "running",
 
@@ -51,7 +55,14 @@ export default function IconOnPath({
 
       width: `${size}px`,
       height: `${size}px`,
+
+      // ¡clave para posicionamiento correcto!
       position: "absolute",
+      top: 0,
+      left: 0,
+
+      // estabilidad y composición
+      willChange: "transform, offset-distance, -webkit-offset-distance",
       transform: "translateZ(0)",
     };
   }, [pathD, offset, speed, paused, reducedMotion, rotateWithPath, size]);

@@ -98,11 +98,13 @@ const Galaxy = ({
 
   const items = useMemo(() => {
     const n = Math.max(1, skills.length);
+    // Evita poner offset exactamente en 100%, que es la "costura" del path.
+    const eps = 0.001; // <- micro-desfase para que nunca caiga en el 100% exacto
     if (!lockSpacing) {
       return skills.map((s, i) => ({
         ...s,
         speed: s.speed ?? (18 + (i % 3) * 4),
-        offset: s.offset ?? Math.round((i * 100) / n),
+        offset: s.offset ?? Number((((i * 100) / n) % 100 + eps).toFixed(3)),
         rotateWithPath,
       }));
     }
@@ -110,7 +112,7 @@ const Galaxy = ({
     return skills.map((s, i) => ({
       ...s,
       speed: orbitSpeed,
-      offset: Math.round(i * spacing),
+      offset: Number((((i * spacing) % 100) + eps).toFixed(3)), // <- aquí el ajuste
       rotateWithPath,
     }));
   }, [skills, lockSpacing, orbitSpeed, rotateWithPath]);
@@ -131,9 +133,14 @@ const Galaxy = ({
         {title}
       </h3>
 
+      {/* Contenedor de capa: debe ser relative para anclar offset-path (0,0) */}
       <div className="relative w-full h-full overflow-hidden">
         <Starfield count={starCount} />
+
+        {/* El trazo usa EXACTAMENTE el mismo path escalado que los iconos */}
         <ConstellationPath pathD={scaledPath} />
+
+        {/* Iconos orbitando en el MISMO path y con override de Reduced Motion */}
         {items.map((it, idx) => (
           <IconOnPath
             key={`${it.name}-${idx}`}
@@ -147,6 +154,7 @@ const Galaxy = ({
             paused={paused}
             href={it.href}
             size={it.size}
+            respectReducedMotion={false}   // fuerza animación en iOS aunque el sistema tenga “Reducir movimiento”
           />
         ))}
       </div>
