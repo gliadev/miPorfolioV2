@@ -1,18 +1,34 @@
-import { useId } from "react";
+import { useId, useLayoutEffect, useRef } from "react";
 
 export default function ConstellationPath({
   pathD,
   className = "text-indigo-500 dark:text-indigo-300",
   strokeWidth = 2,
   animate = true,
-  durationMs = 1100,              // duración de la animación por CSS
-  gradientOpacityStart = 0.95,    // opacidad del gradiente (inicio)
-  gradientOpacityEnd = 0.55,      // opacidad del gradiente (fin)
-  blur = 2,                       // intensidad del glow
+  durationMs = 1100,
+  gradientOpacityStart = 0.95,
+  gradientOpacityEnd = 0.55,
+  blur = 2,
 }) {
   const uid = useId();
   const gradId = `orb-${uid}`;
   const glowId = `glow-${uid}`;
+  const pathRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const p = pathRef.current;
+    if (!p) return;
+    // Longitud real del path (evita cortes por redondeos)
+    const len = p.getTotalLength();
+    p.style.strokeDasharray = `${len}`;
+    p.style.strokeDashoffset = animate ? `${len}` : "0";
+    // dispara la animación por CSS (keyframes 'draw')
+    if (animate) {
+      p.style.animation = `draw ${durationMs}ms ease-out forwards`;
+    } else {
+      p.style.animation = "none";
+    }
+  }, [pathD, animate, durationMs]);
 
   return (
     <svg
@@ -39,6 +55,7 @@ export default function ConstellationPath({
       </defs>
 
       <path
+        ref={pathRef}
         d={pathD}
         fill="none"
         stroke={`url(#${gradId})`}
@@ -48,9 +65,6 @@ export default function ConstellationPath({
         filter={`url(#${glowId})`}
         vectorEffect="non-scaling-stroke"
         shapeRendering="geometricPrecision"
-        pathLength="1"
-        className={animate ? "draw-path" : undefined}  // <-- animación CSS
-        style={{ "--dur": `${durationMs}ms` }}          // usa la var CSS para la duración
       />
     </svg>
   );

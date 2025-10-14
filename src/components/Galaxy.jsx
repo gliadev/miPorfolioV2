@@ -133,7 +133,7 @@ const Galaxy = ({
 
       <div className="relative w-full h-full overflow-hidden">
         <Starfield count={starCount} />
-        <ConstellationPath pathD={pathD} />
+        <ConstellationPath pathD={scaledPath} />
         {items.map((it, idx) => (
           <IconOnPath
             key={`${it.name}-${idx}`}

@@ -17,7 +17,7 @@ const PATHS = {
   "Galaxia iOS 📲":
     "M80 140 Q80 100 120 100 H180 Q220 100 220 140 V310 Q220 350 180 350 H120 Q80 350 80 310 Z",
   "Galaxia Web 🌐":
-    "M80 225 C80 155 160 155 160 225 C160 295 80 295 80 225 M160 225 C160 155 240 155 240 225 C240 295 160 295 160 225",
+    "M80 225 C80 155 160 155 160 225 C160 295 80 295 80 225 Z M160 225 C160 155 240 155 240 225 C240 295 160 295 160 225 Z",
   "Galaxia IA 🤖":
     "M83 220 C83 180 123 170 143 190 C153 165 198 165 218 190 C253 190 263 230 243 250 C253 280 233 305 203 295 C193 315 158 315 148 295 C128 315 98 305 93 280 C73 270 73 240 83 220 Z",
 };
@@ -55,13 +55,13 @@ export default function Skills() {
         {Object.entries(skillsData).map(([galaxyName, skills]) => (
           <Galaxy
             key={galaxyName}
-    title={galaxyName}
-    skills={skills}
-    showLabels={showLabels}
-    pathD={PATHS[galaxyName]}
-    lockSpacing
-    orbitSpeed={20}
-    rotateWithPath={false}
+            title={galaxyName}
+            skills={skills}
+            showLabels={showLabels}
+            pathD={PATHS[galaxyName]}
+            lockSpacing
+            orbitSpeed={20}
+            rotateWithPath={false}
           />
         ))}
       </div>
