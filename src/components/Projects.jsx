@@ -210,7 +210,7 @@ function DemoModal({ open, onClose, demos = [], startIndex = 0 }) {
               />
             ) : gif ? (
               // eslint-disable-next-line jsx-a11y/alt-text
-              <img src={url} className="h-full w-full object-contain" loading="eager" />
+              <img src={url} alt={`${project.title} — demo`}  className="h-full w-full object-contain" loading="eager" />
             ) : (
               <div className="flex h-full w-full items-center justify-center text-sm opacity-70">
                 No se puede previsualizar este tipo de demo.
@@ -288,8 +288,7 @@ function HoverPreview({
     >
       {/* Poster */}
       {/* eslint-disable-next-line jsx-a11y/alt-text */}
-      <img
-        src={posterSrc}
+      <img src={posterSrc} alt={`${project.title} — poster`}
         className={clsx(
           "h-full w-full transition-transform duration-300 group-hover:scale-[1.02]",
           img,
@@ -316,8 +315,7 @@ function HoverPreview({
             />
           ) : isGif(previewSrc) ? (
             // eslint-disable-next-line jsx-a11y/alt-text
-            <img
-              src={previewSrc}
+            <img src={previewSrc} alt={`Previsualización de ${project.title}`}
               className={clsx(
                 "h-full w-full object-contain transition-opacity duration-200",
                 showPreview ? "opacity-100" : "opacity-0 absolute inset-0"
@@ -458,7 +456,7 @@ export default function Projects({
 
   return (
     <Element name="proyectos">
-      <section className="mx-auto max-w-7xl px-4 pt-16 pb-28 lg:pt-20 lg:pb-32">
+      <section id="proyectos" className="scroll-mt-24"  className="mx-auto max-w-7xl px-4 pt-16 pb-28 lg:pt-20 lg:pb-32">
         <header className="mb-4 text-center">
           <h2 className="text-3xl font-bold text-center mb-6 dark:text-blue-300 text-blue-700">
             {title}

@@ -217,7 +217,7 @@ export default function Timeline({ items: initialItems = [], title = "Trayectori
 
   return (
     <Element name="trayectoria">
-      <section
+      <section id="trayectoria" className="scroll-mt-24" 
         className={`mx-auto max-w-7xl px-4 pt-16 pb-28 lg:pt-20 lg:pb-32 ${className}
         bg-zinc-100 text-zinc-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300`}
         aria-label="Línea temporal de proyectos y formación"

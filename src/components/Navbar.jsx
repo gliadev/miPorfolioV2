@@ -1,134 +1,114 @@
-import { useState, useEffect, useCallback } from 'react';
-import { Link, scrollSpy } from 'react-scroll';
+import { useEffect, useState, useCallback } from 'react';
 import ThemeToggle from './ThemeToggle';
 import { FiMenu, FiX } from 'react-icons/fi';
 
+const NAV_ITEMS = [
+  { id: 'intro', label: 'Inicio' },
+  { id: 'aboutme', label: 'Sobre mí' },
+  { id: 'trayectoria', label: 'Trayectoria' },
+  { id: 'proyectos', label: 'Proyectos' },
+  { id: 'contacto', label: 'Contacto' },
+];
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('intro');
+  const [active, setActive] = useState('intro');
 
-  // Actualiza el spy al montar y al redimensionar
+  const closeMenu = useCallback(() => setIsOpen(false), []);
+
   useEffect(() => {
-    if (typeof window === 'undefined') return undefined;
-    scrollSpy.update();
-    const onResize = () => scrollSpy.update();
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
+    // IntersectionObserver para resaltar sección activa
+    const sections = NAV_ITEMS.map(item => document.getElementById(item.id)).filter(Boolean);
+    if (!('IntersectionObserver' in window) || sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActive(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: '-40% 0px -55% 0px', threshold: [0, 0.1, 0.5, 1] }
+    );
+
+    sections.forEach((sec) => observer.observe(sec));
+    return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const hash = window.location.hash.replace('#', '');
-    if (hash) {
-      setActiveSection(hash);
+  const baseItem = "relative px-2 py-1 transition-colors hover:text-blue-600 dark:hover:text-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500 rounded-md";
+  const activeItem = "text-blue-600 dark:text-blue-400 underline underline-offset-8 decoration-2";
+
+  const handleAnchorClick = (e, id) => {
+    // Smooth scroll manual (además del href para crawlers)
+    const el = document.getElementById(id);
+    if (el) {
+      e.preventDefault();
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', `#${id}`);
+      setActive(id);
+      closeMenu();
     }
-  }, []);
-
-  const toggleMenu = () => setIsOpen(!isOpen);
-  const closeMenu = () => setIsOpen(false);
-  const handleSetActive = useCallback((section) => {
-    setActiveSection(section);
-  }, []);
-
-  const OFFSET = -96; // compensa navbar fijo
-
-  const baseItem =
-    "relative cursor-pointer transition-colors hover:text-blue-600 dark:hover:text-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500";
-  const activeItem =
-    "text-blue-600 dark:text-blue-400 after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full after:bg-blue-600 dark:after:bg-blue-400";
-  const mobileMenuId = 'primary-navigation';
+  };
 
   return (
-    <nav className="fixed top-0 w-full bg-zinc-100 dark:bg-gray-900 text-zinc-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-800 shadow-md z-50 px-6 py-4 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <Link
-          to="intro"
-          smooth
-          duration={500}
-          offset={OFFSET}
-          spy
-          hashSpy
-          spyThrottle={100}
-          activeClass={activeItem}
-          className="text-xl font-bold text-blue-600 dark:text-blue-400 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
-          onClick={closeMenu}
-          onSetActive={handleSetActive}
-          aria-current={activeSection === 'intro' ? 'page' : undefined}
-        >
+    <nav className="sticky top-0 z-50 border-b bg-white/70 dark:bg-zinc-900/70 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-zinc-900/60">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3" aria-label="Main">
+        <a href="/" className="text-xl font-bold hover:opacity-90 focus-visible:outline" aria-label="Ir a la página de inicio">
           gliaDev
-        </Link>
-
-        <button
-          type="button"
-          className="md:hidden text-2xl text-zinc-900 dark:text-gray-100 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
-          onClick={toggleMenu}
-          aria-label="Abrir o cerrar el menú de navegación"
-          aria-expanded={isOpen}
-          aria-controls={mobileMenuId}
-        >
-          {isOpen ? <FiX /> : <FiMenu />}
-        </button>
+        </a>
 
         {/* Desktop */}
-        <div className="hidden md:flex space-x-6 items-center text-zinc-900 dark:text-gray-100">
-          <Link to="aboutme" smooth duration={500} offset={OFFSET} spy hashSpy spyThrottle={100}
-            activeClass={activeItem} className={baseItem} onSetActive={handleSetActive}
-            aria-current={activeSection === 'aboutme' ? 'page' : undefined}>
-            Sobre mí
-          </Link>
+        <ul className="hidden items-center gap-6 md:flex">
+          {NAV_ITEMS.map(item => (
+            <li key={item.id}>
+              <a
+                href={`#${item.id}`}
+                className={`${baseItem} ${active === item.id ? activeItem : ''}`}
+                aria-current={active === item.id ? 'page' : undefined}
+                onClick={(e) => handleAnchorClick(e, item.id)}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+          <li className="ml-2">
+            <ThemeToggle />
+          </li>
+        </ul>
 
-          <Link to="trayectoria" smooth duration={500} offset={OFFSET} spy hashSpy spyThrottle={100}
-            activeClass={activeItem} className={baseItem} onSetActive={handleSetActive}
-            aria-current={activeSection === 'trayectoria' ? 'page' : undefined}>
-            Trayectoria
-          </Link>
-
-          <Link to="proyectos" smooth duration={500} offset={OFFSET} spy hashSpy spyThrottle={100}
-            activeClass={activeItem} className={baseItem} onSetActive={handleSetActive}
-            aria-current={activeSection === 'proyectos' ? 'page' : undefined}>
-            Proyectos
-          </Link>
-
-          <Link to="contacto" smooth duration={500} offset={OFFSET} spy hashSpy spyThrottle={100}
-            activeClass={activeItem} className={baseItem} onSetActive={handleSetActive}
-            aria-current={activeSection === 'contacto' ? 'page' : undefined}>
-            Contacto
-          </Link>
-
-          <ThemeToggle />
-        </div>
+        {/* Mobile toggle */}
+        <button
+          className="inline-flex items-center justify-center rounded-md border p-2 md:hidden"
+          onClick={() => setIsOpen(v => !v)}
+          aria-expanded={isOpen}
+          aria-controls="mobile-menu"
+          aria-label="Abrir menú"
+        >
+          {isOpen ? <FiX className="h-5 w-5" /> : <FiMenu className="h-5 w-5" />}
+        </button>
       </div>
 
-      {/* Móvil */}
+      {/* Mobile menu */}
       {isOpen && (
-        <div id={mobileMenuId} className="md:hidden mt-4 space-y-3 text-center text-zinc-900 dark:text-gray-100">
-          <Link onClick={closeMenu} to="aboutme" smooth duration={500} offset={OFFSET}
-            spy hashSpy spyThrottle={100} activeClass={activeItem} className={`${baseItem} block`} onSetActive={handleSetActive}
-            aria-current={activeSection === 'aboutme' ? 'page' : undefined}>
-            Sobre mí
-          </Link>
-
-          <Link onClick={closeMenu} to="trayectoria" smooth duration={500} offset={OFFSET}
-            spy hashSpy spyThrottle={100} activeClass={activeItem} className={`${baseItem} block`} onSetActive={handleSetActive}
-            aria-current={activeSection === 'trayectoria' ? 'page' : undefined}>
-            Trayectoria
-          </Link>
-
-          <Link onClick={closeMenu} to="proyectos" smooth duration={500} offset={OFFSET}
-            spy hashSpy spyThrottle={100} activeClass={activeItem} className={`${baseItem} block`} onSetActive={handleSetActive}
-            aria-current={activeSection === 'proyectos' ? 'page' : undefined}>
-            Proyectos
-          </Link>
-
-          <Link onClick={closeMenu} to="contacto" smooth duration={500} offset={OFFSET}
-            spy hashSpy spyThrottle={100} activeClass={activeItem} className={`${baseItem} block`} onSetActive={handleSetActive}
-            aria-current={activeSection === 'contacto' ? 'page' : undefined}>
-            Contacto
-          </Link>
-
-          <div className="flex justify-center">
-            <ThemeToggle />
-          </div>
+        <div id="mobile-menu" className="border-t px-4 pb-4 pt-2 md:hidden">
+          <ul className="space-y-2">
+            {NAV_ITEMS.map(item => (
+              <li key={item.id}>
+                <a
+                  href={`#${item.id}`}
+                  className={`${baseItem} block ${active === item.id ? activeItem : ''}`}
+                  aria-current={active === item.id ? 'page' : undefined}
+                  onClick={(e) => handleAnchorClick(e, item.id)}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+            <li className="pt-2">
+              <ThemeToggle />
+            </li>
+          </ul>
         </div>
       )}
     </nav>
