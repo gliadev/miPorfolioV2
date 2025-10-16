@@ -30,3 +30,6 @@ dist-ssr
 
 # Test coverage (si usas testing)
 coverage
+
+# Unlighthouse
+.unlighthouse/
