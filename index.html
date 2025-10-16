@@ -1,30 +1,57 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>gliaDev</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Adolfo Gómez — iOS Developer (Swift, SwiftUI) | gliadev</title>
+    <meta
+      name="description"
+      content="Portafolio de Adolfo Gómez (gliadev). iOS Developer con Swift/SwiftUI, UIKit, MVVM, Testing y foco en accesibilidad."
+    />
+    <link rel="canonical" href="https://gliadev.vercel.app/" />
 
-    
-   <script>
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+    <meta property="og:title" content="Adolfo Gómez — iOS Developer (Swift, SwiftUI)" />
+    <meta property="og:description" content="Proyectos iOS, Web e IA. Accesibilidad y buenas prácticas." />
+    <meta property="og:url" content="https://gliadev.vercel.app/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/proyectsPhotos/og-cover.png" />
 
-  if (initialTheme === 'dark') {
-    document.documentElement.classList.add('dark');
-  } else {
-    document.documentElement.classList.remove('dark');
-  }
-</script>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Adolfo Gómez — iOS Developer (Swift, SwiftUI)" />
+    <meta name="twitter:description" content="Proyectos iOS, Web e IA. Accesibilidad y buenas prácticas." />
+    <meta name="twitter:image" content="/proyectsPhotos/og-cover.png" />
+
+    <script>
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+
+      if (initialTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Adolfo Gómez",
+        "alternateName": "gliadev",
+        "jobTitle": "iOS Developer",
+        "url": "https://gliadev.vercel.app/",
+        "sameAs": [
+          "https://github.com/gliadev",
+          "https://www.linkedin.com/in/gliadev/"
+        ]
+      }
+    </script>
   </head>
   <body>
-    <div id="root">
-      
-    </div>
-    <script type="module" src="/src/main.jsx"></script>
-    
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx" defer></script>
   </body>
 </html>
 

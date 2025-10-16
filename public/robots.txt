@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gliadev.vercel.app/sitemap.xml
