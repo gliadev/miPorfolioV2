@@ -1,7 +1,24 @@
 [
   {
+    "id": "AmbuKit",
+    "title": "AmbuKit",
+    "slug": "ambukit",
+    "category": "ios",
+    "description": "Aplicación nativa iOS para la gestión integral de material sanitario en servicios de emergencias. Permite controlar inventarios de medicamentos y botiquines por vehículo, gestionar caducidades y aplicar un sistema de roles con permisos diferenciados. Implementada con SwiftUI y arquitectura MVVM, incorpora soporte offline completo mediante cola de operaciones y sincronización automática con Firebase Firestore al recuperar conectividad.",
+    "tech": ["Swift", "SwiftUI", "Firebase", "Firestore", "Firebase Auth", "MVVM", "Swift Concurrency", "Swift Testing"],
+    "image": "https://github.com/user-attachments/assets/0e1ebd21-5f67-4e11-a21d-4d9475963d62",
+    "links": {
+      "github": "https://github.com/gliadev/AmbuKit",
+      "store": "",
+      "website": "",
+      "demos": ["https://github.com/user-attachments/assets/9d9dac1b-1a34-48dc-a64d-fee5a520d817"]
+    }
+  },
+
+  {
     "id": "SwiftSnake",
     "title": "SwiftSnake",
+    "slug": "swift-snake",
     "category": "ios",
     "description": "SwiftSnake es una versión moderna del clásico juego Snake, desarrollada íntegramente con SwiftUI y SwiftData. Implementa una arquitectura MVVM para separar la lógica del juego de la vista y del almacenamiento de datos. Incluye ranking persistente con SwiftData, detección de colisiones, control de movimiento fluido y un HUD dinámico con puntuación en tiempo real. El juego está optimizado para iPhone y iPad",
     "tech": ["Swift", "SwiftUI", "SwiftData", "MVVM", "Testing"],
@@ -10,63 +27,67 @@
       "github": "https://github.com/gliadev/swiftSnake",
       "store": "",
       "website": "",
-      "demos": [
-        "/proyectsDemos/demoSwiftSnake.gif", ""
-      ]
+      "demos": ["/proyectsDemos/demoSwiftSnake.gif"]
     }
   },
-  
+
   {
-    "id": "TheMangaKeeper",  
+    "id": "TheMangaKeeper",
     "title": "The MangaKeeper",
+    "slug": "the-manga-keeper",
     "category": "ios",
-    "description": "Proyecto Final del Swift Developer Program 2023 de, Aplicación iOS para gestionar colecciones de mangas. Permite consultar un catálogo, añadir mangas a tu colección, registrar progreso de lectura y filtrar por géneros, temas o demografías. Optimizada para iPhone y iPad con un diseño adaptado y navegación avanzada.",
+    "description": "Proyecto Final del Swift Developer Program 2023. App iOS para gestionar colecciones de mangas. Permite consultar catálogo, añadir a tu colección, registrar progreso de lectura y filtrar por géneros, temas o demografías. Optimizada para iPhone y iPad con diseño adaptado.",
     "tech": ["Swift", "SwiftUI", "MVVM", "REST API"],
-    "image": "../proyectsPhotos/TheMangaKeeper.png",
+    "image": "/proyectsPhotos/TheMangaKeeper.png",
     "links": {
-      "github": "https://github.com/tu-repo/TheMangaKeeper",
+      "github": "https://github.com/gliadev/TheMangaKeeper",
       "store": "",
       "website": "",
       "demos": [
         "https://raw.githubusercontent.com/gliadev/TheMangaKeeper/main/gifs/Simulator%20Screen%20Recording%20-%20iPhone%2016%20-%202024-11-05%20at%2010.41.42.gif",
-        
         "https://raw.githubusercontent.com/gliadev/TheMangaKeeper/main/gifs/Simulator%20Screen%20Recording%20-%20iPad%20(10th%20generation)%20-%202024-11-05%20at%2010.29.35.gif"
       ]
     }
   },
+
   {
     "id": "tmdb",
-    "title": "TheMovieDB Proyect",
+    "title": "TheMovieDB Project",
+    "slug": "themoviedb-project",
     "category": "ios",
-    "description": "Aplicación iOS que consume la API de The Movie Database (TMDB) para mostrar el Top 10 de películas. Incluye vista de detalle, reparto con enlaces a Wikipedia y tráilers de YouTube. Implementada en SwiftUI bajo arquitectura MVVM, con autenticación mediante Bearer Token y peticiones asíncronas async/await",
+    "description": "App iOS que consume la API de TMDB para mostrar el Top 10 de películas. Incluye vista de detalle, reparto con enlaces a Wikipedia y tráilers de YouTube. Implementada en SwiftUI (MVVM), con autenticación Bearer Token y peticiones async/await.",
     "tech": ["Swift", "SwiftUI", "MVVM", "TMDB API", "Async/Await", "Token"],
     "image": "/proyectsPhotos/TheMovieDBProyect.png",
     "links": {
       "github": "https://github.com/gliadev/TheMovieBDProject",
       "store": "",
       "website": "",
-      "demos": ["proyectsDemos/demoTheMovieDB.gif"]
+      "demos": ["/proyectsDemos/demoTheMovieDB.gif"]
     }
   },
+
   {
     "id": "employees",
     "title": "Employees",
+    "slug": "employees-ios",
     "category": "ios",
-    "description": "Employees es una aplicación iOS desarrollada con SwiftUI que consume una API REST para mostrar un listado de empleados de una empresa ficticia. Implementa arquitectura MVVM con un patrón Interactor para gestionar las peticiones de red de forma asíncrona usando async/await. Permite buscar empleados por nombre en tiempo real, visualizar sus detalles y manejar errores de red y decodificación de forma controlada. Incluye separación entre capas DTO y dominio, y un formateo automático de nombres mediante PersonNameComponentsFormatter.",
+    "description": "App iOS en SwiftUI que consume una API REST para mostrar empleados. MVVM con patrón Interactor, async/await, búsqueda en tiempo real, vista de detalle y manejo de errores. Separación DTO/domino y formateo con PersonNameComponentsFormatter.",
     "tech": ["Swift", "SwiftUI", "MVVM", "API", "Async/Await"],
     "image": "/proyectsPhotos/Employees.png",
     "links": {
       "github": "https://github.com/gliadev/EmployeesAPP",
       "store": "",
       "website": "",
-      "demos": ["",""]
+      "demos": []
     }
   },
+
   {
     "id": "notasapp",
     "title": "Notas App — Testing en SwiftUI",
+    "slug": "notas-app-testing",
     "category": "ios",
-    "description": "Aplicación de notas desarrollada en SwiftUI como práctica de un curso de testing en Swift. Incluye tests unitarios, de integración, snapshot y de interfaz (UITests) para garantizar el correcto funcionamiento y la estabilidad de la app. Los datos se almacenan localmente y el proyecto refuerza conceptos como mocks e inyección de dependencias.",
+    "description": "App de notas en SwiftUI como práctica de testing. Incluye unit, integration, snapshot y UITests. Datos locales, mocks e inyección de dependencias.",
     "tech": ["Swift", "SwiftUI", "Xcode", "SwiftData", "Unit Tests", "Integration Tests", "Snapshot Tests", "UITests"],
     "image": "/proyectsPhotos/notas&test.png",
     "links": {
@@ -76,11 +97,13 @@
       "demos": ["/proyectsDemos/demoNotesAPP.gif"]
     }
   },
+
   {
     "id": "portfolio-new",
     "title": "Mi Portfolio (v2)",
+    "slug": "portfolio-v2",
     "category": "web",
-    "description": "Segunda versión de mi portafolio personal, completamente rediseñada con un stack moderno basado en React + TailwindCSS y Framer Motion para animaciones fluidas. Incluye modo oscuro/claro, un sistema dinámico de proyectos que consume datos desde un archivo JSON (evitando la repetición de código y facilitando la escalabilidad), y una interfaz mucho más visual e interactiva. Totalmente responsive y optimizado para móviles, mejora la experiencia en pantallas táctiles con transiciones suaves, efectos animados y componentes reutilizables.Desplegado en Vercel, este portfolio refleja mi evolución como desarrollador y mi enfoque en diseño, rendimiento y accesibilidad.",
+    "description": "Versión 2 de mi portfolio: React + TailwindCSS + Framer Motion, dark/light, datos dinámicos desde JSON y despliegue en Vercel. Enfoque en diseño, rendimiento y accesibilidad.",
     "tech": ["React", "TailwindCSS", "Framer Motion", "JavaScript", "Responsive Design", "Dark Mode"],
     "image": "/proyectsPhotos/miPorfolioV2.png",
     "links": {
@@ -90,11 +113,13 @@
       "demos": []
     }
   },
+
   {
     "id": "portfolio-old",
     "title": "Mi Portfolio (v1)",
+    "slug": "portfolio-v1",
     "category": "web",
-    "description": "Primer portfolio personal desarrollado con HTML, CSS y JavaScript, donde presento mis proyectos, habilidades y trayectoria profesional. Incluye animaciones, una galería de proyectos y una línea temporal de formación. Publicado en GitHub Pages como punto de partida en mi camino aldesarrollo. ",
+    "description": "Primer portfolio con HTML, CSS y JavaScript. Animaciones, galería de proyectos y timeline de formación. Publicado en GitHub Pages.",
     "tech": ["HTML", "CSS", "JavaScript", "Bootstrap", "Animate.css", "WOW.js"],
     "image": "/proyectsPhotos/porfolio.png",
     "links": {
@@ -104,11 +129,13 @@
       "demos": []
     }
   },
+
   {
     "id": "nutriglesias",
     "title": "Nutriglesias Web",
+    "slug": "nutriglesias-web",
     "category": "web",
-    "description": "Sitio web profesional de nutrición que ofrece servicios personalizados para deportistas y personas con objetivos específicos. Incluye secciones de servicios, blog de contenido nutricional, presentación del equipo y formulario de contacto. Está optimizado para visibilidad en diseño responsivo en móvil o escritorio y SEO local.",
+    "description": "Sitio de nutrición con servicios, blog y contacto. Responsive y con SEO local.",
     "tech": ["HTML", "CSS", "Bootstrap", "JavaScript", "Responsive Design", "SEO On-Page"],
     "image": "/proyectsPhotos/webNutriglesias.png",
     "links": {
@@ -118,11 +145,13 @@
       "demos": []
     }
   },
+
   {
     "id": "nutriapp",
     "title": "NutriApp",
+    "slug": "nutriapp",
     "category": "web",
-    "description": "Aplicación web full-stack para consulta nutricional. Gestiona clientes, citas y progreso con React en el frontend y Node/Express + MongoDB en el backend. Autenticación JWT, CRUD completo y despliegue con entorno de producción (Mongo Atlas)",
+    "description": "App web full-stack para consulta nutricional: clientes, citas y progreso. React + Node/Express + MongoDB. JWT, CRUD y despliegue en producción.",
     "tech": ["React", "Node.js", "Express", "MongoDB", "JWT", "REST API"],
     "image": "/proyectsPhotos/nutriAPP.png",
     "links": {
@@ -136,6 +165,7 @@
   {
     "id": "checkzea",
     "title": "CheckZea",
+    "slug": "checkzea",
     "category": "ios",
     "description": "in progress...",
     "tech": [],
@@ -151,6 +181,7 @@
   {
     "id": "Backbone",
     "title": "Backbone",
+    "slug": "backbone",
     "category": "ios",
     "description": "?? 🤔 🤪 😉 ",
     "tech": [],

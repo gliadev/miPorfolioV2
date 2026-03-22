@@ -34,8 +34,15 @@ function isVideo(url = "") {
 function isGif(url = "") {
   return /\.gif(\?.*)?$/i.test(url);
 }
+function slugify(s = "") {
+  return s
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
 
-// Aspect ratio + límites de tamaño por categoría
+// Aspect ratio + límites de tamaño + dimensiones para evitar CLS
 function mediaStyles(project) {
   const isPortrait = project?.category === "ios";
   return {
@@ -43,6 +50,8 @@ function mediaStyles(project) {
       ? "aspect-[9/16] bg-black/30 p-2 max-h-[420px] mx-auto"
       : "aspect-[16/10] max-h-[260px] mx-auto",
     img: isPortrait ? "object-contain" : "object-cover",
+    width: isPortrait ? 720 : 1280,
+    height: isPortrait ? 1280 : 720,
   };
 }
 
@@ -116,10 +125,9 @@ function ExternalLink({ href, children, ariaLabel }) {
    Normalizadores
 ----------------------------- */
 function collectDemos(links = {}) {
-  // Prioriza links.demos (array). Mantén compatibilidad con demo/demo2 si existen.
   const arr = Array.isArray(links.demos) ? links.demos : [];
   const retro = [links.demo, links.demo2].filter(Boolean);
-  return [...new Set([...arr, ...retro])]; // sin duplicados
+  return [...new Set([...arr, ...retro])];
 }
 
 function getProjectLinks(project) {
@@ -158,9 +166,9 @@ function getProjectLinks(project) {
 }
 
 /* -----------------------------
-   Modal de demos (carrusel)
+   Modal de demos (carrusel) — FIX: alt con projectTitle
 ----------------------------- */
-function DemoModal({ open, onClose, demos = [], startIndex = 0 }) {
+function DemoModal({ open, onClose, demos = [], startIndex = 0, projectTitle = "Proyecto" }) {
   const [index, setIndex] = useState(startIndex);
   const len = demos.length;
 
@@ -182,6 +190,7 @@ function DemoModal({ open, onClose, demos = [], startIndex = 0 }) {
         exit={{ opacity: 0 }}
         role="dialog"
         aria-modal="true"
+        aria-label={`Demo de ${projectTitle}`}
       >
         <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
         <motion.div
@@ -207,10 +216,18 @@ function DemoModal({ open, onClose, demos = [], startIndex = 0 }) {
                 playsInline
                 className="h-full w-full object-contain"
                 preload="metadata"
+                title={`Reproduciendo demo de ${projectTitle}`}
               />
             ) : gif ? (
-              // eslint-disable-next-line jsx-a11y/alt-text
-              <img src={url} alt={`${project.title} — demo`}  className="h-full w-full object-contain" loading="eager" />
+              <img
+                src={url}
+                alt={`${projectTitle} — demo`}
+                className="h-full w-full object-contain"
+                loading="eager"
+                width={1280}
+                height={720}
+                decoding="async"
+              />
             ) : (
               <div className="flex h-full w-full items-center justify-center text-sm opacity-70">
                 No se puede previsualizar este tipo de demo.
@@ -255,7 +272,7 @@ function HoverPreview({
   onOpenModal,
   isTouch,
 }) {
-  const { img } = mediaStyles(project);
+  const { img, width, height } = mediaStyles(project);
   const [hover, setHover] = useState(false);
   const vidRef = useRef(null);
 
@@ -287,14 +304,18 @@ function HoverPreview({
       aria-label={`Previsualización de ${project.title}`}
     >
       {/* Poster */}
-      {/* eslint-disable-next-line jsx-a11y/alt-text */}
-      <img src={posterSrc} alt={`${project.title} — poster`}
+      <img
+        src={posterSrc}
+        alt={`${project.title} — poster`}
         className={clsx(
           "h-full w-full transition-transform duration-300 group-hover:scale-[1.02]",
           img,
           showPreview ? "opacity-0 absolute inset-0" : "opacity-100"
         )}
         loading="lazy"
+        decoding="async"
+        width={width}
+        height={height}
       />
 
       {/* Preview (video/gif) */}
@@ -312,14 +333,21 @@ function HoverPreview({
                 "h-full w-full object-contain transition-opacity duration-200",
                 showPreview ? "opacity-100" : "opacity-0 absolute inset-0"
               )}
+              width={width}
+              height={height}
             />
           ) : isGif(previewSrc) ? (
-            // eslint-disable-next-line jsx-a11y/alt-text
-            <img src={previewSrc} alt={`Previsualización de ${project.title}`}
+            <img
+              src={previewSrc}
+              alt={`Previsualización de ${project.title}`}
               className={clsx(
                 "h-full w-full object-contain transition-opacity duration-200",
                 showPreview ? "opacity-100" : "opacity-0 absolute inset-0"
               )}
+              loading="lazy"
+              decoding="async"
+              width={width}
+              height={height}
             />
           ) : null}
         </>
@@ -340,25 +368,26 @@ function HoverPreview({
 }
 
 /* -----------------------------
-   Tarjeta de proyecto
+   Tarjeta de proyecto — añade enlace indexable interno
 ----------------------------- */
 function ProjectCard({ project, onOpenDemos }) {
+  const { wrapper, width, height } = mediaStyles(project);
+
   const posterSrc =
     (project.images && project.images.length > 0 && project.images[0]) ||
     (project.image && project.image.length > 0 && project.image) ||
     placeholderImg;
 
   const demos = collectDemos(project?.links);
-  // Preview en hover: prioriza vídeo; si no hay, gif
   const previewSrc =
     demos.find((u) => isVideo(u)) || demos.find((u) => isGif(u)) || null;
 
-  const { wrapper } = mediaStyles(project);
   const links = getProjectLinks(project);
   const isTouch = useIsTouch();
 
-  // Etiqueta fija del botón
-  const videoBtnLabel = "Vídeo";
+  // slug/href interno para detalle (mejora SEO: páginas indexables)
+  const slug = project.slug || slugify(project.title || "");
+  const internalHref = project.href || (slug ? `/proyectos/${slug}` : null);
 
   return (
     <motion.article
@@ -369,6 +398,16 @@ function ProjectCard({ project, onOpenDemos }) {
       transition={{ duration: 0.25 }}
       className="group relative mx-auto flex h-full w-full max-w-sm flex-col overflow-hidden rounded-2xl border bg-white/70 p-4 shadow-sm backdrop-blur-sm transition hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900/70"
     >
+      {/* Enlace superpuesto a detalle (stretched-link) si existe */}
+      {internalHref && (
+        <a
+          href={internalHref}
+          className="absolute inset-0 z-10"
+          aria-label={`Abrir detalle de ${project.title}`}
+          tabIndex={0}
+        />
+      )}
+
       {/* Media con preview */}
       <HoverPreview
         project={project}
@@ -376,12 +415,14 @@ function ProjectCard({ project, onOpenDemos }) {
         previewSrc={previewSrc}
         className={wrapper}
         isTouch={isTouch}
-        onOpenModal={() => onOpenDemos(demos, 0)}
+        onOpenModal={() => onOpenDemos(demos, 0, project.title)}
       />
 
       {/* Contenido */}
-      <div className="mt-4 flex flex-1 flex-col">
-        <h3 className="text-lg font-bold leading-tight">{project.title}</h3>
+      <div className="mt-4 flex flex-1 flex-col relative z-20">
+        <h3 className="text-lg font-bold leading-tight">
+          {project.title}
+        </h3>
         <p className="mt-2 text-sm opacity-90">{project.description}</p>
 
         <div className="mt-3 flex flex-wrap gap-2">
@@ -400,11 +441,11 @@ function ProjectCard({ project, onOpenDemos }) {
           {/* Botón de vídeo (único), solo si hay demos */}
           {demos.length > 0 && (
             <button
-              onClick={() => onOpenDemos(demos, 0)}
+              onClick={() => onOpenDemos(demos, 0, project.title)}
               className="inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold transition hover:shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-400 dark:border-zinc-800"
               aria-label={`Abrir vídeo de ${project.title}`}
             >
-              <PlayCircle className="h-4 w-4" /> {videoBtnLabel}
+              <PlayCircle className="h-4 w-4" /> Vídeo
             </button>
           )}
         </div>
@@ -419,9 +460,13 @@ function ProjectsGrid({ items, onOpenDemos }) {
       <motion.div
         layout
         className="mx-auto grid max-w-7xl grid-cols-1 gap-6 md:gap-8 lg:gap-10 sm:grid-cols-2 lg:grid-cols-3"
+        role="list"
+        aria-label="Listado de proyectos"
       >
         {items.map((p) => (
-          <ProjectCard key={p.id} project={p} onOpenDemos={onOpenDemos} />
+          <div role="listitem" key={p.id || p.slug || p.title}>
+            <ProjectCard project={p} onOpenDemos={onOpenDemos} />
+          </div>
         ))}
       </motion.div>
     </AnimatePresence>
@@ -429,7 +474,7 @@ function ProjectsGrid({ items, onOpenDemos }) {
 }
 
 /* -----------------------------
-   Componente principal
+   Componente principal — FIX: un solo className en <section>
 ----------------------------- */
 export default function Projects({
   initial = "all",
@@ -442,28 +487,34 @@ export default function Projects({
   const [modalOpen, setModalOpen] = useState(false);
   const [modalDemos, setModalDemos] = useState([]);
   const [modalIndex, setModalIndex] = useState(0);
+  const [modalTitle, setModalTitle] = useState("Proyecto");
 
   const filtered = useMemo(() => {
     if (active === "all") return data;
     return data.filter((p) => p.category === active);
   }, [active, data]);
 
-  const openDemos = (demos, index = 0) => {
+  const openDemos = (demos, index = 0, projectTitle = "Proyecto") => {
     setModalDemos(demos);
     setModalIndex(index);
+    setModalTitle(projectTitle);
     setModalOpen(true);
   };
 
   return (
     <Element name="proyectos">
-      <section id="proyectos" className="scroll-mt-24"  className="mx-auto max-w-7xl px-4 pt-16 pb-28 lg:pt-20 lg:pb-32">
+      <section
+        id="proyectos"
+        className="scroll-mt-24 mx-auto max-w-7xl px-4 pt-16 pb-28 lg:pt-20 lg:pb-32"
+        aria-labelledby="projects-title"
+      >
         <header className="mb-4 text-center">
-          <h2 className="text-3xl font-bold text-center mb-6 dark:text-blue-300 text-blue-700">
+          <h2 id="projects-title" className="text-3xl font-bold text-center mb-6 dark:text-blue-300 text-blue-700">
             {title}
           </h2>
         </header>
 
-        <div className="mb-8 flex w-full flex-wrap items-center justify-center gap-3">
+        <div className="mb-8 flex w-full flex-wrap items-center justify-center gap-3" role="group" aria-label="Filtrar por categoría">
           {CATEGORIES.map((c) => (
             <button
               key={c.key}
@@ -488,6 +539,7 @@ export default function Projects({
           onClose={() => setModalOpen(false)}
           demos={modalDemos}
           startIndex={modalIndex}
+          projectTitle={modalTitle}
         />
       </section>
     </Element>
