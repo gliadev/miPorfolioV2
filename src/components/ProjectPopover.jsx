@@ -4,24 +4,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Github, Link as LinkIcon, AppWindow, ArrowRight, Code2, PlayCircle, X } from "lucide-react";
 
-const GAP_V = 8; // margen vertical mínimo respecto al viewport
+const GAP_V = 8;
 
-/* Calcula posición para superponer el popover sobre la misma tarjeta */
+/* Calcula posición fija (viewport-relative) sobre la misma tarjeta */
 function calcPosition(rect) {
   const w = rect.width;
-
-  // Horizontalmente: alineado con la tarjeta, clampado al viewport
   const left = Math.max(8, Math.min(window.innerWidth - w - 8, rect.left));
 
-  // Verticalmente: empieza en la parte superior de la tarjeta
-  // Si se saldría por abajo, lo sube lo necesario
   const estimatedH = 460;
-  let top = rect.top + window.scrollY;
-  const bottomEdge = rect.top + estimatedH;
-  if (bottomEdge > window.innerHeight - GAP_V) {
-    top = window.scrollY + window.innerHeight - estimatedH - GAP_V;
+  let top = rect.top;
+  if (top + estimatedH > window.innerHeight - GAP_V) {
+    top = window.innerHeight - estimatedH - GAP_V;
   }
-  top = Math.max(window.scrollY + GAP_V, top);
+  top = Math.max(GAP_V, top);
 
   return { left, top, width: w };
 }
@@ -30,16 +25,12 @@ function calcPosition(rect) {
 function DesktopPopover({ project, anchorRect, visible, onMouseEnter, onMouseLeave }) {
   const ref = useRef(null);
 
+  // Cerrar al hacer scroll — la tarjeta se aleja y el popover quedaría huérfano
   useEffect(() => {
-    const onScroll = () => {
-      if (!ref.current || !anchorRect) return;
-      const pos = calcPosition(anchorRect);
-      ref.current.style.top  = `${pos.top}px`;
-      ref.current.style.left = `${pos.left}px`;
-    };
+    const onScroll = () => onMouseLeave?.();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [anchorRect]);
+  }, [onMouseLeave]);
 
   if (!anchorRect) return null;
   const pos = calcPosition(anchorRect);
@@ -62,7 +53,7 @@ function DesktopPopover({ project, anchorRect, visible, onMouseEnter, onMouseLea
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.96 }}
           transition={{ duration: 0.15, ease: "easeOut" }}
-          style={{ position: "absolute", top: pos.top, left: pos.left, width: pos.width, zIndex: 9999 }}
+          style={{ position: "fixed", top: pos.top, left: pos.left, width: pos.width, zIndex: 9999 }}
           className="rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-2xl p-5 pointer-events-auto"
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
