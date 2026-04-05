@@ -9,6 +9,7 @@ import AboutMe from './components/AboutMe';
 import Projects from './components/Projects';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import Timeline from './components/Timeline';
+import ScrollToTop from './components/ScrollToTop';
 
 
 
@@ -27,6 +28,7 @@ function App() {
       <Projects initial="all" title="Proyectos" />
       <Timeline title="Trayectoria" />
       <Footer />
+      <ScrollToTop />
     </div>
   );
 }

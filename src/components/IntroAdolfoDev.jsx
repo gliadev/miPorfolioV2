@@ -8,6 +8,7 @@ export default function IntroAdolfoDev() {
   return (
     <Element name="intro">
       <section
+        id="intro"
         className="min-h-screen flex flex-col-reverse lg:flex-row items-center justify-center px-6 lg:px-20 gap-12 bg-white text-gray-900 dark:bg-gray-900 dark:text-white transition-colors duration-300"
       >
         {/* Texto */}
@@ -55,6 +56,30 @@ export default function IntroAdolfoDev() {
             <p className="text-base sm:text-lg text-gray-700 dark:text-gray-300 max-w-xl mx-auto lg:mx-0">
               Ahora lucho con código en lugar de con botiquines.
             </p>
+          </div>
+
+          {/* CTA */}
+          <div className="mb-8 flex flex-wrap items-center justify-center lg:justify-start gap-4">
+            <a
+              href="#proyectos"
+              onClick={(e) => {
+                const el = document.getElementById("proyectos");
+                if (el) { e.preventDefault(); el.scrollIntoView({ behavior: "smooth", block: "start" }); }
+              }}
+              className="inline-flex items-center gap-2 rounded-xl bg-blue-500 px-5 py-2.5 text-sm font-semibold text-white shadow hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500 transition-colors"
+            >
+              Ver proyectos
+            </a>
+            <a
+              href="#contacto"
+              onClick={(e) => {
+                const el = document.getElementById("contacto");
+                if (el) { e.preventDefault(); el.scrollIntoView({ behavior: "smooth", block: "start" }); }
+              }}
+              className="inline-flex items-center gap-2 rounded-xl border border-zinc-300 dark:border-zinc-700 px-5 py-2.5 text-sm font-semibold hover:bg-zinc-100 dark:hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500 transition-colors"
+            >
+              Contacto
+            </a>
           </div>
 
           {/* Social */}

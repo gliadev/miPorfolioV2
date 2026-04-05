@@ -398,13 +398,14 @@ function ProjectCard({ project, onOpenDemos }) {
       transition={{ duration: 0.25 }}
       className="group relative mx-auto flex h-full w-full max-w-sm flex-col overflow-hidden rounded-2xl border bg-white/70 p-4 shadow-sm backdrop-blur-sm transition hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900/70"
     >
-      {/* Enlace superpuesto a detalle (stretched-link) si existe */}
+      {/* Enlace indexable para SEO — pointer-events-none para no bloquear hover/clicks */}
       {internalHref && (
         <a
           href={internalHref}
-          className="absolute inset-0 z-10"
+          className="absolute inset-0 z-10 pointer-events-none"
           aria-label={`Abrir detalle de ${project.title}`}
-          tabIndex={0}
+          tabIndex={-1}
+          aria-hidden="true"
         />
       )}
 
@@ -419,9 +420,9 @@ function ProjectCard({ project, onOpenDemos }) {
       />
 
       {/* Contenido */}
-      <div className="mt-4 flex flex-1 flex-col relative z-20">
-        <div className="flex items-center gap-2">
-          <h3 className="text-lg font-bold leading-tight">
+      <div className="mt-4 flex flex-1 flex-col relative z-20 min-w-0">
+        <div className="flex items-center gap-2 min-w-0">
+          <h3 className="text-lg font-bold leading-tight truncate min-w-0">
             {project.title}
           </h3>
           {project.status === "in-progress" && (
