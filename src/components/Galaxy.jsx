@@ -152,7 +152,7 @@ const Galaxy = ({
             paused={paused}
             href={it.href}
             size={it.size}
-            respectReducedMotion={false}
+            respectReducedMotion={true}
           />
         ))}
       </div>

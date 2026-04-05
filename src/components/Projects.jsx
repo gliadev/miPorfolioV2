@@ -231,7 +231,7 @@ function DemoModal({ open, onClose, demos = [], startIndex = 0, projectTitle = "
             ) : (
               <div className="flex h-full w-full items-center justify-center text-sm opacity-70">
                 No se puede previsualizar este tipo de demo.
-                <a href={url} target="_blank" rel="noreferrer" className="underline ml-2">
+                <a href={url} target="_blank" rel="noopener noreferrer" className="underline ml-2">
                   Abrir enlace
                 </a>
               </div>

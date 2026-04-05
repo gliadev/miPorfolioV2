@@ -45,8 +45,8 @@ const skillsData = {
 export default function Skills() {
   const [showLabels, setShowLabels] = useState(true);
   return (
-    <section className="w-full px-4 py-8">
-      <h2 className="text-3xl font-bold text-center mb-6 dark:text-blue-300 text-blue-700">
+    <section className="w-full px-4 py-8" aria-labelledby="skills-title">
+      <h2 id="skills-title" className="text-3xl font-bold text-center mb-6 dark:text-blue-300 text-blue-700">
         Universo del Desarrollo
       </h2>
 

@@ -47,7 +47,7 @@ function Links({ links }) {
           key={`${link.url}-${i}`}
           href={link.url}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 border-zinc-200/60 dark:border-zinc-800"
         >
           {link.label || "Enlace"} <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
