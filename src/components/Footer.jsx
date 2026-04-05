@@ -28,7 +28,6 @@ export default function Footer() {
         <section
           id="contacto"
           className="scroll-mt-24 py-20 px-4"
-          data-aos="fade-up"
           aria-labelledby="contacto-title"
         >
           <h2 id="contacto-title" className="text-3xl font-semibold text-center mb-2 text-zinc-900 dark:text-zinc-100">

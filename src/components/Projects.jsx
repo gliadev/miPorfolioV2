@@ -1,6 +1,7 @@
 // src/components/Projects.jsx
-import { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { Element } from "react-scroll";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeUp, defaultTransition } from "../animations/variants";
 import {
@@ -13,8 +14,10 @@ import {
   X as XIcon,
   ChevronLeft,
   ChevronRight,
+  ArrowRight,
 } from "lucide-react";
 import placeholderImg from "../assets/placeholder.png";
+import ProjectPopover from "./ProjectPopover";
 
 /* -----------------------------
    Constantes / utils
@@ -372,7 +375,7 @@ function HoverPreview({
    Tarjeta de proyecto — añade enlace indexable interno
 ----------------------------- */
 function ProjectCard({ project, onOpenDemos, isTouch }) {
-  const { wrapper, width, height } = mediaStyles(project);
+  const { wrapper } = mediaStyles(project);
 
   const posterSrc =
     (project.images && project.images.length > 0 && project.images[0]) ||
@@ -384,79 +387,127 @@ function ProjectCard({ project, onOpenDemos, isTouch }) {
     demos.find((u) => isVideo(u)) || demos.find((u) => isGif(u)) || null;
 
   const links = getProjectLinks(project);
-
-  // slug/href interno para detalle (mejora SEO: páginas indexables)
   const slug = project.slug || slugify(project.title || "");
-  const internalHref = project.href || (slug ? `/proyectos/${slug}` : null);
+
+  // --- Popover state ---
+  const cardRef   = useRef(null);
+  const leaveTimer = useRef(null);
+  const [popoverVisible, setPopoverVisible] = useState(false);
+  const [anchorRect, setAnchorRect]         = useState(null);
+
+  const showPopover = useCallback(() => {
+    clearTimeout(leaveTimer.current);
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (rect) { setAnchorRect(rect); setPopoverVisible(true); }
+  }, []);
+
+  const hidePopover = useCallback(() => {
+    leaveTimer.current = setTimeout(() => setPopoverVisible(false), 120);
+  }, []);
+
+  // Cancelar el cierre si el ratón entra al propio popover
+  const keepOpen  = useCallback(() => clearTimeout(leaveTimer.current), []);
+
+  useEffect(() => () => clearTimeout(leaveTimer.current), []);
 
   return (
-    <motion.article
-      layout
-      {...fadeUp}
-      transition={defaultTransition}
-      className="group relative mx-auto flex h-full w-full max-w-sm flex-col overflow-hidden rounded-2xl border bg-white/70 p-4 shadow-sm backdrop-blur-sm transition hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900/70"
-    >
-      {/* Enlace indexable para SEO — pointer-events-none para no bloquear hover/clicks */}
-      {internalHref && (
-        <a
-          href={internalHref}
-          className="absolute inset-0 z-10 pointer-events-none"
-          aria-label={`Abrir detalle de ${project.title}`}
-          tabIndex={-1}
-          aria-hidden="true"
+    <>
+      <motion.article
+        ref={cardRef}
+        layout
+        {...fadeUp}
+        transition={defaultTransition}
+        onMouseEnter={!isTouch ? showPopover : undefined}
+        onMouseLeave={!isTouch ? hidePopover : undefined}
+        onFocus={!isTouch ? showPopover : undefined}
+        onBlur={!isTouch ? hidePopover : undefined}
+        className="group relative mx-auto flex h-full w-full max-w-sm flex-col overflow-hidden rounded-2xl border bg-white/70 p-4 shadow-sm backdrop-blur-sm transition hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900/70"
+      >
+        {/* Enlace indexable SEO */}
+        {slug && (
+          <a
+            href={`/proyectos/${slug}`}
+            className="absolute inset-0 z-10 pointer-events-none"
+            tabIndex={-1}
+            aria-hidden="true"
+          />
+        )}
+
+        {/* Media con preview */}
+        <HoverPreview
+          project={project}
+          posterSrc={posterSrc}
+          previewSrc={previewSrc}
+          className={wrapper}
+          isTouch={isTouch}
+          onOpenModal={() => onOpenDemos(demos, 0, project.title)}
         />
-      )}
 
-      {/* Media con preview */}
-      <HoverPreview
-        project={project}
-        posterSrc={posterSrc}
-        previewSrc={previewSrc}
-        className={wrapper}
-        isTouch={isTouch}
-        onOpenModal={() => onOpenDemos(demos, 0, project.title)}
-      />
+        {/* Contenido */}
+        <div className="mt-4 flex flex-1 flex-col relative z-20 min-w-0">
+          <div className="flex items-center gap-2 min-w-0">
+            <h3 className="text-lg font-bold leading-tight truncate min-w-0">
+              {project.title}
+            </h3>
+            {project.status === "in-progress" && (
+              <span className="inline-flex items-center rounded-full bg-yellow-400/20 px-2 py-0.5 text-[11px] font-semibold text-yellow-700 dark:text-yellow-300 border border-yellow-400/30">
+                En progreso
+              </span>
+            )}
+          </div>
+          <p className="mt-2 text-sm opacity-90 line-clamp-3">{project.description}</p>
 
-      {/* Contenido */}
-      <div className="mt-4 flex flex-1 flex-col relative z-20 min-w-0">
-        <div className="flex items-center gap-2 min-w-0">
-          <h3 className="text-lg font-bold leading-tight truncate min-w-0">
-            {project.title}
-          </h3>
-          {project.status === "in-progress" && (
-            <span className="inline-flex items-center rounded-full bg-yellow-400/20 px-2 py-0.5 text-[11px] font-semibold text-yellow-700 dark:text-yellow-300 border border-yellow-400/30">
-              En progreso
-            </span>
-          )}
-        </div>
-        <p className="mt-2 text-sm opacity-90">{project.description}</p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {project.tech?.slice(0, 5).map((t) => (
+              <TechBadge key={t} label={t} />
+            ))}
+            {project.tech?.length > 5 && (
+              <span className="rounded-full border px-2 py-0.5 text-xs opacity-60 dark:border-zinc-800">
+                +{project.tech.length - 5}
+              </span>
+            )}
+          </div>
 
-        <div className="mt-3 flex flex-wrap gap-2">
-          {project.tech?.slice(0, 10).map((t) => (
-            <TechBadge key={t} label={t} />
-          ))}
-        </div>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {links.map(({ key, label, href, icon: Icon, aria }) => (
+              <ExternalLink key={key} href={href} ariaLabel={aria}>
+                <Icon className="h-4 w-4" /> {label}
+              </ExternalLink>
+            ))}
+            {demos.length > 0 && (
+              <button
+                onClick={() => onOpenDemos(demos, 0, project.title)}
+                className="inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold transition hover:shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-400 dark:border-zinc-800"
+                aria-label={`Abrir vídeo de ${project.title}`}
+              >
+                <PlayCircle className="h-4 w-4" /> Vídeo
+              </button>
+            )}
+          </div>
 
-        <div className="mt-4 flex flex-wrap gap-2">
-          {links.map(({ key, label, href, icon: Icon, aria }) => (
-            <ExternalLink key={key} href={href} ariaLabel={aria}>
-              <Icon className="h-4 w-4" /> {label}
-            </ExternalLink>
-          ))}
-
-          {/* Botón de vídeo (único), solo si hay demos */}
-          {demos.length > 0 && (
+          {/* Botón "Ver más" en móvil — abre el bottom sheet */}
+          {slug && isTouch && (
             <button
-              onClick={() => onOpenDemos(demos, 0, project.title)}
-              className="inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold transition hover:shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-400 dark:border-zinc-800"
-              aria-label={`Abrir vídeo de ${project.title}`}
+              onClick={showPopover}
+              className="mt-4 inline-flex items-center gap-2 rounded-xl border border-blue-500 px-3 py-2 text-sm font-semibold text-blue-500 hover:bg-blue-500 hover:text-white transition-colors w-full justify-center"
             >
-              <PlayCircle className="h-4 w-4" /> Vídeo
+              Ver más <ArrowRight className="h-4 w-4" />
             </button>
           )}
         </div>
-      </div>
-    </motion.article>
+      </motion.article>
+
+      {/* Popover desktop / Bottom sheet móvil */}
+      <ProjectPopover
+        project={project}
+        anchorRect={anchorRect}
+        visible={popoverVisible}
+        isTouch={isTouch}
+        onMouseEnter={keepOpen}
+        onMouseLeave={hidePopover}
+        onClose={() => setPopoverVisible(false)}
+      />
+    </>
   );
 }
 
