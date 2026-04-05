@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Element } from "react-scroll";
 import { motion } from "framer-motion";
+import { fadeUpView, viewTransition } from "../animations/variants";
 import { ExternalLink, Image as ImageIcon, Play } from "lucide-react";
 
 // 👇 Ajusta esta ruta según tu estructura:
@@ -118,10 +119,8 @@ function Card({ item, side, onLegendEnter, onLegendLeave }) {
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 28, scale: 0.98 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.45 }}
+      {...fadeUpView}
+      transition={viewTransition}
       className={`group relative max-w-xl rounded-2xl border p-4 shadow-sm backdrop-blur 
         bg-white/80 border-zinc-200/60 dark:bg-zinc-900/70 dark:border-zinc-800/60 
         ${side === "left" ? "ml-auto" : "mr-auto"}`}

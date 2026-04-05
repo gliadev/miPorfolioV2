@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState, useRef } from "react";
 import { Element } from "react-scroll";
 import { motion, AnimatePresence } from "framer-motion";
+import { fadeUp, defaultTransition } from "../animations/variants";
 import {
   Github,
   Link as LinkIcon,
@@ -370,7 +371,7 @@ function HoverPreview({
 /* -----------------------------
    Tarjeta de proyecto — añade enlace indexable interno
 ----------------------------- */
-function ProjectCard({ project, onOpenDemos }) {
+function ProjectCard({ project, onOpenDemos, isTouch }) {
   const { wrapper, width, height } = mediaStyles(project);
 
   const posterSrc =
@@ -383,7 +384,6 @@ function ProjectCard({ project, onOpenDemos }) {
     demos.find((u) => isVideo(u)) || demos.find((u) => isGif(u)) || null;
 
   const links = getProjectLinks(project);
-  const isTouch = useIsTouch();
 
   // slug/href interno para detalle (mejora SEO: páginas indexables)
   const slug = project.slug || slugify(project.title || "");
@@ -392,10 +392,8 @@ function ProjectCard({ project, onOpenDemos }) {
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, y: 12, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 12, scale: 0.98 }}
-      transition={{ duration: 0.25 }}
+      {...fadeUp}
+      transition={defaultTransition}
       className="group relative mx-auto flex h-full w-full max-w-sm flex-col overflow-hidden rounded-2xl border bg-white/70 p-4 shadow-sm backdrop-blur-sm transition hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900/70"
     >
       {/* Enlace indexable para SEO — pointer-events-none para no bloquear hover/clicks */}
@@ -462,7 +460,7 @@ function ProjectCard({ project, onOpenDemos }) {
   );
 }
 
-function ProjectsGrid({ items, onOpenDemos }) {
+function ProjectsGrid({ items, onOpenDemos, isTouch }) {
   return (
     <AnimatePresence mode="popLayout">
       <motion.div
@@ -473,7 +471,7 @@ function ProjectsGrid({ items, onOpenDemos }) {
       >
         {items.map((p) => (
           <div role="listitem" key={p.id || p.slug || p.title}>
-            <ProjectCard project={p} onOpenDemos={onOpenDemos} />
+            <ProjectCard project={p} onOpenDemos={onOpenDemos} isTouch={isTouch} />
           </div>
         ))}
       </motion.div>
@@ -490,6 +488,7 @@ export default function Projects({
   projects: incomingProjects = [],
 }) {
   const data = useProjects(incomingProjects);
+  const isTouch = useIsTouch();
   const [active, setActive] = useState(initial);
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -540,7 +539,7 @@ export default function Projects({
           ))}
         </div>
 
-        <ProjectsGrid items={filtered} onOpenDemos={openDemos} />
+        <ProjectsGrid items={filtered} onOpenDemos={openDemos} isTouch={isTouch} />
 
         <DemoModal
           open={modalOpen}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronUp } from "lucide-react";
+import { scaleFade } from "../animations/variants";
 
 export default function ScrollToTop() {
   const [visible, setVisible] = useState(false);
@@ -17,9 +18,7 @@ export default function ScrollToTop() {
     <AnimatePresence>
       {visible && (
         <motion.button
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
+          {...scaleFade}
           transition={{ duration: 0.2 }}
           onClick={scrollUp}
           aria-label="Volver arriba"

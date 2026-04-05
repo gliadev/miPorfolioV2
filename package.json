@@ -8,7 +8,9 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "check-links": "node scripts/agents/check-links.js"
+    "check-links": "node scripts/agents/check-links.js",
+    "analyze": "npx vite-bundle-visualizer",
+    "convert-images": "node scripts/convert-images.js"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.11",

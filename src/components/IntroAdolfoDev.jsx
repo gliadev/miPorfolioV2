@@ -111,6 +111,10 @@ export default function IntroAdolfoDev() {
             src={iosDevImage}
             alt="Desarrollador iOS ilustrado"
             className="w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto drop-shadow-xl rounded-xl"
+            width={500}
+            height={500}
+            loading="eager"
+            decoding="async"
           />
         </div>
       </section>
