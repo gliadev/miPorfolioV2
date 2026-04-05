@@ -1,5 +1,6 @@
 import { Element } from "react-scroll";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import ContactForm from "./ContactForm";
 
 const NAV_LINKS = [
   { id: "intro",       label: "Inicio" },
@@ -30,19 +31,16 @@ export default function Footer() {
           data-aos="fade-up"
           aria-labelledby="contacto-title"
         >
-          <h2 id="contacto-title" className="text-3xl font-semibold text-center mb-4 text-zinc-900 dark:text-zinc-100">
+          <h2 id="contacto-title" className="text-3xl font-semibold text-center mb-2 text-zinc-900 dark:text-zinc-100">
             Contacto
           </h2>
-          <p className="text-center text-base mb-2">
-            ¿Quieres conectar? Escríbeme a{" "}
-            <a
-              href="mailto:gliadev@icloud.com"
-              className="text-blue-500 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500 rounded"
-            >
-              gliadev@icloud.com
-            </a>
+          <p className="text-center text-sm text-zinc-500 dark:text-zinc-400 mb-8">
+            ¿Tienes un proyecto, una duda o simplemente quieres conectar?
           </p>
-          <div className="mt-4 flex justify-center gap-6 text-2xl">
+
+          <ContactForm />
+
+          <div className="mt-8 flex justify-center gap-6 text-2xl">
             <a
               href="https://github.com/gliadev"
               target="_blank"
