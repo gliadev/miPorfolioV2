@@ -52,7 +52,7 @@ export default function ProjectDetail() {
   useEffect(() => {
     (async () => {
       try {
-        const res  = await fetch('/data/projects.json', { cache: 'no-store' });
+        const res  = await fetch('/data/projects.json', { cache: 'default' });
         const data = await res.json();
         const found = data.find((p) => p.slug === slug);
         if (found) setProject(found);

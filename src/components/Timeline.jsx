@@ -19,7 +19,7 @@ function useTimeline(initialItems) {
     if (initialItems?.length) { setLoading(false); return; }
     (async () => {
       try {
-        const res = await fetch("/data/timeline.json", { cache: "no-store" });
+        const res = await fetch("/data/timeline.json", { cache: "default" });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         if (active) setItems(Array.isArray(data) ? data : []);

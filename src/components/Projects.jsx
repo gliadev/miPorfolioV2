@@ -81,7 +81,7 @@ function useProjects(fallback = []) {
     let ok = true;
     (async () => {
       try {
-        const r = await fetch("/data/projects.json", { cache: "no-store" });
+        const r = await fetch("/data/projects.json", { cache: "default" });
         if (!r.ok) return;
         const json = await r.json();
         if (ok && Array.isArray(json)) setProjects(json);
