@@ -18,7 +18,7 @@ function useTimeline(initialItems) {
     if (initialItems?.length) { setLoading(false); return; }
     (async () => {
       try {
-        const res = await fetch("/data/timeline.json", { cache: "no-cache" });
+        const res = await fetch("/data/timeline.json", { cache: "no-store" });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         if (active) setItems(Array.isArray(data) ? data : []);
@@ -217,9 +217,9 @@ export default function Timeline({ items: initialItems = [], title = "Trayectori
 
   return (
     <Element name="trayectoria">
-      <section id="trayectoria" className="scroll-mt-24" 
-        className={`mx-auto max-w-7xl px-4 pt-16 pb-28 lg:pt-20 lg:pb-32 ${className}
-        bg-zinc-100 text-zinc-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300`}
+      <section
+        id="trayectoria"
+        className={`scroll-mt-24 mx-auto max-w-7xl px-4 pt-16 pb-28 lg:pt-20 lg:pb-32 bg-zinc-100 text-zinc-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 ${className}`}
         aria-label="Línea temporal de proyectos y formación"
       >
         {/* Encabezado */}

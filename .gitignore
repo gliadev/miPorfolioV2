@@ -34,7 +34,14 @@ coverage
 # Unlighthouse
 .unlighthouse/
 
-# Claude Code
+# Claude Code / docs internos
 .claude/
 MEJORAS.md
 AGENTES.md
+tareas.md
+
+# Archivos temporales y generados
+.tmp/
+agent-timers/
+bash.exe.stackdump
+token-audit-*.html

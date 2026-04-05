@@ -77,7 +77,7 @@ function useProjects(fallback = []) {
     let ok = true;
     (async () => {
       try {
-        const r = await fetch("/data/projects.json", { cache: "no-cache" });
+        const r = await fetch("/data/projects.json", { cache: "no-store" });
         if (!r.ok) return;
         const json = await r.json();
         if (ok && Array.isArray(json)) setProjects(json);
@@ -420,9 +420,16 @@ function ProjectCard({ project, onOpenDemos }) {
 
       {/* Contenido */}
       <div className="mt-4 flex flex-1 flex-col relative z-20">
-        <h3 className="text-lg font-bold leading-tight">
-          {project.title}
-        </h3>
+        <div className="flex items-center gap-2">
+          <h3 className="text-lg font-bold leading-tight">
+            {project.title}
+          </h3>
+          {project.status === "in-progress" && (
+            <span className="inline-flex items-center rounded-full bg-yellow-400/20 px-2 py-0.5 text-[11px] font-semibold text-yellow-700 dark:text-yellow-300 border border-yellow-400/30">
+              En progreso
+            </span>
+          )}
+        </div>
         <p className="mt-2 text-sm opacity-90">{project.description}</p>
 
         <div className="mt-3 flex flex-wrap gap-2">

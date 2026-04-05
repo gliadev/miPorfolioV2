@@ -7,8 +7,9 @@ export default function AboutMe() {
   return (
     <Element name="aboutme">
 
-      <section id="aboutme" className="scroll-mt-24" 
-      className="min-h-screen bg-zinc-100 text-zinc-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300"
+      <section
+        id="aboutme"
+        className="scroll-mt-24 min-h-screen bg-zinc-100 text-zinc-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300"
 >
       <div
         className="max-w-4xl mx-auto text-center lg:text-left px-6 py-16 lg:px-32"
